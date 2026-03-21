@@ -1,0 +1,6 @@
+<ng-container [ngSwitch]="level">
+  <h1 *ngSwitchCase="'h1'"><ng-content></ng-content></h1>
+  <h2 *ngSwitchCase="'h2'"><ng-content></ng-content></h2>
+  <h3 *ngSwitchCase="'h3'"><ng-content></ng-content></h3>
+  <h4 *ngSwitchCase="'h4'"><ng-content></ng-content></h4>
+</ng-container>
