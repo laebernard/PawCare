@@ -19,3 +19,16 @@
     <ds-button size="medium" [disabled]="true">Disabled</ds-button>
   </div>
 </section>
+
+<section>
+  <h2>Lightbox</h2>
+
+  <ds-button (click)="openLightbox()">Open Lightbox</ds-button>
+
+  <ds-lightbox
+    [isOpen]="lightboxOpen"
+    [imageUrl]="demoImageUrl"
+    [description]="demoImageDescription"
+    (close)="closeLightbox()">
+  </ds-lightbox>
+</section>
