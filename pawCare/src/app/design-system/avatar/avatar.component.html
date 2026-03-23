@@ -1,7 +1,19 @@
-<div class="ds-avatar" [class]="'ds-avatar-' + size">
-  @if (src) {
-    <img [src]="src" [alt]="alt" class="ds-avatar-image" />
-  } @else {
-    <span class="ds-avatar-fallback">{{ fallback }}</span>
-  }
-</div>
+@if (href) {
+  <a [href]="href" class="ds-avatar-link">
+    <div class="ds-avatar" [class]="'ds-avatar-' + size">
+      @if (src) {
+        <img [src]="src" [alt]="alt" class="ds-avatar-image" />
+      } @else {
+        <span class="ds-avatar-fallback">{{ fallback }}</span>
+      }
+    </div>
+  </a>
+} @else {
+  <div class="ds-avatar" [class]="'ds-avatar-' + size">
+    @if (src) {
+      <img [src]="src" [alt]="alt" class="ds-avatar-image" />
+    } @else {
+      <span class="ds-avatar-fallback">{{ fallback }}</span>
+    }
+  </div>
+}
