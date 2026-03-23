@@ -13,9 +13,4 @@ export class AvatarComponent {
   @Input() alt: string = 'Avatar';
   @Input() size: 'small' | 'medium' | 'large' | 'xlarge' | 'xxlarge' = 'medium';
   @Input() fallback: string = '?';
-
-  onImageError(event: Event): void {
-    const img = event.target as HTMLImageElement;
-    img.style.display = 'none';
-  }
 }

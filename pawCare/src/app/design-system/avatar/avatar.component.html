@@ -1,6 +1,6 @@
 <div class="ds-avatar" [class]="'ds-avatar-' + size">
   @if (src) {
-    <img [src]="src" [alt]="alt" class="ds-avatar-image" (error)="onImageError($event)" />
+    <img [src]="src" [alt]="alt" class="ds-avatar-image" />
   } @else {
     <span class="ds-avatar-fallback">{{ fallback }}</span>
   }
