@@ -13,4 +13,5 @@ export class AvatarComponent {
   @Input() alt: string = 'Avatar';
   @Input() size: 'small' | 'medium' | 'large' | 'xlarge' | 'xxlarge' = 'medium';
   @Input() fallback: string = '?';
+  @Input() href: string | null = null;
 }
