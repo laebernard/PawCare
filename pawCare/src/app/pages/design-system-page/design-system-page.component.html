@@ -62,6 +62,7 @@
   </div>
 
   <div class="avatar-section">
+    <p style="margin-bottom: 16px; color: #666;">With images:</p>
     <div style="display: flex; gap: 16px; align-items: center;">
       <ds-avatar
         src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=150&h=150&fit=crop&crop=face"
@@ -89,5 +90,28 @@
         size="xxlarge">
       </ds-avatar>
     </div>
+  </div>
+
+  <div class="avatar-section">
+    <p style="margin-bottom: 16px; color: #666;">As links (href):</p>
+    <div style="display: flex; gap: 16px; align-items: center;">
+      <ds-avatar
+        href="https://example.com/profile"
+        src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=150&h=150&fit=crop&crop=face"
+        alt="Profile"
+        size="medium">
+      </ds-avatar>
+      <ds-avatar
+        href="https://example.com/dashboard"
+        fallback="JD"
+        size="large">
+      </ds-avatar>
+      <ds-avatar
+        href="https://example.com/new-profile"
+        fallback="+"
+        size="small">
+      </ds-avatar>
+    </div>
+    <p style="font-size: 12px; margin-top: 16px; color: #666;">Click on the avatars to test the link functionality.</p>
   </div>
 </section>
