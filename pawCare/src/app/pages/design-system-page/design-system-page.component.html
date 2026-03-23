@@ -32,3 +32,62 @@
     (close)="closeLightbox()">
   </ds-lightbox>
 </section>
+
+<section>
+  <h2>Avatar</h2>
+
+  <div class="avatar-section">
+    <div style="display: flex; gap: 16px; align-items: flex-end;">
+      <div style="text-align: center;">
+        <ds-avatar size="small" fallback="S"></ds-avatar>
+        <p style="font-size: 12px; margin-top: 8px; color: #666;">Small (32px)</p>
+      </div>
+      <div style="text-align: center;">
+        <ds-avatar size="medium" fallback="M"></ds-avatar>
+        <p style="font-size: 12px; margin-top: 8px; color: #666;">Medium (40px)</p>
+      </div>
+      <div style="text-align: center;">
+        <ds-avatar size="large" fallback="L"></ds-avatar>
+        <p style="font-size: 12px; margin-top: 8px; color: #666;">Large (56px)</p>
+      </div>
+      <div style="text-align: center;">
+        <ds-avatar size="xlarge" fallback="XL"></ds-avatar>
+        <p style="font-size: 12px; margin-top: 8px; color: #666;">XLarge (80px)</p>
+      </div>
+      <div style="text-align: center;">
+        <ds-avatar size="xxlarge" fallback="XXL"></ds-avatar>
+        <p style="font-size: 12px; margin-top: 8px; color: #666;">XXLarge (140px)</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="avatar-section">
+    <div style="display: flex; gap: 16px; align-items: center;">
+      <ds-avatar
+        src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=150&h=150&fit=crop&crop=face"
+        alt="Dog"
+        size="small">
+      </ds-avatar>
+      <ds-avatar
+        src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=150&h=150&fit=crop&crop=face"
+        alt="Cat"
+        size="medium">
+      </ds-avatar>
+      <ds-avatar
+        src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=150&h=150&fit=crop&crop=face"
+        alt="Puppy"
+        size="large">
+      </ds-avatar>
+      <ds-avatar
+        src="https://images.unsplash.com/photo-1574158622682-e40e69881006?w=150&h=150&fit=crop&crop=face"
+        alt="Kitten"
+        size="xlarge">
+      </ds-avatar>
+      <ds-avatar
+        src="https://images.unsplash.com/photo-1555685812-4b943f1cb0eb?w=300&h=300&fit=crop&crop=face"
+        alt="Dog"
+        size="xxlarge">
+      </ds-avatar>
+    </div>
+  </div>
+</section>
