@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Pacifico&display=swap');
+
+:host {
+  --ds-title-font: 'Pacifico', cursive;
+  --ds-body-font: 'Lora', serif;
+}
+
+:host h1,
+:host h2,
+:host h3,
+:host h4 {
+  display: block;
+  margin: 0 0 8px 0;
+  word-break: break-word;
+  color: #1a1a1a;
+}
+
+:host h1 {
+  font-size: 48px;
+  font-weight: 500;
+  line-height: 1.2;
+  font-family: var(--ds-title-font);
+}
+
+:host h2 {
+  font-size: 32px;
+  font-weight: 600;
+  font-family: var(--ds-body-font);
+}
+
+:host h3 {
+  font-size: 24px;
+  font-weight: 500;
+  font-family: var(--ds-body-font);
+  color: #666;
+}
+
+:host h4 {
+  font-size: 18px;
+  font-family: var(--ds-body-font);
+}
