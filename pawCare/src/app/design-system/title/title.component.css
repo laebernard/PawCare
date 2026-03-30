@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Pacifico&display=swap');
-
 :host {
   --ds-title-font: 'Pacifico', cursive;
   --ds-body-font: 'Lora', serif;
