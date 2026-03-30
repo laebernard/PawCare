@@ -8,3 +8,23 @@ section {
   background: #f9f9f9;
   border-radius: 12px;
 }
+
+.link-section {
+  margin-bottom: 32px;
+  padding: 24px;
+  background: #f9f9f9;
+  border-radius: 12px;
+}
+
+.link-section h3 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+.link-description {
+  margin: 0 0 16px 0;
+  font-size: 14px;
+  color: #666;
+}
