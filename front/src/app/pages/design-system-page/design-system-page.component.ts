@@ -5,7 +5,8 @@ import { DesignSystemModule } from '../../design-system/design-system.module';
   selector: 'app-design-system-page',
   standalone: true,
   imports: [DesignSystemModule],
-  templateUrl: './design-system-page.component.html'
+  templateUrl: './design-system-page.component.html',
+  styleUrls: ['./design-system-page.component.css']
 })
 export class DesignSystemPageComponent {
   lightboxOpen = false;

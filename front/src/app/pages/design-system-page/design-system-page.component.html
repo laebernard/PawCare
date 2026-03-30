@@ -1,10 +1,18 @@
-<h1>Design System</h1>
+<header>
+  <h1>Design System</h1>
+  <p class="subtitle">PawCare component library &mdash; A Storybook-style reference</p>
+</header>
 
+<!-- =========================== -->
+<!-- TYPOGRAPHY: TITLES          -->
+<!-- =========================== -->
 <section class="ds-section">
-  <h2 class="section-title">Titles</h2>
+  <div class="section-header">
+    <h2 class="section-title">Titles</h2>
+    <p class="section-description">Heading components using Pacifico font family</p>
+  </div>
 
-  <div class="title-group">
-
+  <div class="title-grid">
     <div class="title-item">
       <span class="label">H1</span>
       <ds-title level="h1" text="MoodBoard"></ds-title>
@@ -24,16 +32,19 @@
       <span class="label">H4</span>
       <ds-title level="h4" text="Color Palette"></ds-title>
     </div>
-
   </div>
 </section>
 
-<section>
-  <ds-title level="h2">Buttons</ds-title>
+<!-- =========================== -->
+<!-- BUTTONS                     -->
+<!-- =========================== -->
+<section class="ds-section">
+  <div class="section-header">
+    <h2 class="section-title">Buttons</h2>
+    <p class="section-description">Interactive button component with multiple sizes</p>
+  </div>
 
-  <h2>Buttons</h2>
-
-  <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+  <div class="components-row">
     <ds-button size="small">Small</ds-button>
     <ds-button size="medium">Medium</ds-button>
     <ds-button size="large">Large</ds-button>
@@ -41,10 +52,18 @@
   </div>
 </section>
 
-<section>
-  <h2>Lightbox</h2>
+<!-- =========================== -->
+<!-- LIGHTBOX                    -->
+<!-- =========================== -->
+<section class="ds-section">
+  <div class="section-header">
+    <h2 class="section-title">Lightbox</h2>
+    <p class="section-description">Modal overlay for displaying images with descriptions</p>
+  </div>
 
-  <ds-button (click)="openLightbox()">Open Lightbox</ds-button>
+  <div class="demo-area">
+    <ds-button (click)="openLightbox()">Open Lightbox</ds-button>
+  </div>
 
   <ds-lightbox
     [isOpen]="lightboxOpen"
@@ -54,64 +73,81 @@
   </ds-lightbox>
 </section>
 
-<section>
-  <h2>Avatar</h2>
-
-  <div class="avatar-section">
-    <div style="display: flex; gap: 16px; align-items: center;">
-      <ds-avatar
-        src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=150&h=150&fit=crop&crop=face"
-        alt="Dog"
-        size="small">
-      </ds-avatar>
-      <ds-avatar
-        src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=150&h=150&fit=crop&crop=face"
-        alt="Cat"
-        size="medium">
-      </ds-avatar>
-      <ds-avatar
-        src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=150&h=150&fit=crop&crop=face"
-        alt="Puppy"
-        size="large">
-      </ds-avatar>
-      <ds-avatar
-        src="https://images.unsplash.com/photo-1574158622682-e40e69881006?w=150&h=150&fit=crop&crop=face"
-        alt="Kitten"
-        size="xlarge">
-      </ds-avatar>
-      <ds-avatar
-        src="https://images.unsplash.com/photo-1555685812-4b943f1cb0eb?w=300&h=300&fit=crop&crop=face"
-        alt="Dog"
-        size="xxlarge">
-      </ds-avatar>
-    </div>
+<!-- =========================== -->
+<!-- AVATAR                      -->
+<!-- =========================== -->
+<section class="ds-section">
+  <div class="section-header">
+    <h2 class="section-title">Avatar</h2>
+    <p class="section-description">Profile image component with fallback support</p>
   </div>
 
-  <div class="avatar-section">
-    <p style="margin-bottom: 16px; color: #666;">As links (href):</p>
-    <div style="display: flex; gap: 16px; align-items: center;">
-      <ds-avatar
-        href="https://example.com/profile"
-        src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=150&h=150&fit=crop&crop=face"
-        alt="Profile"
-        size="medium">
-      </ds-avatar>
-      <ds-avatar
-        href="https://example.com/dashboard"
-        fallback="JD"
-        size="large">
-      </ds-avatar>
-      <ds-avatar
-        href="https://example.com/new-profile"
-        fallback="+"
-        size="small">
-      </ds-avatar>
+  <div class="variations-grid">
+    <div class="variant-group">
+      <h3 class="variant-title">Sizes</h3>
+      <div class="avatar-row">
+        <ds-avatar
+          src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=150&h=150&fit=crop&crop=face"
+          alt="Dog"
+          size="small">
+        </ds-avatar>
+        <ds-avatar
+          src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=150&h=150&fit=crop&crop=face"
+          alt="Cat"
+          size="medium">
+        </ds-avatar>
+        <ds-avatar
+          src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=150&h=150&fit=crop&crop=face"
+          alt="Puppy"
+          size="large">
+        </ds-avatar>
+        <ds-avatar
+          src="https://images.unsplash.com/photo-1574158622682-e40e69881006?w=150&h=150&fit=crop&crop=face"
+          alt="Kitten"
+          size="xlarge">
+        </ds-avatar>
+        <ds-avatar
+          src="https://images.unsplash.com/photo-1555685812-4b943f1cb0eb?w=300&h=300&fit=crop&crop=face"
+          alt="Dog"
+          size="xxlarge">
+        </ds-avatar>
+      </div>
+    </div>
+
+    <div class="variant-group">
+      <h3 class="variant-title">As Links (with href)</h3>
+      <div class="avatar-row">
+        <ds-avatar
+          href="https://example.com/profile"
+          src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=150&h=150&fit=crop&crop=face"
+          alt="Profile"
+          size="medium">
+        </ds-avatar>
+        <ds-avatar
+          href="https://example.com/dashboard"
+          fallback="JD"
+          size="large">
+        </ds-avatar>
+        <ds-avatar
+          href="https://example.com/new-profile"
+          fallback="+"
+          size="small">
+        </ds-avatar>
+      </div>
     </div>
   </div>
 </section>
-<section>
-  <h2>Cards</h2>
-  <div style="display: flex; gap: 16px; align-items: center;">
+
+<!-- =========================== -->
+<!-- CARDS                       -->
+<!-- =========================== -->
+<section class="ds-section">
+  <div class="section-header">
+    <h2 class="section-title">Cards</h2>
+    <p class="section-description">Content cards for displaying animal profiles</p>
+  </div>
+
+  <div class="card-grid">
     <app-card
       image="https://placedog.net/400/300"
       title="Bobby"
@@ -124,5 +160,48 @@
       description="C'est simba, je miaule qu'à partir de minuit pour révéiller tout le monde"
       buttonText="Adopter">
     </app-card>
+  </div>
+</section>
+
+<!-- =========================== -->
+<!-- LINKS                       -->
+<!-- =========================== -->
+<section class="ds-section">
+  <div class="section-header">
+    <h2 class="section-title">Links</h2>
+    <p class="section-description">Navigation link component with multiple variants</p>
+  </div>
+
+  <div class="variations-grid">
+    <div class="variant-group">
+      <h3 class="variant-title">Simple Link</h3>
+      <p class="section-description" style="margin-bottom: 12px;">Black text, no underline. Coral color with underline on hover.</p>
+      <div class="components-row">
+        <ds-link variant="simple" href="https://example.com">Simple Link</ds-link>
+        <ds-link variant="simple" href="https://example.com" size="small">Small Link</ds-link>
+        <ds-link variant="simple" href="https://example.com" size="large">Large Link</ds-link>
+      </div>
+    </div>
+
+    <div class="variant-group">
+      <h3 class="variant-title">Button Link</h3>
+      <p class="section-description" style="margin-bottom: 12px;">Looks exactly like a button with coral background.</p>
+      <div class="components-row">
+        <ds-link variant="button" href="https://example.com" size="small">Small Button Link</ds-link>
+        <ds-link variant="button" href="https://example.com" size="medium">Medium Button Link</ds-link>
+        <ds-link variant="button" href="https://example.com" size="large">Large Button Link</ds-link>
+        <ds-link variant="button" [disabled]="true">Disabled Link</ds-link>
+      </div>
+    </div>
+
+    <div class="variant-group">
+      <h3 class="variant-title">Underlined Link</h3>
+      <p class="section-description" style="margin-bottom: 12px;">Coral color with permanent underline.</p>
+      <div class="components-row">
+        <ds-link variant="underlined" href="https://example.com" size="small">Underlined Small</ds-link>
+        <ds-link variant="underlined" href="https://example.com" size="medium">Underlined Medium</ds-link>
+        <ds-link variant="underlined" href="https://example.com" size="large">Underlined Large</ds-link>
+      </div>
+    </div>
   </div>
 </section>

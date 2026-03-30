@@ -1,0 +1,247 @@
+.profile-selector-page {
+  height: 100vh;
+  background-color: #ffe2c8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-selector-page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(255, 136, 133, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 50%, rgba(255, 136, 133, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.profile-selector-content {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  width: 100%;
+  text-align: center;
+}
+
+.ds-title {
+  margin-bottom: 48px;
+  animation: fadeInDown 0.6s ease-out;
+}
+
+.profiles-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 48px;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+  padding-top: 60px;
+}
+
+.profile-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  animation: fadeInUp 0.6s ease-out both;
+}
+
+.profile-item:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.profile-item:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.profile-item:nth-child(3) {
+  animation-delay: 0.2s;
+}
+.profile-item:nth-child(4) {
+  animation-delay: 0.25s;
+}
+.profile-item:nth-child(5) {
+  animation-delay: 0.3s;
+}
+.profile-item:nth-child(6) {
+  animation-delay: 0.35s;
+}
+
+.profile-item:hover {
+  transform: translateY(-8px);
+}
+
+.profile-item.selected {
+  transform: translateY(-4px);
+}
+
+.profile-item.selected .ds-avatar {
+  box-shadow:
+    0 0 0 4px #ff8885,
+    0 8px 24px rgba(255, 136, 133, 0.4);
+}
+
+.avatar-container {
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.profile-item:hover .avatar-container {
+  transform: scale(1.05);
+}
+
+.ds-avatar {
+  box-shadow: 0 4px 16px rgba(255, 136, 133, 0.2);
+  transition: box-shadow 0.3s ease;
+}
+
+.profile-item:hover .ds-avatar {
+  box-shadow: 0 8px 24px rgba(255, 136, 133, 0.35);
+}
+
+.profile-name {
+  font-family: var(--ds-body-font);
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #2d2d2d;
+  letter-spacing: -0.01em;
+  transition: color 0.3s ease;
+}
+
+.profile-item:hover .profile-name {
+  color: #ff6b68;
+}
+
+.checkmark {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, #ff8885 0%, #ff6b68 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  animation: scaleIn 0.3s ease-out;
+  box-shadow: 0 2px 8px rgba(255, 136, 133, 0.4);
+  z-index: 10;
+}
+
+.checkmark svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Add Profile */
+.profile-item.add-profile .ds-avatar {
+  background: rgba(255, 136, 133, 0.2);
+  border: 2px dashed rgba(255, 136, 133, 0.5);
+}
+
+.profile-item.add-profile:hover .ds-avatar {
+  background: rgba(255, 136, 133, 0.3);
+  border-color: #ff8885;
+  border-style: solid;
+}
+
+.profile-item.add-profile .profile-name {
+  color: #ff8885;
+}
+
+.profile-item.add-profile:hover .profile-name {
+  color: #ff6b68;
+}
+
+/* Continue Section */
+.continue-section {
+  margin-top: 64px;
+  animation: fadeInUp 0.6s ease-out 0.4s both;
+}
+
+.continue-section ds-button {
+  display: inline-block;
+}
+
+/* Animations */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .profiles-grid {
+    gap: 32px;
+    padding: 10px;
+  }
+
+  .profile-item .ds-avatar-xxlarge {
+    width: 100px;
+    height: 100px;
+  }
+
+  .profile-item .ds-avatar-xxlarge .ds-avatar-fallback {
+    font-size: 40px;
+  }
+
+  .profile-name {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .profiles-grid {
+    gap: 24px;
+  }
+
+  .profile-selector-page {
+    padding: 24px 12px;
+  }
+
+  .profile-item .ds-avatar-xxlarge {
+    width: 80px;
+    height: 80px;
+  }
+
+  .profile-item .ds-avatar-xxlarge .ds-avatar-fallback {
+    font-size: 32px;
+  }
+}
