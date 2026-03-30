@@ -1,0 +1,191 @@
+.create-animal-page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #fff5f4 0%, #ffffff 100%);
+  padding: 48px 24px;
+}
+
+.form-container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 48px;
+  box-shadow: 0 2px 24px rgba(255, 136, 133, 0.12);
+}
+
+.page-title {
+  font-family: 'Pacifico', cursive;
+  font-size: 42px;
+  font-weight: 400;
+  color: #1a1a1a;
+  text-align: center;
+  margin: 0 0 8px 0;
+}
+
+.page-subtitle {
+  font-family: 'Lora', serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #888;
+  text-align: center;
+  margin: 0 0 40px 0;
+}
+
+/* Layout: 30% photo / 70% form */
+.form-layout {
+  display: grid;
+  grid-template-columns: 3fr 7fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* Photo Card */
+.photo-card {
+  background: #fafafa;
+  border: 1px solid #eee;
+  border-radius: 16px;
+  padding: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 340px;
+}
+
+/* Photo Column (30%) */
+.photo-column {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.photo-upload {
+  cursor: pointer;
+  display: block;
+  width: 100%;
+}
+
+.photo-placeholder {
+  aspect-ratio: 1;
+  width: 100%;
+  max-width: 200px;
+  border-radius: 50%;
+  border: 2px dashed #e0e0e0;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.photo-placeholder:hover {
+  border-color: var(--color-coral);
+  background: #fff9f8;
+  transform: scale(1.02);
+}
+
+.photo-placeholder.has-photo {
+  border-style: solid;
+  border-color: var(--color-coral);
+}
+
+.photo-icon {
+  color: #ccc;
+  transition: color 0.3s ease;
+}
+
+.photo-placeholder:hover .photo-icon {
+  color: var(--color-coral);
+}
+
+.photo-text {
+  font-family: 'Lora', serif;
+  font-size: 13px;
+  color: #999;
+  text-align: center;
+  line-height: 1.4;
+  transition: color 0.3s ease;
+}
+
+.photo-placeholder:hover .photo-text {
+  color: var(--color-coral);
+}
+
+.photo-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Form Column (70%) */
+.form-card {
+  background: #fafafa;
+  border: 1px solid #eee;
+  border-radius: 16px;
+  padding: 32px;
+}
+
+.form-column {
+  width: 100%;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px 24px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  display: block;
+  font-family: 'Lora', serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #444;
+  margin-bottom: 8px;
+}
+
+/* Form Actions */
+.form-actions {
+  margin-top: 40px;
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .form-container {
+    padding: 32px 24px;
+  }
+
+  .page-title {
+    font-size: 32px;
+  }
+
+  .form-layout {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .photo-card {
+    padding: 24px;
+    min-height: auto;
+  }
+
+  .photo-placeholder {
+    max-width: 140px;
+  }
+
+  .form-card {
+    padding: 24px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
