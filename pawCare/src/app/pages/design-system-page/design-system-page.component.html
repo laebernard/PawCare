@@ -126,3 +126,38 @@
     </app-card>
   </div>
 </section>
+
+<section>
+  <h2>Links</h2>
+
+  <div class="link-section">
+    <h3>Simple Link</h3>
+    <p class="link-description">Black text, no underline. Coral color with underline on hover.</p>
+    <div style="display: flex; gap: 24px; align-items: center; flex-wrap: wrap;">
+      <ds-link variant="simple" href="https://example.com">Simple Link</ds-link>
+      <ds-link variant="simple" href="https://example.com" size="small">Small Link</ds-link>
+      <ds-link variant="simple" href="https://example.com" size="large">Large Link</ds-link>
+    </div>
+  </div>
+
+  <div class="link-section">
+    <h3>Button Link</h3>
+    <p class="link-description">Looks exactly like a button with coral background.</p>
+    <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+      <ds-link variant="button" href="https://example.com" size="small">Small Button Link</ds-link>
+      <ds-link variant="button" href="https://example.com" size="medium">Medium Button Link</ds-link>
+      <ds-link variant="button" href="https://example.com" size="large">Large Button Link</ds-link>
+      <ds-link variant="button" [disabled]="true">Disabled Link</ds-link>
+    </div>
+  </div>
+
+  <div class="link-section">
+    <h3>Underlined Link</h3>
+    <p class="link-description">Coral color with permanent underline.</p>
+    <div style="display: flex; gap: 24px; align-items: center; flex-wrap: wrap;">
+      <ds-link variant="underlined" href="https://example.com" size="small">Underlined Small</ds-link>
+      <ds-link variant="underlined" href="https://example.com" size="medium">Underlined Medium</ds-link>
+      <ds-link variant="underlined" href="https://example.com" size="large">Underlined Large</ds-link>
+    </div>
+  </div>
+</section>
