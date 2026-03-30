@@ -1,0 +1,7 @@
+<a [ngClass]="linkClasses"
+   [href]="href && !disabled ? href : null"
+   [attr.aria-disabled]="disabled ? 'true' : null"
+   [tabindex]="(href && !disabled) ? 0 : -1"
+   (click)="handleClick($event)">
+  <ng-content></ng-content>
+</a>

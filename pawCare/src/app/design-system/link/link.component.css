@@ -1,0 +1,96 @@
+.ds-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--ds-body-font);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  white-space: nowrap;
+  border: none;
+  background: none;
+  padding: 0;
+}
+
+/* ===========================
+   VARIANT: SIMPLE
+   Black text, coral on hover, underline appears on hover
+   =========================== */
+.ds-link-simple {
+  color: #000000;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.ds-link-simple:hover {
+  color: var(--color-coral);
+  text-decoration: underline;
+}
+
+/* ===========================
+   VARIANT: BUTTON
+   Looks exactly like a button (filled coral background)
+   =========================== */
+.ds-link-button {
+  font-weight: 600;
+  border-radius: 9999px;
+  background-color: var(--color-coral);
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.ds-link-button:hover {
+  background-color: var(--color-coral-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 136, 133, 0.4);
+}
+
+.ds-link-button:active {
+  transform: translateY(0);
+}
+
+/* ===========================
+   VARIANT: UNDERLINED
+   Coral color with permanent underline
+   =========================== */
+.ds-link-underlined {
+  color: var(--color-coral);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.ds-link-underlined:hover {
+  color: var(--color-coral-hover);
+}
+
+/* ===========================
+   SIZES
+   =========================== */
+.ds-link-size-small {
+  padding: 6px 16px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.ds-link-size-medium {
+  padding: 10px 24px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.ds-link-size-large {
+  padding: 14px 32px;
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+/* ===========================
+   DISABLED STATE
+   =========================== */
+.ds-link.ds-link-disabled,
+.ds-link[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}

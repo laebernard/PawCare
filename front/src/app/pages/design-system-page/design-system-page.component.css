@@ -1,0 +1,127 @@
+:host {
+  display: block;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 8px;
+  color: #1a1a1a;
+}
+
+.subtitle {
+  color: #666;
+  margin-bottom: 40px;
+  font-size: 1rem;
+}
+
+.ds-section {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 32px;
+  border: 1px solid #e5e5e5;
+}
+
+.section-header {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.section-description {
+  color: #666;
+  font-size: 0.9rem;
+  margin: 8px 0 0 0;
+}
+
+/* Titles Section */
+.title-grid {
+  display: grid;
+  gap: 20px;
+}
+
+.title-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.title-item .label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #999;
+  font-weight: 500;
+}
+
+/* Components Display */
+.components-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.components-row--center {
+  justify-content: center;
+}
+
+/* Variant Groups */
+.variant-group {
+  margin-bottom: 24px;
+}
+
+.variant-group:last-child {
+  margin-bottom: 0;
+}
+
+.variant-title {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+/* Avatar Section */
+.avatar-row {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Card Grid */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* Color/Size Variations */
+.variations-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Interactive demo area */
+.demo-area {
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100px;
+}
