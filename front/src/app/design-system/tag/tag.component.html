@@ -1,0 +1,7 @@
+<div class="ds-tag" [ngClass]="[size, type]">
+  <span class="tag-icon" *ngIf="getIcon()">{{ getIcon() }}</span>
+  <span *ngIf="label; else projectedText">{{ label }}</span>
+  <ng-template #projectedText>
+    <ng-content></ng-content>
+  </ng-template>
+</div>
