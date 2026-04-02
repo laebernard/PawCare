@@ -1,0 +1,74 @@
+.ds-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  --food: #b57edc;
+  --health: #7f00ff;
+  --wellness:#50c878;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  color: white;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;;
+
+  box-shadow:
+    3px 3px 6px rgba(0, 0, 0, 0.1),
+    -3px -3px 6px rgba(255, 255, 255, 0.8);
+}
+
+.tag-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.15em;
+  font-size: 1em;
+}
+
+.ds-tag i {
+  font-size: 12px;
+}
+
+.ds-tag.small i {
+  font-size: 10px;
+}
+
+.ds-tag.medium i {
+  font-size: 12px;
+}
+
+.ds-tag.large i {
+  font-size: 14px;
+  /* width: rem; */
+  line-height: 1.3;
+}
+
+.ds-tag.small {
+  padding: 4px 12px;
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+.ds-tag.medium {
+  padding: 6px 14px;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.ds-tag.large {
+  padding: 8px 16px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.ds-tag.food {
+  background: var(--food);
+}
+
+.ds-tag.health {
+  background: var(--health);
+}
+
+.ds-tag.wellness {
+  background: var(--wellness);
+}
