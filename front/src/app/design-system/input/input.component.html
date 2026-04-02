@@ -1,0 +1,9 @@
+<div class="ds-input" [ngClass]="[state, size]">
+  <span class="icon">⌕</span>
+  <input
+    type="text"
+    [attr.placeholder]="placeholder"
+    (focus)="onFocus()"
+    (blur)="onBlur()"
+  />
+</div>
