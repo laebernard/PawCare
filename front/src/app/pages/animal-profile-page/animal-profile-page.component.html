@@ -1,0 +1,38 @@
+<section class="pet-profile">
+
+  <div class="pet-header">
+    <ds-avatar [src]="pet.imageUrl" size="xxlarge" [alt]="pet.name"></ds-avatar>
+    <ds-title level="h1" [text]="pet.name"></ds-title>
+  </div>
+
+    <div class="pet-details">
+      <div class="info">
+        <ds-title level="h4" text="Date de naissance"></ds-title>
+        <span>{{ pet.birthDate }}</span>
+      </div>
+
+      <div class="info">
+        <ds-title level="h4" text="Couleur"></ds-title>
+        <span>{{ pet.color }}</span>
+      </div>
+
+      <div class="info">
+        <ds-title level="h4" text="Poids"></ds-title>
+        <span>{{ pet.weight }} kg</span>
+      </div>
+
+      <div class="info">
+        <ds-title level="h4" text="Race"></ds-title>
+        <ds-tag>{{ pet.breed }}</ds-tag>
+      </div>
+
+      <div class="info">
+        <ds-title level="h4" text="Stérilisé"></ds-title>
+        <span>
+          <ds-tag *ngIf="pet.sterilized">Oui</ds-tag>
+          <ds-tag *ngIf="!pet.sterilized">Non</ds-tag>
+        </span>
+      </div>
+    </div>
+
+</section>
