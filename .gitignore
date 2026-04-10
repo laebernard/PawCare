@@ -1,0 +1,11 @@
+# IDE
+.idea/
+
+# npm config (may contain auth tokens)
+.npmrc
+
+# Claude Code instructions
+CLAUDE.md
+
+# System files
+.DS_Store
