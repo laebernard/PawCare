@@ -1,5 +1,12 @@
+:host {
+  display: block;
+  height: 100dvh;
+  overflow: hidden;
+}
+
 .profile-selector-page {
-  height: 100vh;
+  height: 100%;
+  box-sizing: border-box;
   background-color: #ffe2c8;
   display: flex;
   align-items: center;
