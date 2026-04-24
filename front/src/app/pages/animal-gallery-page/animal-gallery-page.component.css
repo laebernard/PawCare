@@ -51,8 +51,8 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.28) 0%, rgba(0, 0, 0, 0) 45%);
-  opacity: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.42) 0%, rgba(0, 0, 0, 0) 48%);
+  opacity: 1;
   pointer-events: none;
   transition: opacity 0.22s ease;
 }
@@ -76,6 +76,36 @@
 
 .gallery-item:hover img {
   transform: scale(1.1);
+}
+
+.gallery-caption {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 20px;
+  z-index: 1;
+  color: #fff6e9;
+  font-family: var(--ds-body-font);
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1.3;
+  text-align: left;
+  text-shadow: 0 3px 10px rgba(0, 0, 0, 0.62);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(4px);
+  transition:
+    opacity 220ms ease,
+    transform 220ms ease;
+}
+
+.gallery-item:hover .gallery-caption {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .gallery-fallback {
