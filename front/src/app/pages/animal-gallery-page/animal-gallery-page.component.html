@@ -12,6 +12,7 @@
         @for (image of animal.images; track image.id) {
           <button class="gallery-item" type="button" (click)="openLightbox(image)">
             <img [src]="image.imageUrl" [alt]="image.description" loading="lazy" />
+            <span class="gallery-caption">{{ image.description }}</span>
           </button>
         }
       </section>
