@@ -4,8 +4,8 @@
 # npm config (may contain auth tokens)
 .npmrc
 
-# Claude Code instructions
 CLAUDE.md
+.claude/
 
 # System files
 .DS_Store

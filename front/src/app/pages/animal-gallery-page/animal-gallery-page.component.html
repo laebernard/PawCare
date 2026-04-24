@@ -1,0 +1,32 @@
+<div class="animal-gallery-page">
+  <div class="animal-gallery-content">
+    @if (animal) {
+      <header class="gallery-header">
+        <ds-title [text]="'Galerie de ' + animal.name" level="h1"></ds-title>
+        <p class="gallery-subtitle">
+          {{ animal.breed }} · {{ animal.images.length }} photos
+        </p>
+      </header>
+
+      <section class="gallery-grid" aria-label="Animal photo gallery">
+        @for (image of animal.images; track image.id) {
+          <button class="gallery-item" type="button" (click)="openLightbox(image)">
+            <img [src]="image.imageUrl" [alt]="image.description" loading="lazy" />
+          </button>
+        }
+      </section>
+
+      <ds-lightbox
+        [isOpen]="lightboxOpen"
+        [imageUrl]="selectedImage?.imageUrl || ''"
+        [description]="selectedImage?.description || ''"
+        (close)="closeLightbox()"
+      ></ds-lightbox>
+    } @else {
+      <section class="gallery-fallback" aria-live="polite">
+        <ds-title text="Galerie introuvable" level="h2"></ds-title>
+        <p>Aucune galerie n’est disponible pour le moment.</p>
+      </section>
+    }
+  </div>
+</div>
