@@ -32,45 +32,55 @@ export class AnimalGalleryPageComponent {
   galleries: AnimalGallery[] = [
     {
       id: 1,
-      name: 'Max',
-      type: 'dog',
-      breed: 'Golden Retriever',
+      name: 'Simba',
+      type: 'cat',
+      breed: 'Chat Orange',
       images: [
         {
           id: 1,
-          imageUrl:
-            'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=900&h=700&fit=crop',
-          description: 'Max in a joyful portrait.',
+          imageUrl: 'https://loremflickr.com/900/700/orange,cat?lock=11',
+          description: 'Portrait de Simba.',
         },
         {
           id: 2,
-          imageUrl:
-            'https://images.unsplash.com/photo-1518717758536-85ae29035b6d?w=900&h=700&fit=crop',
-          description: 'Playtime in the grass.',
+          imageUrl: 'https://loremflickr.com/900/700/orange,cat?lock=12',
+          description: 'Pause tranquille.',
         },
         {
           id: 3,
-          imageUrl:
-            'https://images.unsplash.com/photo-1525253013412-55c1a69a5738?w=900&h=700&fit=crop',
-          description: 'A calm afternoon nap.',
+          imageUrl: 'https://loremflickr.com/900/700/orange,cat?lock=23',
+          description: 'Sieste douce.',
         },
         {
           id: 4,
-          imageUrl:
-            'https://images.unsplash.com/photo-1591769225440-811ad7d6eab3?w=900&h=700&fit=crop',
-          description: 'Golden hour walk by the lake.',
+          imageUrl: 'https://loremflickr.com/900/700/orange,cat?lock=24',
+          description: 'Exploration.',
         },
         {
           id: 5,
-          imageUrl:
-            'https://images.unsplash.com/photo-1507146426996-ef05306b995a?w=900&h=700&fit=crop',
-          description: 'Focused look during training.',
+          imageUrl: 'https://loremflickr.com/900/700/orange,cat?lock=25',
+          description: 'Regard attentif.',
         },
         {
           id: 6,
+          imageUrl: 'https://loremflickr.com/900/700/orange,cat?lock=26',
+          description: 'Moment calme.',
+        },
+        {
+          id: 7,
+          imageUrl: 'https://loremflickr.com/900/700/orange,cat?lock=27',
+          description: 'Petit bond.',
+        },
+        {
+          id: 8,
           imageUrl:
-            'https://images.unsplash.com/photo-1552053831-71594a27632d?w=900&h=700&fit=crop',
-          description: 'Happy smile after fetch time.',
+            'https://images.unsplash.com/photo-1543852786-1cf6624b9987?w=900&h=700&fit=crop',
+          description: 'Repos au soleil.',
+        },
+        {
+          id: 9,
+          imageUrl: 'https://loremflickr.com/900/700/orange,cat?lock=29',
+          description: 'Vue de profil.',
         },
       ],
     }
