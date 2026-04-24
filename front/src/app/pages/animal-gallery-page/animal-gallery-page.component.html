@@ -2,7 +2,10 @@
   <div class="animal-gallery-content">
     @if (animal) {
       <header class="gallery-header">
-        <ds-title [text]="'Galerie de ' + animal.name" level="h1"></ds-title>
+        <div class="gallery-header-main">
+          <ds-title [text]="'Galerie de ' + animal.name" level="h1"></ds-title>
+          <ds-button size="medium" (click)="openAddPhotoModal()">Ajouter une photo</ds-button>
+        </div>
         <p class="gallery-subtitle">
           {{ animal.breed }} · {{ animal.images.length }} photos
         </p>
@@ -10,19 +13,82 @@
 
       <section class="gallery-grid" aria-label="Animal photo gallery">
         @for (image of animal.images; track image.id) {
-          <button class="gallery-item" type="button" (click)="openLightbox(image)">
+          <article class="gallery-item">
             <img [src]="image.imageUrl" [alt]="image.description" loading="lazy" />
             <span class="gallery-caption">{{ image.description }}</span>
-          </button>
+          </article>
         }
       </section>
 
-      <ds-lightbox
-        [isOpen]="lightboxOpen"
-        [imageUrl]="selectedImage?.imageUrl || ''"
-        [description]="selectedImage?.description || ''"
-        (close)="closeLightbox()"
-      ></ds-lightbox>
+      @if (addPhotoModalOpen) {
+        <div class="add-photo-modal-backdrop" (click)="onAddPhotoBackdropClick($event)">
+          <section
+            #addPhotoModal
+            class="add-photo-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="add-photo-title"
+            tabindex="-1"
+          >
+            <button
+              class="add-photo-close"
+              type="button"
+              aria-label="Fermer la fenêtre d'ajout de photo"
+              (click)="closeAddPhotoModal()"
+            >
+              ×
+            </button>
+
+            <h2 id="add-photo-title" class="add-photo-title">Ajouter une photo</h2>
+
+            <form class="add-photo-form" (submit)="submitAddPhotoForm($event)">
+              <label class="add-photo-upload-zone" for="add-photo-file">
+                <input
+                  id="add-photo-file"
+                  class="add-photo-upload-input"
+                  type="file"
+                  accept="image/png,image/jpeg"
+                  (change)="onFileSelected($event)"
+                />
+
+                <svg
+                  lucideImagePlus
+                  class="add-photo-upload-icon"
+                  [size]="40"
+                  [strokeWidth]="2.2"
+                  aria-hidden="true"
+                ></svg>
+                <span class="add-photo-upload-title">Cliquer pour choisir une image</span>
+                <span class="add-photo-upload-subtitle">PNG, JPG · max 10 Mo</span>
+                @if (newPhotoFile) {
+                  <span class="add-photo-upload-file">{{ newPhotoFile.name }}</span>
+                }
+              </label>
+
+              <label class="add-photo-label" for="add-photo-title-input">Titre</label>
+              <input
+                id="add-photo-title-input"
+                class="add-photo-input"
+                type="text"
+                [value]="newPhotoTitle"
+                placeholder="Ex: Simba au soleil"
+                (input)="onTitleChange($event)"
+              />
+
+              @if (uploadVisualState === 'success') {
+                <p class="add-photo-success" aria-live="polite">
+                  Photo prête pour l'envoi. L'enregistrement réel arrive bientôt.
+                </p>
+              }
+
+              <div class="add-photo-actions">
+                <button class="add-photo-cancel" type="button" (click)="closeAddPhotoModal()">Annuler</button>
+                <ds-button [disabled]="!isAddPhotoFormValid()">Ajouter</ds-button>
+              </div>
+            </form>
+          </section>
+        </div>
+      }
     } @else {
       <section class="gallery-fallback" aria-live="polite">
         <ds-title text="Galerie introuvable" level="h2"></ds-title>
