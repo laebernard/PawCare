@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: pawcare-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: pawcare123
+      MYSQL_DATABASE: pawcare
+      MYSQL_USER: pawcare
+      MYSQL_PASSWORD: pawcare123
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: pawcare-phpmyadmin
+    restart: always
+    depends_on:
+      - mysql
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: pawcare
+      PMA_PASSWORD: pawcare123
+    ports:
+      - "8080:80"
+
+volumes:
+  mysql_data:
