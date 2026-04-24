@@ -14,7 +14,7 @@ export const routes: Routes = [
     component: AnimalProfileSelectorPageComponent
   },
   {
-    path: 'consult-profile',
+    path: 'consult-profile/:id',
     component: AnimalProfilePageComponent
   },
   {

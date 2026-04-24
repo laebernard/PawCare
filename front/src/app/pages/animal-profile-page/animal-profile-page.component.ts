@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
+import { of, switchMap, Observable } from 'rxjs';
 import { DesignSystemModule } from '../../design-system/design-system.module';
 
 export interface Pet {
@@ -22,21 +25,22 @@ export interface Pet {
   styleUrls: ['./animal-profile-page.component.css']
 })
 export class AnimalProfilePageComponent implements OnInit {
-  pet: Pet;
 
-  constructor() {
-    this.pet = {
-      id: '1',
-      name: 'Milo',
-      breed: 'Chat européen',
-      birthDate: '2020-05-12',
-      color: 'Roux',
-      weight: 4.5,
-      identification: '250268712345678',
-      sterilized: true,
-      imageUrl: 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=400'
-    };
+  pet$!: Observable<Pet | null>;
+
+  constructor(
+    private http: HttpClient,
+    private route: ActivatedRoute
+  ) {}
+
+  ngOnInit(): void {
+    this.pet$ = this.route.paramMap.pipe(
+      switchMap(params => {
+        const id = params.get('id');
+        if (!id) return of(null);
+
+        return this.http.get<Pet>(`http://localhost:8080/pets/${id}`);
+      })
+    );
   }
-
-  ngOnInit(): void {}
 }
