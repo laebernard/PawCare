@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { LucideImagePlus } from '@lucide/angular';
 import { DesignSystemModule } from '../../design-system/design-system.module';
 
 interface AnimalGalleryImage {
@@ -20,7 +19,7 @@ interface AnimalGallery {
 @Component({
   selector: 'app-animal-gallery-page',
   standalone: true,
-  imports: [CommonModule, DesignSystemModule, LucideImagePlus],
+  imports: [CommonModule, DesignSystemModule],
   templateUrl: './animal-gallery-page.component.html',
   styleUrls: ['./animal-gallery-page.component.css'],
 })
@@ -112,15 +111,8 @@ export class AnimalGalleryPageComponent {
     this.addPhotoTriggerElement = null;
   }
 
-  onAddPhotoBackdropClick(event: MouseEvent): void {
-    if (event.target === event.currentTarget) {
-      this.closeAddPhotoModal();
-    }
-  }
-
-  onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    this.newPhotoFile = input.files?.[0] ?? null;
+  onFileSelected(file: File | null): void {
+    this.newPhotoFile = file;
     this.uploadVisualState = 'idle';
   }
 

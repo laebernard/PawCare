@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DesignSystemModule } from '../../design-system/design-system.module';
-import { Router } from '@angular/router';
 
 interface AnimalProfile {
   id: number;
@@ -10,6 +9,17 @@ interface AnimalProfile {
   breed: string;
   photoUrl: string | null;
   color: string;
+}
+
+interface NewAnimalFormModel {
+  name: string;
+  breed: string;
+  birthDate: string;
+  color: string;
+  weight: string;
+  identification: string;
+  sterilized: '' | 'yes' | 'no';
+  profilePhoto: File | null;
 }
 
 @Component({
@@ -51,8 +61,9 @@ export class AnimalProfileSelectorPageComponent {
   ];
 
   selectedProfile: AnimalProfile | null = null;
-
-  constructor(private router: Router) {}
+  isAddAnimalModalOpen = false;
+  newAnimalForm: NewAnimalFormModel = this.createEmptyForm();
+  private addCardTriggerElement: HTMLElement | null = null;
 
   selectProfile(profile: AnimalProfile): void {
     this.selectedProfile = profile;
@@ -61,11 +72,78 @@ export class AnimalProfileSelectorPageComponent {
     console.log('Selected profile:', profile);
   }
 
-  goToCreateProfile(): void {
-    this.router.navigate(['/create-animal']);
+  openAddAnimalModal(): void {
+    this.addCardTriggerElement = document.activeElement as HTMLElement;
+    this.isAddAnimalModalOpen = true;
+  }
+
+  closeAddAnimalModal(): void {
+    this.isAddAnimalModalOpen = false;
+    this.newAnimalForm = this.createEmptyForm();
+    this.addCardTriggerElement?.focus();
+    this.addCardTriggerElement = null;
+  }
+
+  onProfilePhotoSelected(file: File | null): void {
+    this.newAnimalForm = {
+      ...this.newAnimalForm,
+      profilePhoto: file,
+    };
+  }
+
+  onFieldInput(field: keyof Omit<NewAnimalFormModel, 'profilePhoto' | 'sterilized'>, event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.newAnimalForm = {
+      ...this.newAnimalForm,
+      [field]: input.value,
+    };
+  }
+
+  onSterilizedChange(event: Event): void {
+    const select = event.target as HTMLSelectElement;
+    this.newAnimalForm = {
+      ...this.newAnimalForm,
+      sterilized: select.value as NewAnimalFormModel['sterilized'],
+    };
+  }
+
+  isAddAnimalFormValid(): boolean {
+    return (
+      this.newAnimalForm.name.trim().length > 0 &&
+      this.newAnimalForm.breed.trim().length > 0 &&
+      this.newAnimalForm.birthDate.trim().length > 0 &&
+      this.newAnimalForm.color.trim().length > 0 &&
+      this.newAnimalForm.weight.trim().length > 0 &&
+      this.newAnimalForm.identification.trim().length > 0 &&
+      this.newAnimalForm.sterilized !== '' &&
+      this.newAnimalForm.profilePhoto !== null
+    );
+  }
+
+  submitAddAnimalForm(event: Event): void {
+    event.preventDefault();
+
+    if (!this.isAddAnimalFormValid()) {
+      return;
+    }
+
+    this.closeAddAnimalModal();
   }
 
   getInitials(name: string): string {
     return name.charAt(0).toUpperCase();
+  }
+
+  private createEmptyForm(): NewAnimalFormModel {
+    return {
+      name: '',
+      breed: '',
+      birthDate: '',
+      color: '',
+      weight: '',
+      identification: '',
+      sterilized: '',
+      profilePhoto: null,
+    };
   }
 }

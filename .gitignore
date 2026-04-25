@@ -9,3 +9,6 @@ CLAUDE.md
 
 # System files
 .DS_Store
+
+# Local git worktrees
+.worktrees/
