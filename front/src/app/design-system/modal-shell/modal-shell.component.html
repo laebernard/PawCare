@@ -1,11 +1,13 @@
 @if (isOpen) {
   <div class="ds-modal-backdrop" (click)="onBackdropClick($event)">
     <section
+      #modalPanel
       class="ds-modal-panel"
       role="dialog"
       aria-modal="true"
       [attr.aria-labelledby]="labelledById"
       tabindex="-1"
+      (keydown)="onPanelKeydown($event)"
     >
       <button class="ds-modal-close" type="button" [attr.aria-label]="closeAriaLabel" (click)="close.emit()">
         ×
