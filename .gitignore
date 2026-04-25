@@ -12,3 +12,6 @@ CLAUDE.md
 
 # Local git worktrees
 .worktrees/
+
+# Project docs
+docs/
