@@ -26,6 +26,14 @@ describe('AnimalProfileSelectorPageComponent', () => {
     expect(modalBackdrop).not.toBeNull();
   });
 
+  it('renders add card as a keyboard-focusable button trigger', () => {
+    const addCardButton = fixture.debugElement.query(By.css('.profile-item.add-profile'));
+    const addCardElement = addCardButton.nativeElement as HTMLElement;
+
+    expect(addCardElement.tagName).toBe('BUTTON');
+    expect(addCardElement.getAttribute('type')).toBe('button');
+  });
+
   it('closes modal on valid submit without creating a profile', () => {
     const initialCount = component.profiles.length;
     component.openAddAnimalModal();

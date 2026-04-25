@@ -40,12 +40,12 @@
       }
 
       <!-- Add New Profile -->
-      <div class="profile-item add-profile" (click)="openAddAnimalModal()">
+      <button class="profile-item add-profile" type="button" (click)="openAddAnimalModal()">
         <div class="avatar-container">
           <ds-avatar fallback="+" alt="Add new pet" size="xxlarge"> </ds-avatar>
         </div>
         <div class="profile-name">Ajouter</div>
-      </div>
+      </button>
     </div>
 
     @if (selectedProfile) {
