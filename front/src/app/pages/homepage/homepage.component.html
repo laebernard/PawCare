@@ -1,0 +1,88 @@
+<div class="homepage">
+  <section class="hero-section">
+    <div class="floating-hearts" aria-hidden="true">
+      @for (heart of floatingHearts; track $index) {
+        <svg
+          lucideHeart
+          class="heart-icon"
+          [size]="heart.size"
+          [style.top.%]="heart.top"
+          [style.left.%]="heart.left"
+          [style.animationDelay.s]="heart.delay"
+          [style.animationDuration.s]="heart.duration"
+        ></svg>
+      }
+    </div>
+
+    <div class="content-container hero-content">
+      <ds-title level="h1" classes="hero-title" text="Un endroit pour suivre le"></ds-title>
+      <ds-title level="h1" classes="hero-title hero-title-accent" text="parcours de vie de votre animal."></ds-title>
+
+      <div class="hero-fan">
+        @for (image of heroImages; track image.alt; let i = $index) {
+          <figure
+            class="hero-image-card"
+            [style.transform]="'rotate(' + image.rotate + 'deg) translateX(' + getHeroTranslateX(i) + 'px)'"
+            [style.zIndex]="getHeroZIndex(i)"
+          >
+            <img [src]="image.src" [alt]="image.alt" />
+          </figure>
+        }
+      </div>
+
+      <div class="hero-cta">
+        <ds-link variant="button" size="large" href="https://example.com">Rejoindre - Gratuit</ds-link>
+        <ds-link variant="outlined" size="large" href="https://example.com">En savoir plus</ds-link>
+      </div>
+    </div>
+  </section>
+
+  <section id="features" class="features-section">
+    <div class="content-container">
+      <ds-title level="h2" text="Tout pour vos compagnons"></ds-title>
+      <p class="features-subtitle">
+        Paw Care vous offre tous les outils necessaires pour prendre soin de vos animaux au quotidien.
+      </p>
+      <div class="features-grid">
+        @for (feature of features; track feature.title) {
+          <article class="feature-card">
+            <div class="feature-icon-wrap">
+              @switch (feature.key) {
+                @case ('paw') {
+                  <svg lucidePawPrint [size]="24"></svg>
+                }
+                @case ('camera') {
+                  <svg lucideCamera [size]="24"></svg>
+                }
+                @case ('calendar') {
+                  <svg lucideCalendar [size]="24"></svg>
+                }
+                @default {
+                  <svg lucideHeart [size]="24"></svg>
+                }
+              }
+            </div>
+            <ds-title level="h4" [text]="feature.title"></ds-title>
+            <p>{{ feature.desc }}</p>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="content-container">
+      <ds-title level="h2" text="Pret a commencer ?"></ds-title>
+      <p>Rejoignez la communaute Paw Care et offrez le meilleur suivi a vos animaux.</p>
+      <ds-link variant="button" size="large" href="https://example.com">Commencer maintenant</ds-link>
+    </div>
+  </section>
+
+  <footer>
+    <div class="content-container footer-content">
+      <span>© 2026 Paw Care. Fait avec</span>
+      <svg lucideHeart [size]="14" class="footer-heart"></svg>
+      <span>pour vos animaux.</span>
+    </div>
+  </footer>
+</div>
