@@ -7,15 +7,13 @@ import { ModalShellComponent } from './modal-shell.component';
   imports: [ModalShellComponent],
   template: `
     <button id="outside">Outside</button>
-    <ds-modal-shell [isOpen]="isOpen" (close)="onClose()">
+    <ds-modal-shell [isOpen]="isOpen">
       <button id="inside-action" type="button">Inside</button>
     </ds-modal-shell>
   `,
 })
 class TestHostComponent {
   isOpen = true;
-
-  onClose(): void {}
 }
 
 describe('ModalShellComponent', () => {
@@ -38,6 +36,36 @@ describe('ModalShellComponent', () => {
     host = fixture.componentInstance;
     fixture.detectChanges();
   });
+
+  afterEach(() => {
+    document.querySelectorAll('[data-test-invoker="true"]').forEach((element) => element.remove());
+  });
+
+  const openModalFromInvoker = (): {
+    closeButton: HTMLButtonElement;
+    invoker: HTMLButtonElement;
+    outsideAfterOpen: HTMLButtonElement;
+  } => {
+    const invoker = document.createElement('button');
+    invoker.dataset['testInvoker'] = 'true';
+    invoker.id = 'focus-invoker';
+    document.body.appendChild(invoker);
+
+    modalFixture.componentRef.setInput('isOpen', false);
+    modalFixture.detectChanges();
+    invoker.focus();
+    modalFixture.componentRef.setInput('isOpen', true);
+    modalFixture.detectChanges();
+
+    const closeButton = modalFixture.nativeElement.querySelector('.ds-modal-close') as HTMLButtonElement;
+    const outsideAfterOpen = document.createElement('button');
+    outsideAfterOpen.dataset['testInvoker'] = 'true';
+    outsideAfterOpen.id = 'focus-outside-after-open';
+    document.body.appendChild(outsideAfterOpen);
+    outsideAfterOpen.focus();
+
+    return { closeButton, invoker, outsideAfterOpen };
+  };
 
   it('emits close when clicking backdrop', () => {
     const closeSpy = vi.fn();
@@ -86,5 +114,61 @@ describe('ModalShellComponent', () => {
     closeButton.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', shiftKey: true, bubbles: true }));
     fixture.detectChanges();
     expect(document.activeElement).toBe(insideButton);
+  });
+
+  it('restores focus to invoking control when closed programmatically', () => {
+    const { outsideAfterOpen } = openModalFromInvoker();
+    expect((document.activeElement as HTMLElement | null)?.id).toBe(outsideAfterOpen.id);
+
+    modalFixture.componentRef.setInput('isOpen', false);
+    modalFixture.detectChanges();
+
+    expect((document.activeElement as HTMLElement | null)?.id).toBe('focus-invoker');
+  });
+
+  it('restores focus to invoking control when closed with close button', () => {
+    const { closeButton, outsideAfterOpen } = openModalFromInvoker();
+    const closeSpy = vi.fn();
+    modalComponent.close.subscribe(closeSpy);
+    expect((document.activeElement as HTMLElement | null)?.id).toBe(outsideAfterOpen.id);
+
+    closeButton.click();
+    expect(closeSpy).toHaveBeenCalledTimes(1);
+
+    modalFixture.componentRef.setInput('isOpen', false);
+    modalFixture.detectChanges();
+
+    expect((document.activeElement as HTMLElement | null)?.id).toBe('focus-invoker');
+  });
+
+  it('restores focus to invoking control when closed with backdrop click', () => {
+    const { outsideAfterOpen } = openModalFromInvoker();
+    const closeSpy = vi.fn();
+    modalComponent.close.subscribe(closeSpy);
+    const backdrop = modalFixture.nativeElement.querySelector('.ds-modal-backdrop') as HTMLDivElement;
+    expect((document.activeElement as HTMLElement | null)?.id).toBe(outsideAfterOpen.id);
+
+    backdrop.click();
+    expect(closeSpy).toHaveBeenCalledTimes(1);
+
+    modalFixture.componentRef.setInput('isOpen', false);
+    modalFixture.detectChanges();
+
+    expect((document.activeElement as HTMLElement | null)?.id).toBe('focus-invoker');
+  });
+
+  it('restores focus to invoking control when closed with Escape', () => {
+    const { outsideAfterOpen } = openModalFromInvoker();
+    const closeSpy = vi.fn();
+    modalComponent.close.subscribe(closeSpy);
+    expect((document.activeElement as HTMLElement | null)?.id).toBe(outsideAfterOpen.id);
+
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+    expect(closeSpy).toHaveBeenCalledTimes(1);
+
+    modalFixture.componentRef.setInput('isOpen', false);
+    modalFixture.detectChanges();
+
+    expect((document.activeElement as HTMLElement | null)?.id).toBe('focus-invoker');
   });
 });
