@@ -1,0 +1,56 @@
+.ds-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  background-color: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.ds-modal-panel {
+  position: relative;
+  width: min(520px, 100%);
+  max-height: min(90dvh, 920px);
+  overflow: auto;
+  background: #fff6e9;
+  border-radius: 20px;
+  box-shadow: 0 16px 38px rgba(24, 24, 24, 0.28);
+  padding: 28px 24px 24px;
+}
+
+.ds-modal-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.06);
+  color: #2e2e2e;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.ds-modal-close:hover {
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.ds-modal-title {
+  margin: 0;
+  font-family: var(--ds-title-font);
+  color: #2f2f2f;
+}
+
+.ds-modal-content {
+  margin-top: 18px;
+}
+
+@media (max-width: 560px) {
+  .ds-modal-panel {
+    padding: 24px 18px 18px;
+  }
+}

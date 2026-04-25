@@ -1,0 +1,21 @@
+@if (isOpen) {
+  <div class="ds-modal-backdrop" (click)="onBackdropClick($event)">
+    <section
+      class="ds-modal-panel"
+      role="dialog"
+      aria-modal="true"
+      [attr.aria-labelledby]="labelledById"
+      tabindex="-1"
+    >
+      <button class="ds-modal-close" type="button" [attr.aria-label]="closeAriaLabel" (click)="close.emit()">
+        ×
+      </button>
+
+      <h2 class="ds-modal-title" [id]="labelledById">{{ title }}</h2>
+
+      <div class="ds-modal-content">
+        <ng-content></ng-content>
+      </div>
+    </section>
+  </div>
+}

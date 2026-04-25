@@ -7,9 +7,33 @@ import { CardComponent } from './card/card.component';
 import { LinkComponent } from './link/link.component';
 import { InputComponent } from './input/input.component';
 import { TagComponent } from './tag/tag.component';
+import { ModalShellComponent } from './modal-shell/modal-shell.component';
+import { ImageUploadFieldComponent } from './image-upload-field/image-upload-field.component';
 
 @NgModule({
-  imports: [TitleComponent, ButtonComponent, LightboxComponent, AvatarComponent, CardComponent, LinkComponent, InputComponent,TagComponent],
-  exports: [TitleComponent, ButtonComponent, LightboxComponent, AvatarComponent, CardComponent, LinkComponent,InputComponent,TagComponent]
+  imports: [
+    TitleComponent,
+    ButtonComponent,
+    LightboxComponent,
+    AvatarComponent,
+    CardComponent,
+    LinkComponent,
+    InputComponent,
+    TagComponent,
+    ModalShellComponent,
+    ImageUploadFieldComponent,
+  ],
+  exports: [
+    TitleComponent,
+    ButtonComponent,
+    LightboxComponent,
+    AvatarComponent,
+    CardComponent,
+    LinkComponent,
+    InputComponent,
+    TagComponent,
+    ModalShellComponent,
+    ImageUploadFieldComponent,
+  ],
 })
 export class DesignSystemModule {}
