@@ -3,6 +3,9 @@
 :root {
   --color-coral: #ff8885;
   --color-coral-hover: #ff6b68;
+  --color-cream: #ffe2c8;
+  --color-cream-soft: #fff8f1;
+  --color-cream-border: #ffd0ac;
   --ds-title-font: 'Pacifico', cursive;
   --ds-body-font: 'Lora', serif;
 }
