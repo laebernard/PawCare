@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./link.component.css']
 })
 export class LinkComponent {
-  @Input() variant: 'simple' | 'button' | 'underlined' = 'simple';
+  @Input() variant: 'simple' | 'button' | 'underlined' | 'outlined' = 'simple';
   @Input() size: 'small' | 'medium' | 'large' = 'medium';
   @Input() href?: string;
   @Input() disabled = false;
