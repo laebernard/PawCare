@@ -155,6 +155,13 @@
   border: 2px dashed rgba(255, 136, 133, 0.5);
 }
 
+.profile-item.add-profile {
+  border: none;
+  background: transparent;
+  padding: 0;
+  font: inherit;
+}
+
 .profile-item.add-profile:hover .ds-avatar {
   background: rgba(255, 136, 133, 0.3);
   border-color: #ff8885;
@@ -169,6 +176,11 @@
   color: #ff6b68;
 }
 
+.profile-item.add-profile:focus-visible {
+  outline: 2px solid rgba(255, 136, 133, 0.6);
+  outline-offset: 6px;
+}
+
 /* Continue Section */
 .continue-section {
   margin-top: 64px;
@@ -177,6 +189,56 @@
 
 .continue-section ds-button {
   display: inline-block;
+}
+
+.add-animal-form {
+  display: grid;
+  gap: 12px;
+  text-align: left;
+}
+
+.add-animal-label {
+  font-family: var(--ds-body-font);
+  color: #3b3b3b;
+  font-weight: 600;
+}
+
+.add-animal-input {
+  border: 1px solid #ffd0ac;
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-family: var(--ds-body-font);
+  font-size: 0.95rem;
+  color: #272727;
+  background: #ffffff;
+}
+
+.add-animal-input:focus-visible {
+  outline: 2px solid rgba(255, 136, 133, 0.35);
+  outline-offset: 1px;
+  border-color: #ff8885;
+}
+
+.add-animal-actions {
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+}
+
+.add-animal-cancel {
+  border: none;
+  background: transparent;
+  color: #575757;
+  font-family: var(--ds-body-font);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px 10px;
+}
+
+.add-animal-cancel:hover {
+  color: #2e2e2e;
 }
 
 /* Animations */
@@ -231,6 +293,11 @@
 
   .profile-name {
     font-size: 1rem;
+  }
+
+  .add-animal-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
   }
 }
 
