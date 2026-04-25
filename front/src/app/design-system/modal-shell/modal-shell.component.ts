@@ -16,6 +16,9 @@ export class ModalShellComponent implements AfterViewChecked {
   @Output() close = new EventEmitter<void>();
   @ViewChild('modalPanel') modalPanel?: ElementRef<HTMLElement>;
   private wasOpen = false;
+  private previouslyFocusedElement: HTMLElement | null = null;
+  private readonly focusableSelector =
+    'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
   @HostListener('document:keydown.escape')
   onEscapeKey(): void {
@@ -32,7 +35,10 @@ export class ModalShellComponent implements AfterViewChecked {
 
   ngAfterViewChecked(): void {
     if (this.isOpen && !this.wasOpen) {
+      this.previouslyFocusedElement = document.activeElement as HTMLElement | null;
       this.focusFirstElement();
+    } else if (!this.isOpen && this.wasOpen) {
+      this.restoreFocus();
     }
 
     this.wasOpen = this.isOpen;
@@ -80,10 +86,27 @@ export class ModalShellComponent implements AfterViewChecked {
   }
 
   private getFocusableElements(container: HTMLElement): HTMLElement[] {
-    return Array.from(
-      container.querySelectorAll<HTMLElement>(
-        'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
-      ),
-    ).filter((element) => !element.hasAttribute('disabled') && element.getAttribute('aria-hidden') !== 'true');
+    return Array.from(container.querySelectorAll<HTMLElement>(this.focusableSelector)).filter((element) =>
+      this.isElementFocusable(element),
+    );
+  }
+
+  private restoreFocus(): void {
+    const target = this.previouslyFocusedElement;
+    this.previouslyFocusedElement = null;
+
+    if (!target || !target.isConnected || !this.isElementFocusable(target)) {
+      return;
+    }
+
+    target.focus();
+  }
+
+  private isElementFocusable(element: HTMLElement): boolean {
+    if (element.hasAttribute('disabled') || element.getAttribute('aria-hidden') === 'true') {
+      return false;
+    }
+
+    return element.matches(this.focusableSelector);
   }
 }
