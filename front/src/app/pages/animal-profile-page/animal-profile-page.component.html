@@ -1,0 +1,45 @@
+<section class="pet-profile" *ngIf="pet$ | async as p">
+
+  <div class="pet-header">
+    <ds-avatar
+      [src]="p.imageUrl"
+      [alt]="p.name"
+      size="xxlarge">
+    </ds-avatar>
+
+    <ds-title level="h1" [text]="p.name"></ds-title>
+  </div>
+
+  <div class="pet-details">
+
+    <div class="info">
+      <ds-title level="h4" text="Date de naissance"></ds-title>
+      <span>{{ p.birthDate }}</span>
+    </div>
+
+    <div class="info">
+      <ds-title level="h4" text="Couleur"></ds-title>
+      <span>{{ p.color }}</span>
+    </div>
+
+    <div class="info">
+      <ds-title level="h4" text="Poids"></ds-title>
+      <span>{{ p.weight }} kg</span>
+    </div>
+
+    <div class="info">
+      <ds-title level="h4" text="Race"></ds-title>
+      <ds-tag>{{ p.breed }}</ds-tag>
+    </div>
+
+    <div class="info">
+      <ds-title level="h4" text="Stérilisé"></ds-title>
+      <span>
+        <ds-tag *ngIf="p.sterilized">Oui</ds-tag>
+        <ds-tag *ngIf="!p.sterilized">Non</ds-tag>
+      </span>
+    </div>
+
+  </div>
+
+</section>
