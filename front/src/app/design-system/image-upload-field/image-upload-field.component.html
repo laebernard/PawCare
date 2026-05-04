@@ -1,0 +1,23 @@
+<label class="ds-image-upload-zone" [for]="inputId">
+  <input
+    class="ds-image-upload-input"
+    [id]="inputId"
+    type="file"
+    [attr.accept]="accept"
+    [required]="required"
+    (change)="onFileInputChange($event)"
+  />
+
+  <svg
+    lucideImagePlus
+    class="ds-image-upload-icon"
+    [size]="40"
+    [strokeWidth]="2.2"
+    aria-hidden="true"
+  ></svg>
+  <span class="ds-image-upload-title">{{ title }}</span>
+  <span class="ds-image-upload-subtitle">{{ subtitle }}</span>
+  @if (selectedFileName) {
+    <span class="ds-image-upload-file">{{ selectedFileName }}</span>
+  }
+</label>

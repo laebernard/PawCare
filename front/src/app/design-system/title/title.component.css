@@ -1,6 +1,9 @@
 :host {
   --ds-title-font: 'Pacifico', cursive;
   --ds-body-font: 'Lora', serif;
+  --ds-title-color: #1a1a1a;
+  --ds-title-h3-color: #666;
+  color: var(--ds-title-color);
 }
 
 :host h1,
@@ -10,7 +13,7 @@
   display: block;
   margin: 0 0 8px 0;
   word-break: break-word;
-  color: #1a1a1a;
+  color: inherit;
 }
 
 :host h1 {
@@ -30,7 +33,7 @@
   font-size: 24px;
   font-weight: 500;
   font-family: var(--ds-body-font);
-  color: #666;
+  color: var(--ds-title-h3-color);
 }
 
 :host h4 {

@@ -1,0 +1,67 @@
+<div class="animal-gallery-page">
+  <div class="animal-gallery-content">
+    @if (animal) {
+      <header class="gallery-header">
+        <div class="gallery-header-main">
+          <ds-title [text]="'Galerie de ' + animal.name" level="h1"></ds-title>
+          <ds-button size="medium" (click)="openAddPhotoModal()">Ajouter une photo</ds-button>
+        </div>
+        <p class="gallery-subtitle">
+          {{ animal.breed }} · {{ animal.images.length }} photos
+        </p>
+      </header>
+
+      <section class="gallery-grid" aria-label="Animal photo gallery">
+        @for (image of animal.images; track image.id) {
+          <article class="gallery-item">
+            <img [src]="image.imageUrl" [alt]="image.description" loading="lazy" />
+            <span class="gallery-caption">{{ image.description }}</span>
+          </article>
+        }
+      </section>
+
+      <ds-modal-shell
+        [isOpen]="addPhotoModalOpen"
+        title="Ajouter une photo"
+        labelledById="gallery-add-photo-title"
+        closeAriaLabel="Fermer la fenêtre d'ajout de photo"
+        (close)="closeAddPhotoModal()"
+      >
+        <form class="add-photo-form" (submit)="submitAddPhotoForm($event)">
+          <ds-image-upload-field
+            inputId="add-photo-file"
+            [selectedFileName]="newPhotoFile?.name ?? null"
+            (fileSelected)="onFileSelected($event)"
+            [required]="true"
+          ></ds-image-upload-field>
+
+          <label class="add-photo-label" for="add-photo-title-input">Titre</label>
+          <input
+            id="add-photo-title-input"
+            class="add-photo-input"
+            type="text"
+            [value]="newPhotoTitle"
+            placeholder="Ex: Simba au soleil"
+            (input)="onTitleChange($event)"
+          />
+
+          @if (uploadVisualState === 'success') {
+            <p class="add-photo-success" aria-live="polite">
+              Photo prête pour l'envoi. L'enregistrement réel arrive bientôt.
+            </p>
+          }
+
+          <div class="add-photo-actions">
+            <button class="add-photo-cancel" type="button" (click)="closeAddPhotoModal()">Annuler</button>
+            <ds-button [disabled]="!isAddPhotoFormValid()">Ajouter</ds-button>
+          </div>
+        </form>
+      </ds-modal-shell>
+    } @else {
+      <section class="gallery-fallback" aria-live="polite">
+        <ds-title text="Galerie introuvable" level="h2"></ds-title>
+        <p>Aucune galerie n’est disponible pour le moment.</p>
+      </section>
+    }
+  </div>
+</div>
