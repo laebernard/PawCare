@@ -65,6 +65,25 @@
 }
 
 /* ===========================
+   VARIANT: OUTLINED
+   Transparent background with coral border
+   =========================== */
+.ds-link-outlined {
+  color: var(--color-coral);
+  border: 1px solid var(--color-coral);
+  border-radius: 9999px;
+  font-weight: 600;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+.ds-link-outlined:hover {
+  color: var(--color-coral-hover);
+  border-color: var(--color-coral-hover);
+  background-color: rgba(255, 136, 133, 0.1);
+}
+
+/* ===========================
    SIZES
    =========================== */
 .ds-link-size-small {
