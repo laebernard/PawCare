@@ -1,0 +1,17 @@
+# IDE
+.idea/
+
+# npm config (may contain auth tokens)
+.npmrc
+
+CLAUDE.md
+.claude/
+
+# System files
+.DS_Store
+
+# Local git worktrees
+.worktrees/
+
+# Project docs
+docs/
