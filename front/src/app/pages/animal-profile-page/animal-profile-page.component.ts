@@ -39,7 +39,7 @@ export class AnimalProfilePageComponent implements OnInit {
         const id = params.get('id');
         if (!id) return of(null);
 
-        return this.http.get<Pet>(`http://localhost:8080/pets/${id}`);
+        return this.http.get<Pet>(`http://localhost:8081/pets/${id}`);
       })
     );
   }
