@@ -17,7 +17,7 @@ public class PetService {
         return repository.findAll();
     }
 
-    public Pet getPetById(String id) {
+    public Pet getPetById(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Pet not found"));
     }
