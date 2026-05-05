@@ -6,7 +6,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/pets")
-@CrossOrigin(origins = "http://localhost:4200")
 public class PetController {
 
     private final PetService service;
@@ -21,7 +20,7 @@ public class PetController {
     }
 
     @GetMapping("/{id}")
-    public Pet getPet(@PathVariable String id) {
+    public Pet getPet(@PathVariable Long id) {
         return service.getPetById(id);
     }
 
