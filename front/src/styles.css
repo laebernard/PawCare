@@ -10,4 +10,6 @@ html, body {
   height: 100%;
   overflow: auto;
   font-family: var(--ds-body-font);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Kanit:wght@700&display=swap');
 
 :root {
   --color-coral: #ff8885;
@@ -6,6 +6,6 @@
   --color-cream: #ffe2c8;
   --color-cream-soft: #fff8f1;
   --color-cream-border: #ffd0ac;
-  --ds-title-font: 'Pacifico', cursive;
-  --ds-body-font: 'Lora', serif;
+  --ds-title-font: 'Kanit', sans-serif;
+  --ds-body-font: 'Inter', sans-serif;
 }

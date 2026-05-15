@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { DesignSystemModule } from '../../design-system/design-system.module';
 
 interface AnimalProfile {
@@ -22,10 +23,19 @@ interface NewAnimalFormModel {
   profilePhoto: File | null;
 }
 
+const TYPE_LABELS: Record<string, string> = {
+  dog: 'Chien',
+  cat: 'Chat',
+  bird: 'Oiseau',
+  rabbit: 'Lapin',
+  hamster: 'Hamster',
+  other: 'Autre',
+};
+
 @Component({
   selector: 'app-animal-profile-selector-page',
   standalone: true,
-  imports: [CommonModule, DesignSystemModule],
+  imports: [CommonModule, DesignSystemModule, RouterLink],
   templateUrl: './animal-profile-selector-page.component.html',
   styleUrls: ['./animal-profile-selector-page.component.css'],
 })
@@ -65,11 +75,12 @@ export class AnimalProfileSelectorPageComponent {
   newAnimalForm: NewAnimalFormModel = this.createEmptyForm();
   private addCardTriggerElement: HTMLElement | null = null;
 
+  getTypeLabel(type: string): string {
+    return TYPE_LABELS[type] ?? type;
+  }
+
   selectProfile(profile: AnimalProfile): void {
     this.selectedProfile = profile;
-    // Navigate to the animal dashboard/profile page
-    // For now, we'll just log it
-    console.log('Selected profile:', profile);
   }
 
   openAddAnimalModal(): void {
@@ -122,11 +133,7 @@ export class AnimalProfileSelectorPageComponent {
 
   submitAddAnimalForm(event: Event): void {
     event.preventDefault();
-
-    if (!this.isAddAnimalFormValid()) {
-      return;
-    }
-
+    if (!this.isAddAnimalFormValid()) return;
     this.closeAddAnimalModal();
   }
 
