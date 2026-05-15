@@ -1,0 +1,125 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255, 248, 241, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-cream-border);
+}
+
+.navbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: min(1120px, 100% - 2rem);
+  margin-inline: auto;
+  height: 3.75rem;
+}
+
+/* Brand */
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: var(--color-coral);
+}
+
+.brand-icon {
+  color: var(--color-coral);
+  fill: var(--color-coral);
+}
+
+.brand-text {
+  font-family: var(--ds-title-font);
+  font-size: 1.35rem;
+  color: #2d2d2d;
+}
+
+/* Desktop links */
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 1rem;
+  border-radius: 9999px;
+  font-family: var(--ds-body-font);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #575757;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.navbar-link:hover {
+  color: var(--color-coral);
+  background: rgba(255, 136, 133, 0.08);
+}
+
+.navbar-link.active {
+  color: var(--color-coral);
+  background: rgba(255, 136, 133, 0.12);
+  font-weight: 600;
+}
+
+/* Mobile toggle */
+.navbar-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0.4rem;
+  border: none;
+  border-radius: 0.5rem;
+  background: transparent;
+  cursor: pointer;
+}
+
+.toggle-bar {
+  display: block;
+  width: 100%;
+  height: 2px;
+  border-radius: 1px;
+  background: #2d2d2d;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+@media (max-width: 767px) {
+  .navbar-toggle {
+    display: flex;
+  }
+
+  .navbar-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background: rgba(255, 248, 241, 0.98);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--color-cream-border);
+    padding: 0.75rem 0;
+    gap: 0;
+  }
+
+  .navbar-links.open {
+    display: flex;
+  }
+
+  .navbar-link {
+    padding: 0.7rem 1.5rem;
+    border-radius: 0;
+    width: 100%;
+  }
+}
