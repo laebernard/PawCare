@@ -1,0 +1,35 @@
+<nav class="navbar" role="navigation" aria-label="Navigation principale">
+  <div class="navbar-inner">
+    <a class="navbar-brand" routerLink="/" (click)="closeMenu()">
+      <svg lucideHeart [size]="24" class="brand-icon"></svg>
+      <span class="brand-text">Paw Care</span>
+    </a>
+
+    <button
+      class="navbar-toggle"
+      (click)="toggleMenu()"
+      [attr.aria-expanded]="menuOpen"
+      aria-label="Menu"
+    >
+      <span class="toggle-bar"></span>
+      <span class="toggle-bar"></span>
+      <span class="toggle-bar"></span>
+    </button>
+
+    <ul class="navbar-links" [class.open]="menuOpen">
+      @for (link of links; track link.path) {
+        <li>
+          <a
+            class="navbar-link"
+            routerLink="{{ link.path }}"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: link.path === '/' }"
+            (click)="closeMenu()"
+          >
+            {{ link.label }}
+          </a>
+        </li>
+      }
+    </ul>
+  </div>
+</nav>
