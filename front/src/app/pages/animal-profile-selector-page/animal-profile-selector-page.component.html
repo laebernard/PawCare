@@ -1,156 +1,135 @@
-<div class="profile-selector-page">
-  <div class="profile-selector-content">
-    <ds-title level="h1" text="Qui est-ce aujourd'hui ?"></ds-title>
+<div class="selector-page">
+  <div class="selector-inner">
+    <header class="selector-header">
+      <ds-title level="h1" text="Qui est-ce aujourd'hui ?"></ds-title>
+      <p class="selector-subtitle">Choisissez le profil de votre compagnon pour continuer.</p>
+    </header>
 
-    <div class="profiles-grid">
+    <div class="cards-grid">
       @for (profile of profiles; track profile.id) {
-        <div
-          class="profile-item"
-          [class.selected]="selectedProfile?.id === profile.id"
+        <button
+          class="pet-card"
+          [class.pet-card--selected]="selectedProfile?.id === profile.id"
           (click)="selectProfile(profile)"
+          type="button"
         >
-          <div class="avatar-container">
+          @if (selectedProfile?.id === profile.id) {
+            <span class="pet-card__check">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </span>
+          }
+
+          <div class="pet-card__avatar">
             @if (profile.photoUrl) {
-              <ds-avatar [src]="profile.photoUrl" [alt]="profile.name" size="xxlarge"> </ds-avatar>
+              <img [src]="profile.photoUrl" [alt]="profile.name" />
             } @else {
-              <ds-avatar [fallback]="getInitials(profile.name)" [alt]="profile.name" size="xxlarge">
-              </ds-avatar>
+              <span class="pet-card__initials">{{ getInitials(profile.name) }}</span>
             }
           </div>
 
-          <div class="profile-name">{{ profile.name }}</div>
-
-          @if (selectedProfile?.id === profile.id) {
-            <div class="checkmark">
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="3"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <polyline points="20 6 9 17 4 12"></polyline>
-              </svg>
-            </div>
-          }
-        </div>
+          <div class="pet-card__body">
+            <span class="pet-card__name">{{ profile.name }}</span>
+            <span class="pet-card__breed">{{ profile.breed }}</span>
+            <span class="pet-card__badge">{{ getTypeLabel(profile.type) }}</span>
+          </div>
+        </button>
       }
 
-      <!-- Add New Profile -->
-      <button class="profile-item add-profile" type="button" (click)="openAddAnimalModal()">
-        <div class="avatar-container">
-          <ds-avatar fallback="+" alt="Add new pet" size="xxlarge"> </ds-avatar>
+      <button class="pet-card pet-card--add" type="button" (click)="openAddAnimalModal()">
+        <div class="pet-card__avatar pet-card__avatar--add">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
         </div>
-        <div class="profile-name">Ajouter</div>
+        <div class="pet-card__body">
+          <span class="pet-card__name pet-card__name--add">Ajouter</span>
+          <span class="pet-card__breed">Nouveau compagnon</span>
+        </div>
       </button>
     </div>
 
     @if (selectedProfile) {
-      <div class="continue-section">
-        <ds-link variant="button" href="https://example.com/" size="large">
+      <div class="selector-actions">
+        <a
+          class="continue-btn"
+          [routerLink]="['/consult-profile', selectedProfile.id]"
+        >
           Continuer avec {{ selectedProfile.name }}
-        </ds-link>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
       </div>
     }
-
-    <ds-modal-shell
-      [isOpen]="isAddAnimalModalOpen"
-      title="Ajouter un animal"
-      labelledById="add-animal-title"
-      closeAriaLabel="Fermer la fenêtre d'ajout d'animal"
-      (close)="closeAddAnimalModal()"
-    >
-      <form class="add-animal-form" (submit)="submitAddAnimalForm($event)">
-        <label class="add-animal-label" for="animal-name">Nom</label>
-        <input
-          id="animal-name"
-          class="add-animal-input"
-          type="text"
-          [value]="newAnimalForm.name"
-          (input)="onFieldInput('name', $event)"
-          required
-        />
-
-        <label class="add-animal-label" for="animal-breed">Race</label>
-        <input
-          id="animal-breed"
-          class="add-animal-input"
-          type="text"
-          [value]="newAnimalForm.breed"
-          (input)="onFieldInput('breed', $event)"
-          required
-        />
-
-        <label class="add-animal-label" for="animal-birth-date">Date de naissance</label>
-        <input
-          id="animal-birth-date"
-          class="add-animal-input"
-          type="date"
-          [value]="newAnimalForm.birthDate"
-          (input)="onFieldInput('birthDate', $event)"
-          required
-        />
-
-        <label class="add-animal-label" for="animal-color">Couleur</label>
-        <input
-          id="animal-color"
-          class="add-animal-input"
-          type="text"
-          [value]="newAnimalForm.color"
-          (input)="onFieldInput('color', $event)"
-          required
-        />
-
-        <label class="add-animal-label" for="animal-weight">Poids</label>
-        <input
-          id="animal-weight"
-          class="add-animal-input"
-          type="text"
-          [value]="newAnimalForm.weight"
-          (input)="onFieldInput('weight', $event)"
-          placeholder="Ex: 12 kg"
-          required
-        />
-
-        <label class="add-animal-label" for="animal-identification">Tatouage / puce</label>
-        <input
-          id="animal-identification"
-          class="add-animal-input"
-          type="text"
-          [value]="newAnimalForm.identification"
-          (input)="onFieldInput('identification', $event)"
-          required
-        />
-
-        <label class="add-animal-label" for="animal-sterilized">Stérilisé</label>
-        <select
-          id="animal-sterilized"
-          class="add-animal-input"
-          [value]="newAnimalForm.sterilized"
-          (change)="onSterilizedChange($event)"
-          required
-        >
-          <option value="">Sélectionner</option>
-          <option value="yes">Oui</option>
-          <option value="no">Non</option>
-        </select>
-
-        <label class="add-animal-label">Photo de profil</label>
-        <ds-image-upload-field
-          inputId="animal-profile-photo"
-          [selectedFileName]="newAnimalForm.profilePhoto?.name ?? null"
-          (fileSelected)="onProfilePhotoSelected($event)"
-          [required]="true"
-        ></ds-image-upload-field>
-
-        <div class="add-animal-actions">
-          <button class="add-animal-cancel" type="button" (click)="closeAddAnimalModal()">Annuler</button>
-          <ds-button [disabled]="!isAddAnimalFormValid()">Ajouter</ds-button>
-        </div>
-      </form>
-    </ds-modal-shell>
   </div>
+
+  <ds-modal-shell
+    [isOpen]="isAddAnimalModalOpen"
+    title="Ajouter un animal"
+    labelledById="add-animal-title"
+    closeAriaLabel="Fermer la fenetre d'ajout d'animal"
+    (close)="closeAddAnimalModal()"
+  >
+    <form class="add-form" (submit)="submitAddAnimalForm($event)">
+      <div class="add-form__grid">
+        <div class="add-form__field">
+          <label class="add-form__label" for="animal-name">Nom</label>
+          <input id="animal-name" class="add-form__input" type="text" [value]="newAnimalForm.name" (input)="onFieldInput('name', $event)" required />
+        </div>
+
+        <div class="add-form__field">
+          <label class="add-form__label" for="animal-breed">Race</label>
+          <input id="animal-breed" class="add-form__input" type="text" [value]="newAnimalForm.breed" (input)="onFieldInput('breed', $event)" required />
+        </div>
+
+        <div class="add-form__field">
+          <label class="add-form__label" for="animal-birth-date">Date de naissance</label>
+          <input id="animal-birth-date" class="add-form__input" type="date" [value]="newAnimalForm.birthDate" (input)="onFieldInput('birthDate', $event)" required />
+        </div>
+
+        <div class="add-form__field">
+          <label class="add-form__label" for="animal-color">Couleur</label>
+          <input id="animal-color" class="add-form__input" type="text" [value]="newAnimalForm.color" (input)="onFieldInput('color', $event)" required />
+        </div>
+
+        <div class="add-form__field">
+          <label class="add-form__label" for="animal-weight">Poids</label>
+          <input id="animal-weight" class="add-form__input" type="text" [value]="newAnimalForm.weight" (input)="onFieldInput('weight', $event)" placeholder="Ex: 12 kg" required />
+        </div>
+
+        <div class="add-form__field">
+          <label class="add-form__label" for="animal-identification">Tatouage / puce</label>
+          <input id="animal-identification" class="add-form__input" type="text" [value]="newAnimalForm.identification" (input)="onFieldInput('identification', $event)" required />
+        </div>
+
+        <div class="add-form__field">
+          <label class="add-form__label" for="animal-sterilized">Sterilise</label>
+          <select id="animal-sterilized" class="add-form__input" [value]="newAnimalForm.sterilized" (change)="onSterilizedChange($event)" required>
+            <option value="">Selectionner</option>
+            <option value="yes">Oui</option>
+            <option value="no">Non</option>
+          </select>
+        </div>
+
+        <div class="add-form__field">
+          <label class="add-form__label">Photo de profil</label>
+          <ds-image-upload-field
+            inputId="animal-profile-photo"
+            [selectedFileName]="newAnimalForm.profilePhoto?.name ?? null"
+            (fileSelected)="onProfilePhotoSelected($event)"
+            [required]="true"
+          ></ds-image-upload-field>
+        </div>
+      </div>
+
+      <div class="add-form__actions">
+        <button class="add-form__cancel" type="button" (click)="closeAddAnimalModal()">Annuler</button>
+        <ds-button [disabled]="!isAddAnimalFormValid()">Ajouter</ds-button>
+      </div>
+    </form>
+  </ds-modal-shell>
 </div>

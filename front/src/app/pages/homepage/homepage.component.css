@@ -5,14 +5,15 @@
 }
 
 .content-container {
-  width: min(1120px, 100% - 2rem);
+  width: min(1200px, 100% - 2rem);
   margin-inline: auto;
 }
 
+/* ── Hero ── */
 .hero-section {
   position: relative;
   overflow: hidden;
-  padding: 5rem 0 4.5rem;
+  padding: 6rem 0 5rem;
 }
 
 .hero-content {
@@ -31,7 +32,7 @@
   position: absolute;
   color: var(--color-coral);
   fill: var(--color-coral);
-  opacity: 0.14;
+  opacity: 0.12;
   animation-name: float-heart;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
@@ -39,9 +40,12 @@
 
 .hero-title {
   margin: 0;
-  font-size: clamp(2.2rem, 6vw, 4.2rem);
-  line-height: 1.15;
+  font-family: var(--ds-title-font);
+  font-size: clamp(2.4rem, 6vw, 4.5rem);
+  line-height: 1.1;
   font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #2d2d2d;
 }
 
 .hero-title-accent {
@@ -61,10 +65,14 @@
   width: 11rem;
   height: 15rem;
   margin-left: -5.5rem;
-  border-radius: 1.15rem;
+  border-radius: 22px;
   overflow: hidden;
   border: 4px solid #ffffff;
-  box-shadow: 0 16px 32px rgba(19, 1, 3, 0.16);
+  box-shadow:
+    rgba(32, 0, 36, 0.11) 0px 0px 0px 1px,
+    rgba(32, 0, 36, 0.01) 0px 1px 1.5px 0px,
+    rgba(32, 0, 36, 0.03) 0px 4px 6px 0px,
+    rgba(32, 0, 36, 0.06) 0px 24px 36px 0px;
   animation: card-fan 0.75s ease-out both;
 }
 
@@ -78,11 +86,12 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 0.9rem;
+  gap: 1rem;
 }
 
+/* ── Features ── */
 .features-section {
-  background: rgba(255, 255, 255, 0.82);
+  background: var(--color-cream-soft);
   padding: 5rem 0;
   text-align: center;
 }
@@ -94,34 +103,41 @@
 
 .features-subtitle {
   max-width: 42rem;
-  margin: 0.95rem auto 2.2rem;
+  margin: 1rem auto 2.5rem;
   color: #575757;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
 }
 
 .features-grid {
   display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
 .feature-card {
   text-align: left;
-  background: var(--color-cream-soft);
-  border-radius: 1rem;
-  padding: 1.2rem;
-  border: 1px solid var(--color-cream-border);
-  transition: box-shadow 0.2s ease;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 1.5rem;
+  box-shadow: rgba(41, 0, 41, 0.11) 0px 0px 0px 1px, rgba(32, 0, 36, 0.05) 0px 2px 2px 0px;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 .feature-card:hover {
-  box-shadow: 0 12px 24px rgba(255, 136, 133, 0.18);
+  transform: translateY(-2px);
+  box-shadow:
+    rgba(41, 0, 41, 0.11) 0px 0px 0px 1px,
+    rgba(32, 0, 36, 0.05) 0px 2px 2px 0px,
+    rgba(32, 0, 36, 0.04) 0px 8px 12px 0px;
 }
 
 .feature-icon-wrap {
-  width: 2.85rem;
-  height: 2.85rem;
-  margin-bottom: 0.45rem;
-  border-radius: 0.75rem;
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: 0.5rem;
+  border-radius: 10px;
   background: rgba(255, 136, 133, 0.15);
   color: var(--color-coral);
   display: inline-flex;
@@ -130,19 +146,22 @@
 }
 
 .feature-card h3 {
-  margin: 0.75rem 0 0.45rem;
-  font-size: 1.03rem;
+  margin: 0.75rem 0 0.5rem;
+  font-size: 1.05rem;
+  font-weight: 600;
 }
 
 .feature-card p {
   margin: 0;
   color: #575757;
-  font-size: 0.93rem;
-  line-height: 1.45;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  letter-spacing: -0.008em;
 }
 
+/* ── CTA ── */
 .cta-section {
-  padding: 4.8rem 0;
+  padding: 5rem 0;
   text-align: center;
 }
 
@@ -153,14 +172,17 @@
 
 .cta-section p {
   max-width: 34rem;
-  margin: 0.9rem auto 1.8rem;
+  margin: 1rem auto 2rem;
   color: #575757;
+  font-size: 1rem;
+  line-height: 1.5;
 }
 
+/* ── Footer ── */
 footer {
   border-top: 1px solid var(--color-cream-border);
-  padding: 1.2rem 0;
-  background: rgba(255, 255, 255, 0.45);
+  padding: 1.5rem 0;
+  background: #ffffff;
 }
 
 .footer-content {
@@ -170,6 +192,7 @@ footer {
   justify-content: center;
   color: #6c7486;
   font-size: 0.9rem;
+  letter-spacing: -0.007em;
 }
 
 .footer-heart {
@@ -177,14 +200,10 @@ footer {
   fill: var(--color-coral);
 }
 
+/* ── Animations ── */
 @keyframes float-heart {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-11px);
-  }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-11px); }
 }
 
 @keyframes card-fan {
@@ -197,7 +216,12 @@ footer {
   }
 }
 
+/* ── Responsive ── */
 @media (max-width: 767px) {
+  .hero-section {
+    padding: 4rem 0 3rem;
+  }
+
   .hero-fan {
     height: 15rem;
   }
@@ -206,5 +230,9 @@ footer {
     width: 8rem;
     height: 11rem;
     margin-left: -4rem;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
   }
 }
