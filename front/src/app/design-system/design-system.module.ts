@@ -9,6 +9,7 @@ import { InputComponent } from './input/input.component';
 import { TagComponent } from './tag/tag.component';
 import { ModalShellComponent } from './modal-shell/modal-shell.component';
 import { ImageUploadFieldComponent } from './image-upload-field/image-upload-field.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import { ImageUploadFieldComponent } from './image-upload-field/image-upload-fie
     TagComponent,
     ModalShellComponent,
     ImageUploadFieldComponent,
+    NavbarComponent,
   ],
   exports: [
     TitleComponent,
@@ -34,6 +36,7 @@ import { ImageUploadFieldComponent } from './image-upload-field/image-upload-fie
     TagComponent,
     ModalShellComponent,
     ImageUploadFieldComponent,
+    NavbarComponent,
   ],
 })
 export class DesignSystemModule {}
