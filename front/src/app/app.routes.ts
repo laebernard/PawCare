@@ -4,11 +4,16 @@ import { AnimalProfileSelectorPageComponent } from './pages/animal-profile-selec
 import { AnimalProfilePageComponent } from './pages/animal-profile-page/animal-profile-page.component';
 import { AnimalGalleryPageComponent } from './pages/animal-gallery-page/animal-gallery-page.component';
 import { HomepageComponent } from './pages/homepage/homepage.component';
+import { RegisterPageComponent } from './pages/register-page/register-page.component';
 
 export const routes: Routes = [
   {
     path: '',
     component: HomepageComponent
+  },
+  {
+    path: 'register',
+    component: RegisterPageComponent
   },
   {
     path: 'select-profile',
