@@ -1,11 +1,94 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Kanit:wght@700&display=swap');
 
 :root {
+  /* Colors */
+  --color-canvas-white: #ffffff;
+  --color-charcoal: #2d2d2d;
   --color-coral: #ff8885;
   --color-coral-hover: #ff6b68;
   --color-cream: #ffe2c8;
   --color-cream-soft: #fff8f1;
   --color-cream-border: #ffd0ac;
+  --color-warm-gray: #575757;
+  --color-slate-muted: #6c7486;
+  --color-coral-shadow: rgba(255, 136, 133, 0.4);
+  --color-coral-light: rgba(255, 136, 133, 0.15);
+  --color-coral-ghost: rgba(255, 136, 133, 0.08);
+  --color-deep-shadow: rgba(19, 1, 3, 0.16);
+  --color-success-green-text: #15803d;
+  --color-success-green-border: #bbf7d0;
+  --color-success-green-background: #dcfce7;
+  --color-warning-red: #ef4444;
+
+  /* Typography — Font Families */
+  --font-inter-var: 'Inter', sans-serif;
   --ds-title-font: 'Kanit', sans-serif;
   --ds-body-font: 'Inter', sans-serif;
+
+  /* Typography — Scale */
+  --text-caption: 10px;
+  --leading-caption: 1.4;
+  --tracking-caption: -0.04px;
+  --text-body: 14px;
+  --leading-body: 1.43;
+  --tracking-body: -0.11px;
+  --text-heading-sm: 20px;
+  --leading-heading-sm: 1.2;
+  --tracking-heading-sm: -0.22px;
+  --text-heading: 24px;
+  --leading-heading: 1.2;
+  --tracking-heading: -0.31px;
+  --text-heading-lg: 36px;
+  --leading-heading-lg: 1.2;
+  --tracking-heading-lg: -0.14px;
+  --text-display: 56px;
+  --leading-display: 1.1;
+  --tracking-display: -1.12px;
+
+  /* Typography — Weights */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Spacing */
+  --spacing-4: 4px;
+  --spacing-8: 8px;
+  --spacing-12: 12px;
+  --spacing-16: 16px;
+  --spacing-24: 24px;
+  --spacing-32: 32px;
+  --spacing-48: 48px;
+  --spacing-96: 96px;
+
+  /* Border Radius */
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+  --radius-2xl: 18px;
+  --radius-2xl-2: 22px;
+  --radius-3xl: 32px;
+  --radius-full: 64px;
+  --radius-full-2: 999px;
+
+  /* Named Radii */
+  --radius-cards: 14px;
+  --radius-input: 4px;
+  --radius-badges: 999px;
+  --radius-buttons: 4px;
+  --radius-default: 6px;
+  --radius-herocards: 22px;
+
+  /* Shadows */
+  --shadow-subtle: rgba(41, 0, 41, 0.11) 0px 0px 0px 1px, rgba(32, 0, 36, 0.05) 0px 2px 2px 0px;
+  --shadow-subtle-2: rgba(255, 255, 255, 0.2) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+  --shadow-subtle-5: rgba(32, 0, 36, 0.11) 0px 0px 0px 1px, rgba(32, 0, 36, 0.01) 0px 1px 1.5px 0px, rgba(32, 0, 36, 0.02) 0px 2px 3px 0px, rgba(32, 0, 36, 0.03) 0px 4px 6px 0px, rgba(32, 0, 36, 0.04) 0px 8px 12px 0px, rgba(32, 0, 36, 0.05) 0px 16px 24px 0px, rgba(32, 0, 36, 0.06) 0px 24px 36px 0px, rgba(32, 0, 36, 0.07) 0px 36px 54px 0px, rgba(32, 0, 36, 0.08) 0px 54px 81px 0px;
+  --shadow-subtle-7: rgba(32, 0, 36, 0.11) 0px 0px 0px 1px, rgba(32, 0, 36, 0.05) 0px 2px 2px 0px;
+
+  /* Layout */
+  --page-max-width: 1200px;
+  --section-gap: 48px;
+  --card-padding: 24px;
+  --element-gap: 16px;
 }
