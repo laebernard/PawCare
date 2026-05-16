@@ -5,6 +5,7 @@ import { AnimalProfilePageComponent } from './pages/animal-profile-page/animal-p
 import { AnimalGalleryPageComponent } from './pages/animal-gallery-page/animal-gallery-page.component';
 import { HomepageComponent } from './pages/homepage/homepage.component';
 import { SignInPageComponent } from './pages/sign-in-page/sign-in-page.component';
+import { RegisterPageComponent } from './pages/register-page/register-page.component';
 
 export const routes: Routes = [
   {
@@ -14,6 +15,10 @@ export const routes: Routes = [
   {
     path: 'sign-in',
     component: SignInPageComponent
+  },
+  {
+    path: 'register',
+    component: RegisterPageComponent
   },
   {
     path: 'select-profile',
