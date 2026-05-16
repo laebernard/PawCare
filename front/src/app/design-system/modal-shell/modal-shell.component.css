@@ -2,11 +2,11 @@
   position: fixed;
   inset: 0;
   z-index: 1200;
-  background-color: rgba(0, 0, 0, 0.65);
+  background-color: rgba(19, 1, 3, 0.16);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 16px;
+  padding: var(--spacing-16);
 }
 
 .ds-modal-panel {
@@ -14,10 +14,10 @@
   width: min(520px, 100%);
   max-height: min(90dvh, 920px);
   overflow: auto;
-  background: #fff6e9;
-  border-radius: 20px;
-  box-shadow: 0 16px 38px rgba(24, 24, 24, 0.28);
-  padding: 28px 24px 24px;
+  background: var(--color-canvas-white);
+  border-radius: var(--radius-cards);
+  box-shadow: var(--shadow-subtle-5);
+  padding: var(--spacing-32) var(--spacing-24) var(--spacing-24);
 }
 
 .ds-modal-close {
@@ -27,30 +27,122 @@
   width: 36px;
   height: 36px;
   border: none;
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.06);
-  color: #2e2e2e;
+  border-radius: var(--radius-full-2);
+  background: var(--color-coral-ghost);
+  color: var(--color-charcoal);
   font-size: 24px;
   line-height: 1;
   cursor: pointer;
+  transition: background 0.15s ease;
 }
 
 .ds-modal-close:hover {
-  background: rgba(0, 0, 0, 0.12);
+  background: var(--color-coral-light);
 }
 
 .ds-modal-title {
   margin: 0;
-  font-family: var(--ds-title-font);
-  color: #2f2f2f;
+  font-family: var(--font-inter-var);
+  font-size: var(--text-heading);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-heading);
+  color: var(--color-charcoal);
 }
 
 .ds-modal-content {
-  margin-top: 18px;
+  margin-top: var(--spacing-24);
+}
+
+/* ── Form elements inside modal ─────────── */
+
+::ng-deep .add-photo-form {
+  display: grid;
+  gap: var(--spacing-12);
+}
+
+::ng-deep .add-photo-label {
+  font-family: var(--font-inter-var);
+  color: var(--color-charcoal);
+  font-size: var(--text-body);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--leading-body);
+  letter-spacing: var(--tracking-body);
+}
+
+::ng-deep .add-photo-input {
+  border: 1px solid var(--color-cream-border);
+  border-radius: var(--radius-input);
+  padding: 10px var(--spacing-12);
+  font-family: var(--font-inter-var);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  letter-spacing: var(--tracking-body);
+  color: var(--color-charcoal);
+  background: var(--color-canvas-white);
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+::ng-deep .add-photo-input::placeholder {
+  color: var(--color-warm-gray);
+}
+
+::ng-deep .add-photo-input:focus-visible {
+  outline: none;
+  border-color: var(--color-coral);
+  box-shadow: 0 0 0 3px var(--color-coral-light);
+}
+
+::ng-deep .add-photo-success {
+  margin: 2px 0 0;
+  font-family: var(--font-inter-var);
+  font-size: var(--text-body);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--leading-body);
+  color: var(--color-success-green-text);
+  background: var(--color-success-green-background);
+  border: 1px solid var(--color-success-green-border);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-8) var(--spacing-12);
+}
+
+::ng-deep .add-photo-actions {
+  margin-top: var(--spacing-12);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--spacing-8);
+}
+
+::ng-deep .add-photo-cancel {
+  border: none;
+  background: transparent;
+  color: var(--color-warm-gray);
+  font-family: var(--font-inter-var);
+  font-size: var(--text-body);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--leading-body);
+  letter-spacing: var(--tracking-body);
+  cursor: pointer;
+  padding: var(--spacing-8) 10px;
+  border-radius: var(--radius-buttons);
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+::ng-deep .add-photo-cancel:hover {
+  color: var(--color-charcoal);
+  background: var(--color-coral-ghost);
 }
 
 @media (max-width: 560px) {
   .ds-modal-panel {
-    padding: 24px 18px 18px;
+    padding: var(--spacing-24) var(--spacing-16) var(--spacing-16);
+  }
+
+  ::ng-deep .add-photo-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
   }
 }
