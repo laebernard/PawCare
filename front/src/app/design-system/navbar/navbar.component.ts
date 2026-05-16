@@ -18,7 +18,7 @@ interface NavLink {
 export class NavbarComponent {
   readonly links: NavLink[] = [
     { label: 'Accueil', path: '/' },
-    { label: 'Mes animaux', path: '/select-profile' },
+    { label: 'Nous rejoindre', path: '/register' },
   ];
 
   menuOpen = false;
