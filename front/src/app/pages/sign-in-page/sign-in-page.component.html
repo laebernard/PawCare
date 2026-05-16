@@ -1,0 +1,65 @@
+<div class="sign-in-page">
+  <div class="content-container">
+    <div class="sign-in-card">
+      <div class="sign-in-header">
+        <svg lucideHeart [size]="32" class="header-icon"></svg>
+        <ds-title level="h2" text="Se connecter"></ds-title>
+        <p class="sign-in-subtitle">Content de vous retrouver sur Paw Care !</p>
+      </div>
+
+      @if (successMessage) {
+        <div class="alert alert-success">{{ successMessage }}</div>
+      }
+
+      @if (errorMessage) {
+        <div class="alert alert-error">{{ errorMessage }}</div>
+      }
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="sign-in-form" novalidate>
+        <div class="form-group">
+          <label for="email">Adresse e-mail</label>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            placeholder="votre@email.com"
+            class="form-input"
+            [class.invalid]="fieldError('email')"
+          />
+          @if (fieldError('email')) {
+            <span class="field-error">{{ fieldError('email') }}</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="password">Mot de passe</label>
+          <input
+            id="password"
+            type="password"
+            formControlName="password"
+            placeholder="Votre mot de passe"
+            class="form-input"
+            [class.invalid]="fieldError('password')"
+          />
+          @if (fieldError('password')) {
+            <span class="field-error">{{ fieldError('password') }}</span>
+          }
+        </div>
+
+        <button type="submit" class="btn-submit" [disabled]="submitting">
+          @if (submitting) {
+            <span class="spinner"></span>
+            Connexion en cours...
+          } @else {
+            Se connecter
+          }
+        </button>
+      </form>
+
+      <p class="sign-in-footer">
+        Pas encore de compte ?
+        <a class="register-link" routerLink="/register">Creer un compte</a>
+      </p>
+    </div>
+  </div>
+</div>
