@@ -22,6 +22,6 @@ public class UserService {
         User user = new User(request.getFirstName(), request.getLastName(), request.getEmail(), hashedPassword);
         repository.save(user);
 
-        return new RegisterResponse(true, "compte créé avec succès");
+        return new RegisterResponse(true, "Compte créé avec succès");
     }
 }
