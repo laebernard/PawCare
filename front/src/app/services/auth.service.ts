@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+import { environment } from '../../environments/environment';
 
 export interface RegisterRequest {
   firstName: string;
@@ -20,21 +23,15 @@ export interface AuthResponse {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  // TODO: Replace with actual API URLs when backend routes are available
-  private readonly API_REGISTER_URL = '/api/auth/register';
-  private readonly API_SIGN_IN_URL = '/api/auth/sign-in';
+  private readonly baseUrl = environment.apiUrl;
+
+  constructor(private readonly http: HttpClient) {}
 
   register(data: RegisterRequest): Observable<AuthResponse> {
-    // TODO: return this.http.post<AuthResponse>(this.API_REGISTER_URL, data);
-    console.log('[AuthService] Register payload:', data);
-    console.log('[AuthService] Would POST to:', this.API_REGISTER_URL);
-    return of({ success: true, message: 'Inscription réussie !' });
+    return this.http.post<AuthResponse>(`${this.baseUrl}/api/register`, data);
   }
 
   signIn(data: SignInRequest): Observable<AuthResponse> {
-    // TODO: return this.http.post<AuthResponse>(this.API_SIGN_IN_URL, data);
-    console.log('[AuthService] Sign-in payload:', data);
-    console.log('[AuthService] Would POST to:', this.API_SIGN_IN_URL);
-    return of({ success: true, message: 'Connexion réussie !' });
+    return this.http.post<AuthResponse>(`${this.baseUrl}/api/sign-in`, data);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   ReactiveFormsModule,
@@ -52,10 +52,10 @@ export class RegisterPageComponent {
     { validators: passwordMatch },
   );
 
-  submitting = false;
+  submitting = signal(false);
   submitted = false;
-  errorMessage = '';
-  successMessage = '';
+  errorMessage = signal('');
+  successMessage = signal('');
 
   get f() {
     return this.form.controls;
@@ -79,27 +79,26 @@ export class RegisterPageComponent {
 
   onSubmit(): void {
     this.submitted = true;
-    this.errorMessage = '';
-    this.successMessage = '';
+    this.errorMessage.set('');
+    this.successMessage.set('');
 
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
 
-    this.submitting = true;
+    this.submitting.set(true);
     const { firstName, lastName, email, password } = this.form.value;
 
     this.auth.register({ firstName, lastName, email, password }).subscribe({
       next: (res) => {
-        this.submitting = false;
-        this.successMessage = res.message;
-        // TODO: Redirect to login page when available
-        // this.router.navigate(['/login']);
+        this.submitting.set(false);
+        this.successMessage.set(res.message);
+        this.router.navigate(['/sign-in']);
       },
-      error: () => {
-        this.submitting = false;
-        this.errorMessage = 'Une erreur est survenue. Veuillez réessayer.';
+      error: (err) => {
+        this.submitting.set(false);
+        this.errorMessage.set(err.error?.message ?? 'Une erreur est survenue. Veuillez réessayer.');
       },
     });
   }

@@ -7,12 +7,12 @@
         <p class="register-subtitle">Rejoignez Paw Care et offrez le meilleur suivi a vos animaux.</p>
       </div>
 
-      @if (successMessage) {
-        <div class="alert alert-success">{{ successMessage }}</div>
+      @if (successMessage()) {
+        <div class="alert alert-success">{{ successMessage() }}</div>
       }
 
-      @if (errorMessage) {
-        <div class="alert alert-error">{{ errorMessage }}</div>
+      @if (errorMessage()) {
+        <div class="alert alert-error">{{ errorMessage() }}</div>
       }
 
       <form [formGroup]="form" (ngSubmit)="onSubmit()" class="register-form" novalidate>
@@ -95,9 +95,9 @@
         <button
           type="submit"
           class="btn-submit"
-          [disabled]="submitting"
+          [disabled]="submitting()"
         >
-          @if (submitting) {
+          @if (submitting()) {
             <span class="spinner"></span>
             Inscription en cours...
           } @else {
