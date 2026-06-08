@@ -1,0 +1,42 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+import { environment } from '../../environments/environment';
+
+export interface Pet {
+  id?: number;
+  userId: string;
+  name: string;
+  breed: string;
+  birthDate: string;
+  color: string;
+  weight: number;
+  identification: string;
+  sterilized: boolean;
+  imageUrl: string | null;
+}
+
+@Injectable({ providedIn: 'root' })
+export class PetService {
+
+  private readonly baseUrl = environment.apiUrl;
+
+  constructor(private readonly http: HttpClient) {}
+
+  createPet(pet: Pet): Observable<Pet> {
+    return this.http.post<Pet>(`${this.baseUrl}/pets`, pet);
+  }
+
+  getPetById(id: number): Observable<Pet> {
+    return this.http.get<Pet>(`${this.baseUrl}/pets/${id}`);
+  }
+
+  getPetsByUser(userId: string): Observable<Pet[]> {
+    return this.http.get<Pet[]>(`${this.baseUrl}/pets/user/${userId}`);
+  }
+
+  getAllPets(): Observable<Pet[]> {
+    return this.http.get<Pet[]>(`${this.baseUrl}/pets`);
+  }
+}

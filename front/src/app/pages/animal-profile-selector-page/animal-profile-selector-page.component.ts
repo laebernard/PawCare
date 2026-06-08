@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { DesignSystemModule } from '../../design-system/design-system.module';
+import { PetService } from '../../services/pet.service';
 
 interface AnimalProfile {
   id: number;
@@ -40,6 +41,8 @@ const TYPE_LABELS: Record<string, string> = {
   styleUrls: ['./animal-profile-selector-page.component.css'],
 })
 export class AnimalProfileSelectorPageComponent {
+
+  constructor(private readonly petService: PetService) {}
   profiles: AnimalProfile[] = [
     {
       id: 1,
@@ -122,7 +125,7 @@ export class AnimalProfileSelectorPageComponent {
     return (
       this.newAnimalForm.name.trim().length > 0 &&
       this.newAnimalForm.breed.trim().length > 0 &&
-      this.newAnimalForm.birthDate.trim().length > 0 &&
+      this.newAnimalForm.birthDate.trim().length > 0 && this.isBirthDateValid() &&
       this.newAnimalForm.color.trim().length > 0 &&
       this.newAnimalForm.weight.trim().length > 0 &&
       this.newAnimalForm.identification.trim().length > 0 &&
@@ -131,10 +134,56 @@ export class AnimalProfileSelectorPageComponent {
     );
   }
 
+  isBirthDateValid(): boolean {
+    if (!this.newAnimalForm.birthDate) return false;
+
+    const today = new Date();
+    const birthDate = new Date(this.newAnimalForm.birthDate);
+
+    today.setHours(0, 0, 0, 0);
+    birthDate.setHours(0, 0, 0, 0);
+
+    return birthDate <= today;
+  }
+
   submitAddAnimalForm(event: Event): void {
     event.preventDefault();
+    
     if (!this.isAddAnimalFormValid()) return;
-    this.closeAddAnimalModal();
+
+    const userId = '1'; // temporaire
+
+    const petPayload = {
+      userId,
+      name: this.newAnimalForm.name.trim(),
+      breed: this.newAnimalForm.breed.trim(),
+      birthDate: this.newAnimalForm.birthDate,
+      color: this.newAnimalForm.color.trim(),
+      weight: Number(this.newAnimalForm.weight),
+      identification: this.newAnimalForm.identification.trim(),
+      sterilized: this.newAnimalForm.sterilized === 'yes',
+      imageUrl: this.newAnimalForm.profilePhoto ? URL.createObjectURL(this.newAnimalForm.profilePhoto) : null // temporaire
+    };
+
+    this.petService.createPet(petPayload).subscribe({
+      next: (createdPet) => {
+
+        // ajouter au UI
+        this.profiles.push({
+          id: createdPet.id!,
+          name: createdPet.name,
+          breed: createdPet.breed,
+          color: createdPet.color,
+          photoUrl: null,
+          type: 'other'
+        });
+
+        this.closeAddAnimalModal();
+      },
+      error: (err) => {
+        console.error('Erreur création pet', err);
+      }
+    });
   }
 
   getInitials(name: string): string {
