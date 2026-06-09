@@ -37,6 +37,10 @@ export class PetService {
     return this.http.post<Pet>(`${this.baseUrl}/pets`, pet);
   }
 
+  updatePet(id: number, pet: Pet): Observable<Pet> {
+    return this.http.put<Pet>(`${this.baseUrl}/pets/${id}`, pet);
+  }
+
   getPetById(id: number): Observable<Pet> {
     return this.http.get<Pet>(`${this.baseUrl}/pets/${id}`);
   }
