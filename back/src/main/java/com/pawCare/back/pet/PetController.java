@@ -2,10 +2,16 @@ package com.pawCare.back.pet;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/pets")
@@ -51,4 +57,23 @@ public class PetController {
 
         return service.createPet(pet);
     }
+
+    @PostMapping("/upload")
+    public String upload(@RequestParam MultipartFile file) throws IOException {
+
+        Path uploadDir = Paths.get("uploads");
+        if (!Files.exists(uploadDir)) {
+            Files.createDirectories(uploadDir);
+        }
+
+        String fileName = UUID.randomUUID() + "-" + file.getOriginalFilename();
+
+        Path filePath = uploadDir.resolve(fileName);
+
+        Files.copy(file.getInputStream(), filePath);
+
+        return "http://localhost:8081/uploads/" + fileName;
+    }
+
+
 }

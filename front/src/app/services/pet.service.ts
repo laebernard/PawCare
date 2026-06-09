@@ -24,6 +24,15 @@ export class PetService {
 
   constructor(private readonly http: HttpClient) {}
 
+  uploadImage(file: File): Observable<string> {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return this.http.post(`${this.baseUrl}/pets/upload`, formData, {
+      responseType: 'text'
+    });
+  }
+
   createPet(pet: Pet): Observable<Pet> {
     return this.http.post<Pet>(`${this.baseUrl}/pets`, pet);
   }
