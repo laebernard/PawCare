@@ -8,7 +8,9 @@
       [attr.aria-labelledby]="labelledById"
       tabindex="-1"
       (keydown)="onPanelKeydown($event)"
+      (click)="$event.stopPropagation()"
     >
+
       <button class="ds-modal-close" type="button" [attr.aria-label]="closeAriaLabel" (click)="close.emit()">
         ×
       </button>
