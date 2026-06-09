@@ -147,11 +147,52 @@ export class AnimalProfileSelectorPageComponent {
   }
 
   submitAddAnimalForm(event: Event): void {
-    event.preventDefault();
-    
-    if (!this.isAddAnimalFormValid()) return;
+  event.preventDefault();
 
-    const userId = '1'; // temporaire
+  if (!this.isAddAnimalFormValid()) return;
+
+  const userId = '1';
+
+  if (this.newAnimalForm.profilePhoto) {
+
+    const formData = new FormData();
+    formData.append('file', this.newAnimalForm.profilePhoto);
+
+    this.petService.uploadImage(this.newAnimalForm.profilePhoto).subscribe({
+          next: (imageUrl: string) => {
+
+          const petPayload = {
+            userId,
+            name: this.newAnimalForm.name.trim(),
+            breed: this.newAnimalForm.breed.trim(),
+            birthDate: this.newAnimalForm.birthDate,
+            color: this.newAnimalForm.color.trim(),
+            weight: Number(this.newAnimalForm.weight),
+            identification: this.newAnimalForm.identification.trim(),
+            sterilized: this.newAnimalForm.sterilized === 'yes',
+            imageUrl
+          };
+
+          this.petService.createPet(petPayload).subscribe({
+            next: (createdPet) => {
+              this.profiles.push({
+                id: createdPet.id!,
+                name: createdPet.name,
+                breed: createdPet.breed,
+                color: createdPet.color,
+                photoUrl: createdPet.imageUrl,
+                type: 'other'
+              });
+
+              this.closeAddAnimalModal();
+            },
+            error: (err) => console.error('Erreur création pet', err)
+          });
+        },
+        error: (err) => console.error('Erreur upload image', err)
+      });
+
+  } else {
 
     const petPayload = {
       userId,
@@ -162,13 +203,11 @@ export class AnimalProfileSelectorPageComponent {
       weight: Number(this.newAnimalForm.weight),
       identification: this.newAnimalForm.identification.trim(),
       sterilized: this.newAnimalForm.sterilized === 'yes',
-      imageUrl: this.newAnimalForm.profilePhoto ? URL.createObjectURL(this.newAnimalForm.profilePhoto) : null // temporaire
+      imageUrl: null
     };
 
     this.petService.createPet(petPayload).subscribe({
       next: (createdPet) => {
-
-        // ajouter au UI
         this.profiles.push({
           id: createdPet.id!,
           name: createdPet.name,
@@ -180,11 +219,10 @@ export class AnimalProfileSelectorPageComponent {
 
         this.closeAddAnimalModal();
       },
-      error: (err) => {
-        console.error('Erreur création pet', err);
-      }
+      error: (err) => console.error('Erreur création pet', err)
     });
   }
+}
 
   getInitials(name: string): string {
     return name.charAt(0).toUpperCase();
