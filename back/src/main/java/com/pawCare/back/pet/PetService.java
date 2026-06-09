@@ -25,4 +25,8 @@ public class PetService {
     public List<Pet> getPetsByUserId(String userId) {
         return repository.findByUserId(userId);
     }
+
+    public Pet createPet(Pet pet) {
+        return repository.save(pet);
+    }
 }

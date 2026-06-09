@@ -294,6 +294,20 @@
   color: #2d2d2d;
 }
 
+/* Message d'erreur */
+.error {
+  color: #b71c1c;
+  background-color: #fdecea;
+  border-left: 4px solid #d32f2f;
+  padding: 10px 12px;
+  margin-top: 6px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 /* ── Animations ── */
 @keyframes fadeInDown {
   from { opacity: 0; transform: translateY(-20px); }

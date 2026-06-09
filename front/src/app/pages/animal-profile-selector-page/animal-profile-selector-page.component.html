@@ -91,6 +91,10 @@
           <input id="animal-birth-date" class="add-form__input" type="date" [value]="newAnimalForm.birthDate" (input)="onFieldInput('birthDate', $event)" required />
         </div>
 
+        <div *ngIf="newAnimalForm.birthDate && !isBirthDateValid()" class="error">
+          La date de naissance ne peut pas être dans le futur.
+        </div>
+
         <div class="add-form__field">
           <label class="add-form__label" for="animal-color">Couleur</label>
           <input id="animal-color" class="add-form__input" type="text" [value]="newAnimalForm.color" (input)="onFieldInput('color', $event)" required />
@@ -128,7 +132,7 @@
 
       <div class="add-form__actions">
         <button class="add-form__cancel" type="button" (click)="closeAddAnimalModal()">Annuler</button>
-        <ds-button [disabled]="!isAddAnimalFormValid()">Ajouter</ds-button>
+        <ds-button type="submit" [disabled]="!isAddAnimalFormValid()">Ajouter</ds-button>
       </div>
     </form>
   </ds-modal-shell>
