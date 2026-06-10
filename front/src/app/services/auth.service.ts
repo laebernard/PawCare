@@ -32,6 +32,6 @@ export class AuthService {
   }
 
   signIn(data: SignInRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.baseUrl}/api/sign-in`, data);
+    return this.http.post<AuthResponse>(`${this.baseUrl}/api/login`, data);
   }
 }
