@@ -1,11 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  ReactiveFormsModule,
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { LucideHeart } from '@lucide/angular';
 
@@ -29,9 +24,9 @@ export class SignInPageComponent {
     password: ['', [Validators.required]],
   });
 
-  submitting = false;
-  errorMessage = '';
-  successMessage = '';
+  submitting = signal(false);
+  errorMessage = signal('');
+  successMessage = signal('');
 
   fieldError(name: string): string | null {
     const control = this.form.get(name);
@@ -42,27 +37,29 @@ export class SignInPageComponent {
   }
 
   onSubmit(): void {
-    this.errorMessage = '';
-    this.successMessage = '';
+    this.errorMessage.set('');
+    this.successMessage.set('');
 
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
 
-    this.submitting = true;
+    this.submitting.set(true);
     const { email, password } = this.form.value;
 
     this.auth.signIn({ email, password }).subscribe({
       next: (res) => {
-        this.submitting = false;
-        this.successMessage = res.message;
-        // TODO: Redirect after sign-in
-        // this.router.navigate(['/select-profile']);
+        this.submitting.set(false);
+        if (res.success) {
+          this.successMessage.set(res.message);
+        } else {
+          this.errorMessage.set(res.message);
+        }
       },
-      error: () => {
-        this.submitting = false;
-        this.errorMessage = 'Identifiants incorrects. Veuillez réessayer.';
+      error: (err) => {
+        this.submitting.set(false);
+        this.errorMessage.set('Une erreur est survenue. Veuillez réessayer.');
       },
     });
   }
