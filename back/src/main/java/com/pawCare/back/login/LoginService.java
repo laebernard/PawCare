@@ -1,8 +1,12 @@
 package com.pawCare.back.login;
 
+import com.pawCare.back.auth.UserPayload;
+import com.pawCare.back.user.User;
 import com.pawCare.back.user.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class LoginService {
@@ -17,13 +21,13 @@ public class LoginService {
     }
 
     public LoginResponse login(LoginRequest request) {
-        var userOpt = userRepository.findByEmail(request.getEmail());
+        Optional<User> userOpt = userRepository.findByEmail(request.getEmail());
 
         if (userOpt.isEmpty()) {
             return new LoginResponse(false, "Aucun compte associé à cet email");
         }
 
-        var user = userOpt.get();
+        User user = userOpt.get();
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             return new LoginResponse(false, "Mot de passe incorrect");
@@ -31,6 +35,8 @@ public class LoginService {
 
         String token = jwtUtil.generateToken(user.getEmail());
         LoginData data = new LoginData(token, user.getId(), user.getFirstName(), user.getLastName(), user.getEmail());
-        return new LoginResponse(true, "Connexion réussie", data);
+        UserPayload userPayload = new UserPayload(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail());
+
+        return new LoginResponse(true, "Connexion réussie", data, userPayload);
     }
 }

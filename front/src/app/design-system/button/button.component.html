@@ -1,3 +1,8 @@
-<button class="ds-button ds-button-primary" [class]="'ds-button-' + size" [disabled]="disabled">
+<button
+  class="ds-button"
+  [class]="'ds-button-' + variant + ' ds-button-' + size"
+  [disabled]="disabled"
+  (click)="onClick()"
+>
   <ng-content></ng-content>
 </button>

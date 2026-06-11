@@ -93,7 +93,7 @@ export class RegisterPageComponent {
     this.auth.register({ firstName, lastName, email, password }).subscribe({
       next: (res) => {
         this.submitting.set(false);
-        this.successMessage.set(res.message);
+        this.successMessage.set(res.message ?? '');
         this.router.navigate(['/sign-in']);
       },
       error: (err) => {

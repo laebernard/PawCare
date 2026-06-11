@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { LucideHeart } from '@lucide/angular';
+
+import { AuthService } from '../../services/auth.service';
+import { ButtonComponent } from '../button/button.component';
 
 interface NavLink {
   label: string;
@@ -11,15 +14,24 @@ interface NavLink {
 @Component({
   selector: 'ds-navbar',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive, LucideHeart],
+  imports: [CommonModule, RouterLink, RouterLinkActive, LucideHeart, ButtonComponent],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent {
+  private readonly auth = inject(AuthService);
+  private readonly router = inject(Router);
+
+  readonly isLoggedIn = this.auth.isLoggedIn;
+
   readonly links: NavLink[] = [
     { label: 'Accueil', path: '/' },
-    { label: 'Nous rejoindre', path: '/register' },
+    { label: 'Nous rejoindre', path: '/sign-in' },
   ];
+
+  readonly visibleLinks = computed(() =>
+    this.isLoggedIn() ? this.links.filter(l => l.path !== '/sign-in') : this.links
+  );
 
   menuOpen = false;
 
@@ -29,5 +41,10 @@ export class NavbarComponent {
 
   closeMenu(): void {
     this.menuOpen = false;
+  }
+
+  signOut(): void {
+    this.auth.signOut();
+    this.router.navigate(['/']);
   }
 }

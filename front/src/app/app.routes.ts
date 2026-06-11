@@ -6,34 +6,38 @@ import { AnimalGalleryPageComponent } from './pages/animal-gallery-page/animal-g
 import { HomepageComponent } from './pages/homepage/homepage.component';
 import { SignInPageComponent } from './pages/sign-in-page/sign-in-page.component';
 import { RegisterPageComponent } from './pages/register-page/register-page.component';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   {
     path: '',
-    component: HomepageComponent
+    component: HomepageComponent,
   },
   {
     path: 'sign-in',
-    component: SignInPageComponent
+    component: SignInPageComponent,
   },
   {
     path: 'register',
-    component: RegisterPageComponent
+    component: RegisterPageComponent,
   },
   {
     path: 'select-profile',
-    component: AnimalProfileSelectorPageComponent
+    component: AnimalProfileSelectorPageComponent,
+    canActivate: [authGuard],
   },
   {
     path: 'consult-profile/:id',
-    component: AnimalProfilePageComponent
+    component: AnimalProfilePageComponent,
+    canActivate: [authGuard],
   },
   {
     path: 'animals/gallery',
-    component: AnimalGalleryPageComponent
+    component: AnimalGalleryPageComponent,
+    canActivate: [authGuard],
   },
   {
     path: 'design-system',
-    component: DesignSystemPageComponent
+    component: DesignSystemPageComponent,
   },
 ];

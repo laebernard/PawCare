@@ -1,6 +1,11 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { LucideHeart } from '@lucide/angular';
 
@@ -24,9 +29,9 @@ export class SignInPageComponent {
     password: ['', [Validators.required]],
   });
 
-  submitting = signal(false);
   errorMessage = signal('');
   successMessage = signal('');
+  submitting = signal(false);
 
   fieldError(name: string): string | null {
     const control = this.form.get(name);
@@ -52,12 +57,13 @@ export class SignInPageComponent {
       next: (res) => {
         this.submitting.set(false);
         if (res.success) {
-          this.successMessage.set(res.message);
+          this.successMessage.set(res.message ?? 'Connexion réussie');
+          this.router.navigate(['/']);
         } else {
-          this.errorMessage.set(res.message);
+          this.errorMessage.set(res.message ?? 'Identifiants incorrects.');
         }
       },
-      error: (err) => {
+      error: () => {
         this.submitting.set(false);
         this.errorMessage.set('Une erreur est survenue. Veuillez réessayer.');
       },
