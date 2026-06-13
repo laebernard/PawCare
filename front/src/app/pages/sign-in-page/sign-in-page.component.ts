@@ -58,7 +58,7 @@ export class SignInPageComponent {
         this.submitting.set(false);
         if (res.success) {
           this.successMessage.set(res.message ?? 'Connexion réussie');
-          this.router.navigate(['/']);
+          this.router.navigate(['/select-profile']);
         } else {
           this.errorMessage.set(res.message ?? 'Identifiants incorrects.');
         }
