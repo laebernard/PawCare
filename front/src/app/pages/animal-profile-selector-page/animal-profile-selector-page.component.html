@@ -82,6 +82,19 @@
         </div>
 
         <div class="add-form__field">
+          <label class="add-form__label" for="animal-type">Type</label>
+          <select id="animal-type" class="add-form__input" [value]="newAnimalForm.type" (change)="onTypeChange($event)" required>
+            <option value="">Selectionner</option>
+            <option value="DOG">Chien</option>
+            <option value="CAT">Chat</option>
+            <option value="BIRD">Oiseau</option>
+            <option value="RABBIT">Lapin</option>
+            <option value="HAMSTER">Hamster</option>
+            <option value="OTHER">Autre</option>
+          </select>
+        </div>
+
+        <div class="add-form__field">
           <label class="add-form__label" for="animal-breed">Race</label>
           <input id="animal-breed" class="add-form__input" type="text" [value]="newAnimalForm.breed" (input)="onFieldInput('breed', $event)" required />
         </div>

@@ -18,18 +18,21 @@ public class Pet {
     private String name;
 
     private String breed;
-    private LocalDate birthDate;    
+    private LocalDate birthDate;
     private String color;
     private Double weight;
     private String identification;
     private Boolean sterilized;
     private String imageUrl;
 
+    @Enumerated(EnumType.STRING)
+    private PetType type;
+
     public Pet() {}
 
     public Pet(String userId, String name, String breed, LocalDate birthDate,
                String color, Double weight, String identification,
-               Boolean sterilized, String imageUrl) {
+               Boolean sterilized, String imageUrl, PetType type) {
         this.userId = userId;
         this.name = name;
         this.breed = breed;
@@ -39,6 +42,7 @@ public class Pet {
         this.identification = identification;
         this.sterilized = sterilized;
         this.imageUrl = imageUrl;
+        this.type = type;
     }
 
     public Long getId() { return id; }
@@ -69,4 +73,7 @@ public class Pet {
 
     public String getImageUrl() { return imageUrl; }
     public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+
+    public PetType getType() { return type; }
+    public void setType(PetType type) { this.type = type; }
 }
