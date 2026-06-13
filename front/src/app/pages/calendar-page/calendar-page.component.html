@@ -1,0 +1,83 @@
+<div class="calendar-page">
+  <div class="calendar-inner">
+    <header class="calendar-header">
+      <div class="calendar-header__nav">
+        <button class="nav-btn" type="button" (click)="previousMonth()" aria-label="Mois précédent">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+
+        <div class="calendar-header__title-row">
+          <h1 class="calendar-header__month">{{ monthLabel() }}</h1>
+          <button class="today-btn" type="button" (click)="goToToday()">Aujourd'hui</button>
+        </div>
+
+        <button class="nav-btn" type="button" (click)="nextMonth()" aria-label="Mois suivant">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="calendar-grid">
+      <div class="calendar-grid__day-labels">
+        @for (label of dayLabels; track label) {
+          <div class="day-label">{{ label }}</div>
+        }
+      </div>
+
+      <div class="calendar-grid__days">
+        @for (date of calendarDays(); track $index) {
+          @if (date === null) {
+            <div class="day-cell day-cell--empty"></div>
+          } @else {
+            <button
+              class="day-cell"
+              type="button"
+              [class.day-cell--today]="isToday(date)"
+              [class.day-cell--selected]="isSelected(date)"
+              [class.day-cell--has-events]="hasEvents(date)"
+              (click)="selectDate(date)"
+            >
+              <span class="day-cell__number">{{ date.getDate() }}</span>
+              @if (hasEvents(date)) {
+                <span class="day-cell__dots">
+                  @for (i of [].constructor(eventCountForDate(date)); track i) {
+                    <span class="day-cell__dot"></span>
+                  }
+                </span>
+              }
+            </button>
+          }
+        }
+      </div>
+    </div>
+  </div>
+
+  <ds-modal-shell
+    [isOpen]="isModalOpen()"
+    [title]="selectedDate() ? 'Événements du ' + (selectedDate() | date:'d MMMM y') : 'Événements'"
+    labelledById="calendar-modal-title"
+    closeAriaLabel="Fermer"
+    (close)="closeModal()"
+  >
+    <div class="events-panel">
+      @if (selectedDateEvents().length === 0) {
+        <p class="events-panel__empty">Aucun événement ce jour.</p>
+      }
+      @for (event of selectedDateEvents(); track event.id) {
+        <div class="event-item">
+          <div class="event-item__badge" [class]="'event-item__badge--' + event.type">
+            {{ getTypeLabel(event.type) }}
+          </div>
+          <div class="event-item__info">
+            <span class="event-item__title">{{ event.title }}</span>
+            <span class="event-item__time">{{ event.time }}</span>
+          </div>
+        </div>
+      }
+    </div>
+  </ds-modal-shell>
+</div>

@@ -6,6 +6,7 @@ import { AnimalGalleryPageComponent } from './pages/animal-gallery-page/animal-g
 import { HomepageComponent } from './pages/homepage/homepage.component';
 import { SignInPageComponent } from './pages/sign-in-page/sign-in-page.component';
 import { RegisterPageComponent } from './pages/register-page/register-page.component';
+import { CalendarPageComponent } from './pages/calendar-page/calendar-page.component';
 import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
@@ -34,6 +35,11 @@ export const routes: Routes = [
   {
     path: 'animals/gallery',
     component: AnimalGalleryPageComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'calendar',
+    component: CalendarPageComponent,
     canActivate: [authGuard],
   },
   {
