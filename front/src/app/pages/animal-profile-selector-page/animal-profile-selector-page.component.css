@@ -28,7 +28,7 @@
 .selector-inner {
   position: relative;
   z-index: 1;
-  max-width: 900px;
+  max-width: 1200px;
   width: 100%;
 }
 
@@ -49,8 +49,9 @@
 
 /* ── Cards Grid ── */
 .cards-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 1.25rem;
 }
 
@@ -71,6 +72,7 @@
   animation: fadeInUp 0.5s ease-out both;
   font: inherit;
   text-align: center;
+  flex: 0 1 200px;
 }
 
 .pet-card:nth-child(1) { animation-delay: 0.05s; }
@@ -327,8 +329,11 @@
 /* ── Responsive ── */
 @media (max-width: 768px) {
   .cards-grid {
-    grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
+  }
+
+  .pet-card {
+    flex: 0 1 160px;
   }
 
   .add-form__grid {
@@ -342,11 +347,11 @@
   }
 
   .cards-grid {
-    grid-template-columns: 1fr 1fr;
     gap: 0.75rem;
   }
 
   .pet-card {
+    flex: 0 1 140px;
     padding: 1.25rem 0.75rem 1rem;
   }
 
