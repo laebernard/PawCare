@@ -15,6 +15,7 @@ export interface Pet {
   identification: string;
   sterilized: boolean;
   imageUrl: string | null;
+  type: 'DOG' | 'CAT' | 'BIRD' | 'RABBIT' | 'HAMSTER' | 'OTHER';
 }
 
 @Injectable({ providedIn: 'root' })

@@ -5,10 +5,12 @@ import { DesignSystemModule } from '../../design-system/design-system.module';
 import { PetService } from '../../services/pet.service';
 import { AuthService } from '../../services/auth.service';
 
+type PetType = 'DOG' | 'CAT' | 'BIRD' | 'RABBIT' | 'HAMSTER' | 'OTHER';
+
 interface AnimalProfile {
   id: number;
   name: string;
-  type: 'dog' | 'cat' | 'bird' | 'rabbit' | 'hamster' | 'other';
+  type: PetType;
   breed: string;
   photoUrl: string | null;
   color: string;
@@ -16,6 +18,7 @@ interface AnimalProfile {
 
 interface NewAnimalFormModel {
   name: string;
+  type: PetType | '';
   breed: string;
   birthDate: string;
   color: string;
@@ -25,13 +28,13 @@ interface NewAnimalFormModel {
   profilePhoto: File | null;
 }
 
-const TYPE_LABELS: Record<string, string> = {
-  dog: 'Chien',
-  cat: 'Chat',
-  bird: 'Oiseau',
-  rabbit: 'Lapin',
-  hamster: 'Hamster',
-  other: 'Autre',
+const TYPE_LABELS: Record<PetType, string> = {
+  DOG: 'Chien',
+  CAT: 'Chat',
+  BIRD: 'Oiseau',
+  RABBIT: 'Lapin',
+  HAMSTER: 'Hamster',
+  OTHER: 'Autre',
 };
 
 @Component({
@@ -63,7 +66,7 @@ export class AnimalProfileSelectorPageComponent implements OnInit {
           pets.map((p) => ({
             id: p.id!,
             name: p.name,
-            type: 'other' as const,
+            type: p.type,
             breed: p.breed ?? '',
             photoUrl: p.imageUrl ?? null,
             color: p.color ?? '',
@@ -74,7 +77,7 @@ export class AnimalProfileSelectorPageComponent implements OnInit {
     });
   }
 
-  getTypeLabel(type: string): string {
+  getTypeLabel(type: PetType): string {
     return TYPE_LABELS[type] ?? type;
   }
 
@@ -102,7 +105,7 @@ export class AnimalProfileSelectorPageComponent implements OnInit {
   }
 
   onFieldInput(
-    field: keyof Omit<NewAnimalFormModel, 'profilePhoto' | 'sterilized'>,
+    field: keyof Omit<NewAnimalFormModel, 'profilePhoto' | 'sterilized' | 'type'>,
     event: Event,
   ): void {
     const input = event.target as HTMLInputElement;
@@ -120,9 +123,18 @@ export class AnimalProfileSelectorPageComponent implements OnInit {
     };
   }
 
+  onTypeChange(event: Event): void {
+    const select = event.target as HTMLSelectElement;
+    this.newAnimalForm = {
+      ...this.newAnimalForm,
+      type: select.value as NewAnimalFormModel['type'],
+    };
+  }
+
   isAddAnimalFormValid(): boolean {
     return (
       this.newAnimalForm.name.trim().length > 0 &&
+      this.newAnimalForm.type !== '' &&
       this.newAnimalForm.breed.trim().length > 0 &&
       this.newAnimalForm.birthDate.trim().length > 0 &&
       this.isBirthDateValid() &&
@@ -180,6 +192,7 @@ export class AnimalProfileSelectorPageComponent implements OnInit {
     return {
       userId: String(userId),
       name: this.newAnimalForm.name.trim(),
+      type: this.newAnimalForm.type as PetType,
       breed: this.newAnimalForm.breed.trim(),
       birthDate: this.newAnimalForm.birthDate,
       color: this.newAnimalForm.color.trim(),
@@ -198,10 +211,10 @@ export class AnimalProfileSelectorPageComponent implements OnInit {
           {
             id: createdPet.id!,
             name: createdPet.name,
+            type: createdPet.type,
             breed: createdPet.breed ?? '',
             color: createdPet.color ?? '',
             photoUrl: createdPet.imageUrl ?? null,
-            type: 'other' as const,
           },
         ]);
         this.closeAddAnimalModal();
@@ -217,6 +230,7 @@ export class AnimalProfileSelectorPageComponent implements OnInit {
   private createEmptyForm(): NewAnimalFormModel {
     return {
       name: '',
+      type: '',
       breed: '',
       birthDate: '',
       color: '',
