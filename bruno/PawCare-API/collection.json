@@ -1,0 +1,208 @@
+{
+  "version": "1",
+  "name": "PawCare API",
+  "collections": [
+    {
+      "name": "Auth",
+      "items": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/register",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "body": {
+              "type": "json",
+              "raw": "{\n  \"firstName\": \"Jean\",\n  \"lastName\": \"Dupont\",\n  \"email\": \"jean.dupont@example.com\",\n  \"password\": \"MotDePasse123!\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/login",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "body": {
+              "type": "json",
+              "raw": "{\n  \"email\": \"jean.dupont@example.com\",\n  \"password\": \"MotDePasse123!\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get current user (me)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/auth/me",
+            "headers": {
+              "Cookie": "jwt={{jwtToken}}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Pets",
+      "items": [
+        {
+          "name": "Get all pets",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/pets",
+            "headers": {}
+          }
+        },
+        {
+          "name": "Get pet by ID",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/pets/1",
+            "headers": {}
+          }
+        },
+        {
+          "name": "Get pets by user",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/pets/user/{{userId}}",
+            "headers": {}
+          }
+        },
+        {
+          "name": "Create pet",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/pets",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "body": {
+              "type": "json",
+              "raw": "{\n  \"userId\": \"{{userId}}\",\n  \"name\": \"Max\",\n  \"breed\": \"Golden Retriever\",\n  \"birthDate\": \"2021-05-15\",\n  \"color\": \"Golden\",\n  \"weight\": 32.5,\n  \"identification\": \"CHIP123456789\",\n  \"sterilized\": true,\n  \"imageUrl\": null,\n  \"type\": \"DOG\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Upload pet image",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/pets/upload",
+            "headers": {
+              "Content-Type": "multipart/form-data"
+            },
+            "body": {
+              "type": "form-urlencoded",
+              "formUrlEncoded": [
+                {
+                  "key": "file",
+                  "value": "",
+                  "enabled": true,
+                  "type": "file"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contacts",
+      "items": [
+        {
+          "name": "Get all contacts",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/contacts",
+            "headers": {}
+          }
+        },
+        {
+          "name": "Get contact by ID",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/contacts/1",
+            "headers": {}
+          }
+        },
+        {
+          "name": "Create contact (veterinaire)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/contacts",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "body": {
+              "type": "json",
+              "raw": "{\n  \"name\": \"Dr. Martin\",\n  \"type\": \"VET\",\n  \"phone\": \"+33 1 23 45 67 89\",\n  \"address\": \"12 Rue de la Paix, 75008 Paris\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Create contact (toiletteur)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/contacts",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "body": {
+              "type": "json",
+              "raw": "{\n  \"name\": \"Émile Grooming\",\n  \"type\": \"GROOMER\",\n  \"phone\": \"+33 1 98 76 54 32\",\n  \"address\": \"45 Avenue des Champs, 69001 Lyon\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Create contact (pet-sitter)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/contacts",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "body": {
+              "type": "json",
+              "raw": "{\n  \"name\": \"Sophie PetCare\",\n  \"type\": \"PET_SITTER\",\n  \"phone\": \"+33 6 11 22 33 44\",\n  \"address\": \"8 Rue du Parc, 33000 Bordeaux\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Update contact",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/contacts/1",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "body": {
+              "type": "json",
+              "raw": "{\n  \"name\": \"Dr. Martin Moreau\",\n  \"type\": \"VET\",\n  \"phone\": \"+33 1 23 45 67 89\",\n  \"address\": \"15 Rue de la Paix, 75008 Paris\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete contact",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/contacts/1",
+            "headers": {}
+          }
+        }
+      ]
+    }
+  ],
+  "environments": [
+    {
+      "name": "Local",
+      "variables": {
+        "baseUrl": "http://localhost:8081",
+        "userId": "user-uuid-here",
+        "jwtToken": "your-jwt-token-here"
+      }
+    }
+  ]
+}
