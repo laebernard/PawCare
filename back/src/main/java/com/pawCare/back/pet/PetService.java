@@ -1,6 +1,8 @@
 package com.pawCare.back.pet;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -19,7 +21,7 @@ public class PetService {
 
     public Pet getPetById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Pet not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pet not found"));
     }
 
     public List<Pet> getPetsByUserId(String userId) {

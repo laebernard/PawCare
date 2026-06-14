@@ -3,10 +3,10 @@ package com.pawCare.back.login;
 import com.pawCare.back.auth.UserPayload;
 import com.pawCare.back.user.User;
 import com.pawCare.back.user.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class LoginService {
@@ -21,16 +21,11 @@ public class LoginService {
     }
 
     public LoginResponse login(LoginRequest request) {
-        Optional<User> userOpt = userRepository.findByEmail(request.getEmail());
-
-        if (userOpt.isEmpty()) {
-            return new LoginResponse(false, "Aucun compte associé à cet email");
-        }
-
-        User user = userOpt.get();
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Aucun compte associé à cet email"));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            return new LoginResponse(false, "Mot de passe incorrect");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Mot de passe incorrect");
         }
 
         String token = jwtUtil.generateToken(user.getEmail());
