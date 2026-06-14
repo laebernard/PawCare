@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { DesignSystemModule } from '../../design-system/design-system.module';
 import { PetService } from '../../services/pet.service';
 import { AuthService } from '../../services/auth.service';
+import { SelectedPetService } from '../../services/selected-pet.service';
 
 type PetType = 'DOG' | 'CAT' | 'BIRD' | 'RABBIT' | 'HAMSTER' | 'OTHER';
 
@@ -46,7 +47,6 @@ const TYPE_LABELS: Record<PetType, string> = {
 })
 export class AnimalProfileSelectorPageComponent implements OnInit {
   profiles = signal<AnimalProfile[]>([]);
-  selectedProfile = signal<AnimalProfile | null>(null);
   isAddAnimalModalOpen = false;
   newAnimalForm: NewAnimalFormModel = this.createEmptyForm();
   private addCardTriggerElement: HTMLElement | null = null;
@@ -54,6 +54,7 @@ export class AnimalProfileSelectorPageComponent implements OnInit {
   constructor(
     private readonly petService: PetService,
     private readonly authService: AuthService,
+    public readonly selectedPetService: SelectedPetService,
   ) {}
 
   ngOnInit(): void {
@@ -82,7 +83,7 @@ export class AnimalProfileSelectorPageComponent implements OnInit {
   }
 
   selectProfile(profile: AnimalProfile): void {
-    this.selectedProfile.set(profile);
+    this.selectedPetService.select(profile);
   }
 
   openAddAnimalModal(): void {
