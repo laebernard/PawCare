@@ -1,11 +1,4 @@
 <nav class="sidebar" role="navigation" aria-label="Menu du dashboard">
-  <div class="sidebar-header">
-    <a class="sidebar-brand" routerLink="/">
-      <svg lucideHeart class="brand-icon"></svg>
-      <span class="brand-text">{{ logo }}</span>
-    </a>
-  </div>
-
   <ul class="sidebar-nav">
     @for (item of navItems; track item.path) {
       <li>

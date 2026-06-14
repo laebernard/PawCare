@@ -9,36 +9,6 @@
   min-height: 100vh;
 }
 
-.sidebar-header {
-  padding: 0 1rem;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid #ffd0ac;
-  flex-shrink: 0;
-}
-
-.sidebar-brand {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  text-decoration: none;
-}
-
-.brand-icon {
-  color: #ff8885;
-  fill: #ff8885;
-  flex-shrink: 0;
-}
-
-.brand-text {
-  font-family: 'Inter', sans-serif;
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #2d2d2d;
-  letter-spacing: -0.02em;
-}
-
 .sidebar-nav {
   flex: 1;
   padding: 0.75rem 0.5rem;

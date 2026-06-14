@@ -1,7 +1,7 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-import { LucideUser, LucideImages, LucideCalendar, LucideHeart } from '@lucide/angular';
+import { LucideUser, LucideImages, LucideCalendar } from '@lucide/angular';
 
 interface NavItem {
   label: string;
@@ -12,14 +12,12 @@ interface NavItem {
 @Component({
   selector: 'ds-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterLink, LucideUser, LucideImages, LucideCalendar, LucideHeart],
+  imports: [CommonModule, RouterLink, LucideUser, LucideImages, LucideCalendar],
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css'],
 })
 export class SidebarComponent {
   private readonly router = inject(Router);
-
-  @Input() logo = 'Paw Care';
 
   readonly navItems: NavItem[] = [
     { label: 'Mon animal', path: '/dashboard/consult-profile', iconName: 'user' },
