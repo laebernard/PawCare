@@ -1,6 +1,8 @@
 package com.pawCare.back.contact;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -19,7 +21,7 @@ public class ContactService {
 
     public Contact getContactById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Contact not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Contact not found"));
     }
 
     public Contact createContact(Contact contact) {
@@ -28,7 +30,7 @@ public class ContactService {
 
     public Contact updateContact(Long id, Contact updated) {
         Contact existing = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Contact not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Contact not found"));
         existing.setName(updated.getName());
         existing.setType(updated.getType());
         existing.setPhone(updated.getPhone());
@@ -38,7 +40,7 @@ public class ContactService {
 
     public void deleteContact(Long id) {
         if (!repository.existsById(id)) {
-            throw new RuntimeException("Contact not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Contact not found");
         }
         repository.deleteById(id);
     }

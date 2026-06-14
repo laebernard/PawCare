@@ -2,7 +2,6 @@ package com.pawCare.back.login;
 
 import jakarta.servlet.http.Cookie;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,10 +20,6 @@ public class LoginController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
         LoginResponse response = service.login(request);
-
-        if (!response.isSuccess()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
-        }
 
         String token = response.getData().getToken();
         Cookie jwtCookie = new Cookie("jwt", token);
