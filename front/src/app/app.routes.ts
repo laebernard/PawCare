@@ -28,19 +28,22 @@ export const routes: Routes = [
     canActivate: [authGuard],
   },
   {
-    path: 'consult-profile/:id',
-    component: AnimalProfilePageComponent,
+    path: 'dashboard',
     canActivate: [authGuard],
-  },
-  {
-    path: 'animals/gallery',
-    component: AnimalGalleryPageComponent,
-    canActivate: [authGuard],
-  },
-  {
-    path: 'calendar',
-    component: CalendarPageComponent,
-    canActivate: [authGuard],
+    children: [
+      {
+        path: 'consult-profile/:id',
+        component: AnimalProfilePageComponent,
+      },
+      {
+        path: 'gallery',
+        component: AnimalGalleryPageComponent,
+      },
+      {
+        path: 'calendar',
+        component: CalendarPageComponent,
+      },
+    ],
   },
   {
     path: 'design-system',
