@@ -1,0 +1,20 @@
+meta {
+  name: Create contact (veterinaire)
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{url}}/contacts
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Dr. Martin",
+    "type": "VET",
+    "phone": "+33 1 23 45 67 89",
+    "address": "12 Rue de la Paix, 75008 Paris"
+  }
+}
