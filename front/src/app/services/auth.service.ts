@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, tap, catchError, map, of } from 'rxjs';
 
 import { environment } from '../../environments/environment';
+import { SelectedPetService } from './selected-pet.service';
 
 export interface UserPayload {
   id: number;
@@ -40,7 +41,10 @@ export class AuthService {
   readonly loading = this._loading.asReadonly();
   readonly isLoggedIn = computed(() => this._currentUser() !== null);
 
-  constructor(private readonly http: HttpClient) {}
+  constructor(
+    private readonly http: HttpClient,
+    private readonly selectedPetService: SelectedPetService,
+  ) {}
 
   signIn(credentials: SignInRequest): Observable<AuthResponse> {
     this._loading.set(true);
@@ -63,6 +67,7 @@ export class AuthService {
   }
 
   signOut(): void {
+    this.selectedPetService.clear();
     this._currentUser.set(null);
   }
 
