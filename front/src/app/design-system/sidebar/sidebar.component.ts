@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { LucideUser, LucideImages, LucideCalendar, LucideHeart } from '@lucide/angular';
 
-interface SidebarLink {
+interface NavItem {
   label: string;
   path: string;
   iconName: string;
@@ -21,7 +21,7 @@ export class SidebarComponent {
 
   @Input() logo = 'Paw Care';
 
-  readonly links: SidebarLink[] = [
+  readonly navItems: NavItem[] = [
     { label: 'Mon animal', path: '/dashboard/consult-profile', iconName: 'user' },
     { label: 'Galerie', path: '/dashboard/gallery', iconName: 'images' },
     { label: 'Calendrier', path: '/dashboard/calendar', iconName: 'calendar' },

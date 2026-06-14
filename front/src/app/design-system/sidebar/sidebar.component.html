@@ -6,18 +6,18 @@
     </a>
   </div>
 
-  <ul class="sidebar-links">
-    @for (link of links; track link.path) {
+  <ul class="sidebar-nav">
+    @for (item of navItems; track item.path) {
       <li>
         <a
           class="sidebar-link"
-          [routerLink]="link.path"
-          [class.active]="isActive(link.path)"
+          [routerLink]="item.path"
+          [class.active]="isActive(item.path)"
         >
           <span class="link-icon">
-            <svg [attr.lucide]="link.iconName" class="link-svg"></svg>
+            <svg [attr.lucide]="item.iconName"></svg>
           </span>
-          <span class="link-label">{{ link.label }}</span>
+          <span class="link-label">{{ item.label }}</span>
         </a>
       </li>
     }
