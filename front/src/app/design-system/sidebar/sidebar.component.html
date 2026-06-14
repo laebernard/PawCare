@@ -1,6 +1,18 @@
 <nav class="sidebar" role="navigation" aria-label="Menu du dashboard">
   <ul class="sidebar-nav">
-    @for (item of navItems; track item.path) {
+    <li>
+      <a
+        class="sidebar-link"
+        [routerLink]="profilePath"
+        [class.active]="isActive('/dashboard/consult-profile')"
+      >
+        <span class="link-icon">
+          <svg lucideUser></svg>
+        </span>
+        <span class="link-label">Mon animal</span>
+      </a>
+    </li>
+    @for (item of galleryAndCalendar; track item.path) {
       <li>
         <a
           class="sidebar-link"
