@@ -7,6 +7,7 @@ import { HomepageComponent } from './pages/homepage/homepage.component';
 import { SignInPageComponent } from './pages/sign-in-page/sign-in-page.component';
 import { RegisterPageComponent } from './pages/register-page/register-page.component';
 import { CalendarPageComponent } from './pages/calendar-page/calendar-page.component';
+import { DashboardLayoutComponent } from './pages/dashboard-layout/dashboard-layout.component';
 import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
@@ -29,8 +30,14 @@ export const routes: Routes = [
   },
   {
     path: 'dashboard',
+    component: DashboardLayoutComponent,
     canActivate: [authGuard],
     children: [
+      {
+        path: '',
+        redirectTo: 'gallery',
+        pathMatch: 'full',
+      },
       {
         path: 'consult-profile/:id',
         component: AnimalProfilePageComponent,
