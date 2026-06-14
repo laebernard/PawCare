@@ -1,0 +1,20 @@
+meta {
+  name: Create contact (pet-sitter)
+  type: http
+  seq: 12
+}
+
+post {
+  url: {{url}}/contacts
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Sophie PetCare",
+    "type": "PET_SITTER",
+    "phone": "+33 6 11 22 33 44",
+    "address": "8 Rue du Parc, 33000 Bordeaux"
+  }
+}
