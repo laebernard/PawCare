@@ -1,7 +1,9 @@
 package com.pawCare.back.pet;
 
-import java.time.LocalDate;
+import com.pawCare.back.user.User;
 import jakarta.persistence.*;
+
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "pets")
@@ -11,8 +13,9 @@ public class Pet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String userId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @Column(nullable = false)
     private String name;
@@ -30,10 +33,10 @@ public class Pet {
 
     public Pet() {}
 
-    public Pet(String userId, String name, String breed, LocalDate birthDate,
+    public Pet(User user, String name, String breed, LocalDate birthDate,
                String color, Double weight, String identification,
                Boolean sterilized, String imageUrl, PetType type) {
-        this.userId = userId;
+        this.user = user;
         this.name = name;
         this.breed = breed;
         this.birthDate = birthDate;
@@ -47,8 +50,8 @@ public class Pet {
 
     public Long getId() { return id; }
 
-    public String getUserId() { return userId; }
-    public void setUserId(String userId) { this.userId = userId; }
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }

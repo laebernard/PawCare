@@ -1,11 +1,11 @@
 meta {
-  name: Create pet
+  name: Update pet
   type: http
-  seq: 6
+  seq: 7
 }
 
-post {
-  url: {{url}}/pets
+put {
+  url: {{url}}/pets/1
   body: json
   auth: none
 }
@@ -16,7 +16,7 @@ body:json {
     "breed": "Golden Retriever",
     "birthDate": "2021-05-15",
     "color": "Golden",
-    "weight": 32.5,
+    "weight": 33.0,
     "identification": "CHIP123456789",
     "sterilized": true,
     "imageUrl": null,
