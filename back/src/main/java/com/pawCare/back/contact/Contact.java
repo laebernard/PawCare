@@ -1,5 +1,6 @@
 package com.pawCare.back.contact;
 
+import com.pawCare.back.user.User;
 import jakarta.persistence.*;
 
 @Entity
@@ -9,6 +10,10 @@ public class Contact {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @Column(nullable = false)
     private String name;
@@ -21,7 +26,8 @@ public class Contact {
 
     public Contact() {}
 
-    public Contact(String name, ContactType type, String phone, String address) {
+    public Contact(User user, String name, ContactType type, String phone, String address) {
+        this.user = user;
         this.name = name;
         this.type = type;
         this.phone = phone;
@@ -29,6 +35,9 @@ public class Contact {
     }
 
     public Long getId() { return id; }
+
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
