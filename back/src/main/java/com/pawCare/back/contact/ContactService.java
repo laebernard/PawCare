@@ -1,5 +1,6 @@
 package com.pawCare.back.contact;
 
+import com.pawCare.back.user.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -15,21 +16,22 @@ public class ContactService {
         this.repository = repository;
     }
 
-    public List<Contact> getAllContacts() {
-        return repository.findAll();
+    public List<Contact> getAllContacts(User currentUser) {
+        return repository.findByUserId(currentUser.getId());
     }
 
-    public Contact getContactById(Long id) {
-        return repository.findById(id)
+    public Contact getContactById(Long id, User currentUser) {
+        return repository.findByIdAndUserId(id, currentUser.getId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Contact not found"));
     }
 
-    public Contact createContact(Contact contact) {
+    public Contact createContact(Contact contact, User currentUser) {
+        contact.setUser(currentUser);
         return repository.save(contact);
     }
 
-    public Contact updateContact(Long id, Contact updated) {
-        Contact existing = repository.findById(id)
+    public Contact updateContact(Long id, Contact updated, User currentUser) {
+        Contact existing = repository.findByIdAndUserId(id, currentUser.getId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Contact not found"));
         existing.setName(updated.getName());
         existing.setType(updated.getType());
@@ -38,10 +40,12 @@ public class ContactService {
         return repository.save(existing);
     }
 
-    public void deleteContact(Long id) {
+    public void deleteContact(Long id, User currentUser) {
         if (!repository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Contact not found");
         }
-        repository.deleteById(id);
+        Contact existing = repository.findByIdAndUserId(id, currentUser.getId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Contact not found"));
+        repository.delete(existing);
     }
 }
