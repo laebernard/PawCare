@@ -1,9 +1,8 @@
 package com.pawCare.back.contact;
 
-import com.pawCare.back.auth.AuthService;
 import com.pawCare.back.user.User;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -14,44 +13,38 @@ import java.util.List;
 public class ContactController {
 
     private final ContactService service;
-    private final AuthService authService;
 
-    public ContactController(ContactService service, AuthService authService) {
+    public ContactController(ContactService service) {
         this.service = service;
-        this.authService = authService;
     }
 
     @GetMapping
-    public List<ContactResponse> getAllContacts(HttpServletRequest request) {
-        return service.getAllContacts(currentUser(request)).stream()
+    public List<ContactResponse> getAllContacts(@AuthenticationPrincipal User currentUser) {
+        return service.getAllContacts(currentUser).stream()
                 .map(ContactResponse::from)
                 .toList();
     }
 
     @GetMapping("/{id}")
-    public ContactResponse getContact(@PathVariable Long id, HttpServletRequest request) {
-        return ContactResponse.from(service.getContactById(id, currentUser(request)));
+    public ContactResponse getContact(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
+        return ContactResponse.from(service.getContactById(id, currentUser));
     }
 
     @PostMapping
-    public ContactResponse createContact(@RequestBody Contact contact, HttpServletRequest request) {
+    public ContactResponse createContact(@RequestBody Contact contact, @AuthenticationPrincipal User currentUser) {
         if (contact.getName() == null || contact.getName().isBlank()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Name is required");
         }
-        return ContactResponse.from(service.createContact(contact, currentUser(request)));
+        return ContactResponse.from(service.createContact(contact, currentUser));
     }
 
     @PutMapping("/{id}")
-    public ContactResponse updateContact(@PathVariable Long id, @RequestBody Contact contact, HttpServletRequest request) {
-        return ContactResponse.from(service.updateContact(id, contact, currentUser(request)));
+    public ContactResponse updateContact(@PathVariable Long id, @RequestBody Contact contact, @AuthenticationPrincipal User currentUser) {
+        return ContactResponse.from(service.updateContact(id, contact, currentUser));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteContact(@PathVariable Long id, HttpServletRequest request) {
-        service.deleteContact(id, currentUser(request));
-    }
-
-    private User currentUser(HttpServletRequest request) {
-        return authService.resolveCurrentUser(request);
+    public void deleteContact(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
+        service.deleteContact(id, currentUser);
     }
 }

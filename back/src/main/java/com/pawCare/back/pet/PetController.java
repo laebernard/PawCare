@@ -1,9 +1,8 @@
 package com.pawCare.back.pet;
 
-import com.pawCare.back.auth.AuthService;
 import com.pawCare.back.user.User;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
@@ -21,27 +20,25 @@ import java.util.UUID;
 public class PetController {
 
     private final PetService service;
-    private final AuthService authService;
 
-    public PetController(PetService service, AuthService authService) {
+    public PetController(PetService service) {
         this.service = service;
-        this.authService = authService;
     }
 
     @GetMapping
-    public List<PetResponse> getAllPets(HttpServletRequest request) {
-        return service.getAllPets(currentUser(request)).stream()
+    public List<PetResponse> getAllPets(@AuthenticationPrincipal User currentUser) {
+        return service.getAllPets(currentUser).stream()
                 .map(PetResponse::from)
                 .toList();
     }
 
     @GetMapping("/{id}")
-    public PetResponse getPet(@PathVariable Long id, HttpServletRequest request) {
-        return PetResponse.from(service.getPetById(id, currentUser(request)));
+    public PetResponse getPet(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
+        return PetResponse.from(service.getPetById(id, currentUser));
     }
 
     @PostMapping
-    public PetResponse createPet(@RequestBody PetRequest payload, HttpServletRequest request) {
+    public PetResponse createPet(@RequestBody PetRequest payload, @AuthenticationPrincipal User currentUser) {
         if (payload.name() == null || payload.name().isBlank()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Name is required");
         }
@@ -52,19 +49,19 @@ public class PetController {
             );
         }
         Pet pet = payload.toEntity();
-        return PetResponse.from(service.createPet(pet, currentUser(request)));
+        return PetResponse.from(service.createPet(pet, currentUser));
     }
 
     @PutMapping("/{id}")
-    public PetResponse updatePet(@PathVariable Long id, @RequestBody PetRequest payload, HttpServletRequest request) {
-        Pet existing = service.getPetById(id, currentUser(request));
+    public PetResponse updatePet(@PathVariable Long id, @RequestBody PetRequest payload, @AuthenticationPrincipal User currentUser) {
+        Pet existing = service.getPetById(id, currentUser);
         payload.applyTo(existing);
-        return PetResponse.from(service.updatePet(id, existing, currentUser(request)));
+        return PetResponse.from(service.updatePet(id, existing, currentUser));
     }
 
     @DeleteMapping("/{id}")
-    public void deletePet(@PathVariable Long id, HttpServletRequest request) {
-        service.deletePet(id, currentUser(request));
+    public void deletePet(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
+        service.deletePet(id, currentUser);
     }
 
     @PostMapping("/upload")
@@ -79,9 +76,5 @@ public class PetController {
         Files.copy(file.getInputStream(), filePath);
 
         return "http://localhost:8081/uploads/" + fileName;
-    }
-
-    private User currentUser(HttpServletRequest request) {
-        return authService.resolveCurrentUser(request);
     }
 }
