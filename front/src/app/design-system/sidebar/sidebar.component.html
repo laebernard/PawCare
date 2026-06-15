@@ -1,40 +1,36 @@
 <nav class="sidebar" role="navigation" aria-label="Menu du dashboard">
-  <ul class="sidebar-nav">
-    <li>
-      <a
-        class="sidebar-link"
-        [routerLink]="profilePath"
-        [class.active]="isActive('/dashboard/consult-profile')"
-      >
-        <span class="link-icon">
-          <svg lucideUser></svg>
-        </span>
-        <span class="link-label">Mon animal</span>
-      </a>
-    </li>
-    <li>
-      <a
-        class="sidebar-link"
-        routerLink="/dashboard/gallery"
-        [class.active]="isActive('/dashboard/gallery')"
-      >
-        <span class="link-icon">
-          <svg lucideImages></svg>
-        </span>
-        <span class="link-label">Galerie</span>
-      </a>
-    </li>
-    <li>
-      <a
-        class="sidebar-link"
-        routerLink="/dashboard/calendar"
-        [class.active]="isActive('/dashboard/calendar')"
-      >
-        <span class="link-icon">
-          <svg lucideCalendar></svg>
-        </span>
-        <span class="link-label">Calendrier</span>
-      </a>
-    </li>
-  </ul>
+  @for (section of sections; track section.label) {
+    <div class="sidebar-section">
+      <p class="sidebar-section-label">{{ section.label }}</p>
+      <ul class="sidebar-nav">
+        @for (item of section.items; track item.label) {
+          <li>
+            <a
+              class="sidebar-link"
+              [routerLink]="resolvePath(item)"
+              [class.active]="isActive(item.path)"
+            >
+              <span class="link-icon">
+                @switch (item.iconName) {
+                  @case ('user') {
+                    <svg lucideUser></svg>
+                  }
+                  @case ('images') {
+                    <svg lucideImages></svg>
+                  }
+                  @case ('calendar') {
+                    <svg lucideCalendar></svg>
+                  }
+                  @case ('users') {
+                    <svg lucideUsers></svg>
+                  }
+                }
+              </span>
+              <span class="link-label">{{ item.label }}</span>
+            </a>
+          </li>
+        }
+      </ul>
+    </div>
+  }
 </nav>

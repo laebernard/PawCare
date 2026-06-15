@@ -1,0 +1,47 @@
+<div class="contacts-list-page">
+  <div class="contacts-list-content">
+    <header class="contacts-header">
+      <ds-title text="Mes contacts" level="h1"></ds-title>
+      <p class="contacts-subtitle">
+        Tous les professionnels qui prennent soin de vos animaux.
+      </p>
+    </header>
+
+    @if (loading()) {
+      <p class="contacts-status" aria-live="polite">Chargement des contacts...</p>
+    } @else if (error()) {
+      <p class="contacts-status contacts-status--error" aria-live="polite">
+        {{ error() }}
+      </p>
+    } @else if (contacts().length === 0) {
+      <section class="contacts-empty" aria-live="polite">
+        <ds-title text="Aucun contact" level="h2"></ds-title>
+        <p>Ajoutez votre premier contact pour le retrouver ici.</p>
+      </section>
+    } @else {
+      <section class="contacts-grid" aria-label="Liste des contacts">
+        @for (contact of contacts(); track contact.id) {
+          <article class="contact-card">
+            <header class="contact-card-header">
+              <ds-title [text]="contact.name" level="h2"></ds-title>
+              <span class="contact-type-badge">{{ labelFor(contact.type) }}</span>
+            </header>
+
+            @if (contact.phone) {
+              <p class="contact-line">
+                <span class="contact-line-label">Téléphone</span>
+                <a class="contact-line-value" [href]="'tel:' + contact.phone">{{ contact.phone }}</a>
+              </p>
+            }
+            @if (contact.address) {
+              <p class="contact-line">
+                <span class="contact-line-label">Adresse</span>
+                <span class="contact-line-value">{{ contact.address }}</span>
+              </p>
+            }
+          </article>
+        }
+      </section>
+    }
+  </div>
+</div>
