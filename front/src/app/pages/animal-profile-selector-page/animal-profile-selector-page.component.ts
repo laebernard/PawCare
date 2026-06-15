@@ -58,10 +58,9 @@ export class AnimalProfileSelectorPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const userId = this.authService.currentUser()?.id;
-    if (!userId) return;
+    if (!this.authService.currentUser()) return;
 
-    this.petService.getPetsByUser(String(userId)).subscribe({
+    this.petService.getMyPets().subscribe({
       next: (pets) => {
         this.profiles.set(
           pets.map((p) => ({
@@ -163,35 +162,32 @@ export class AnimalProfileSelectorPageComponent implements OnInit {
     event.preventDefault();
 
     if (!this.isAddAnimalFormValid()) return;
-
-    const userId = this.authService.currentUser()?.id;
-    if (!userId) return;
+    if (!this.authService.currentUser()) return;
 
     if (this.newAnimalForm.profilePhoto) {
-      this.uploadImageAndCreatePet(userId);
+      this.uploadImageAndCreatePet();
     } else {
-      this.createPetWithoutImage(userId);
+      this.createPetWithoutImage();
     }
   }
 
-  private uploadImageAndCreatePet(userId: number): void {
+  private uploadImageAndCreatePet(): void {
     this.petService.uploadImage(this.newAnimalForm.profilePhoto!).subscribe({
       next: (imageUrl: string) => {
-        const pet = this.buildPetPayload(userId, imageUrl);
+        const pet = this.buildPetPayload(imageUrl);
         this.createPet(pet);
       },
       error: (err) => console.error('Erreur upload image', err),
     });
   }
 
-  private createPetWithoutImage(userId: number): void {
-    const pet = this.buildPetPayload(userId, null);
+  private createPetWithoutImage(): void {
+    const pet = this.buildPetPayload(null);
     this.createPet(pet);
   }
 
-  private buildPetPayload(userId: number, imageUrl: string | null) {
+  private buildPetPayload(imageUrl: string | null) {
     return {
-      userId: String(userId),
       name: this.newAnimalForm.name.trim(),
       type: this.newAnimalForm.type as PetType,
       breed: this.newAnimalForm.breed.trim(),
