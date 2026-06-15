@@ -22,26 +22,28 @@ public class ContactController {
     }
 
     @GetMapping
-    public List<Contact> getAllContacts(HttpServletRequest request) {
-        return service.getAllContacts(currentUser(request));
+    public List<ContactResponse> getAllContacts(HttpServletRequest request) {
+        return service.getAllContacts(currentUser(request)).stream()
+                .map(ContactResponse::from)
+                .toList();
     }
 
     @GetMapping("/{id}")
-    public Contact getContact(@PathVariable Long id, HttpServletRequest request) {
-        return service.getContactById(id, currentUser(request));
+    public ContactResponse getContact(@PathVariable Long id, HttpServletRequest request) {
+        return ContactResponse.from(service.getContactById(id, currentUser(request)));
     }
 
     @PostMapping
-    public Contact createContact(@RequestBody Contact contact, HttpServletRequest request) {
+    public ContactResponse createContact(@RequestBody Contact contact, HttpServletRequest request) {
         if (contact.getName() == null || contact.getName().isBlank()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Name is required");
         }
-        return service.createContact(contact, currentUser(request));
+        return ContactResponse.from(service.createContact(contact, currentUser(request)));
     }
 
     @PutMapping("/{id}")
-    public Contact updateContact(@PathVariable Long id, @RequestBody Contact contact, HttpServletRequest request) {
-        return service.updateContact(id, contact, currentUser(request));
+    public ContactResponse updateContact(@PathVariable Long id, @RequestBody Contact contact, HttpServletRequest request) {
+        return ContactResponse.from(service.updateContact(id, contact, currentUser(request)));
     }
 
     @DeleteMapping("/{id}")
