@@ -1,11 +1,15 @@
 meta {
   name: Upload pet image
   type: http
-  seq: 7
+  seq: 9
 }
 
 post {
   url: {{url}}/pets/upload
-  body: none
+  body: multipartForm
   auth: none
+}
+
+body:multipart-form {
+  file: @file(C:\Users\chill\Downloads\Orange-Cat-Behavior-What-Makes-Orange-Kitties-Special.jpg)
 }
