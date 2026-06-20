@@ -6,7 +6,6 @@ import { environment } from '../../environments/environment';
 
 export interface Pet {
   id?: number;
-  userId: string;
   name: string;
   breed: string;
   birthDate: string;
@@ -15,6 +14,7 @@ export interface Pet {
   identification: string;
   sterilized: boolean;
   imageUrl: string | null;
+  type: 'DOG' | 'CAT' | 'BIRD' | 'RABBIT' | 'HAMSTER' | 'OTHER';
 }
 
 @Injectable({ providedIn: 'root' })
@@ -45,11 +45,7 @@ export class PetService {
     return this.http.get<Pet>(`${this.baseUrl}/pets/${id}`);
   }
 
-  getPetsByUser(userId: string): Observable<Pet[]> {
-    return this.http.get<Pet[]>(`${this.baseUrl}/pets/user/${userId}`);
-  }
-
-  getAllPets(): Observable<Pet[]> {
+  getMyPets(): Observable<Pet[]> {
     return this.http.get<Pet[]>(`${this.baseUrl}/pets`);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   ReactiveFormsModule,
@@ -29,9 +29,9 @@ export class SignInPageComponent {
     password: ['', [Validators.required]],
   });
 
-  submitting = false;
-  errorMessage = '';
-  successMessage = '';
+  errorMessage = signal('');
+  successMessage = signal('');
+  submitting = signal(false);
 
   fieldError(name: string): string | null {
     const control = this.form.get(name);
@@ -42,27 +42,30 @@ export class SignInPageComponent {
   }
 
   onSubmit(): void {
-    this.errorMessage = '';
-    this.successMessage = '';
+    this.errorMessage.set('');
+    this.successMessage.set('');
 
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
 
-    this.submitting = true;
+    this.submitting.set(true);
     const { email, password } = this.form.value;
 
     this.auth.signIn({ email, password }).subscribe({
       next: (res) => {
-        this.submitting = false;
-        this.successMessage = res.message;
-        // TODO: Redirect after sign-in
-        // this.router.navigate(['/select-profile']);
+        this.submitting.set(false);
+        if (res.success) {
+          this.successMessage.set(res.message ?? 'Connexion réussie');
+          this.router.navigate(['/select-profile']);
+        } else {
+          this.errorMessage.set(res.message ?? 'Identifiants incorrects.');
+        }
       },
       error: () => {
-        this.submitting = false;
-        this.errorMessage = 'Identifiants incorrects. Veuillez réessayer.';
+        this.submitting.set(false);
+        this.errorMessage.set('Une erreur est survenue. Veuillez réessayer.');
       },
     });
   }

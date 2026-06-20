@@ -1,0 +1,36 @@
+<nav class="sidebar" role="navigation" aria-label="Menu du dashboard">
+  @for (section of sections; track section.label) {
+    <div class="sidebar-section">
+      <p class="sidebar-section-label">{{ section.label }}</p>
+      <ul class="sidebar-nav">
+        @for (item of section.items; track item.label) {
+          <li>
+            <a
+              class="sidebar-link"
+              [routerLink]="resolvePath(item)"
+              [class.active]="isActive(item.path)"
+            >
+              <span class="link-icon">
+                @switch (item.iconName) {
+                  @case ('user') {
+                    <svg lucideUser></svg>
+                  }
+                  @case ('images') {
+                    <svg lucideImages></svg>
+                  }
+                  @case ('calendar') {
+                    <svg lucideCalendar></svg>
+                  }
+                  @case ('users') {
+                    <svg lucideUsers></svg>
+                  }
+                }
+              </span>
+              <span class="link-label">{{ item.label }}</span>
+            </a>
+          </li>
+        }
+      </ul>
+    </div>
+  }
+</nav>

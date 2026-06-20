@@ -27,6 +27,22 @@
   transform: translateY(0);
 }
 
+.ds-button-ghost {
+  background: transparent;
+  color: var(--color-coral);
+  border: none;
+}
+
+.ds-button-ghost:hover:not(:disabled) {
+  background-color: rgba(255, 136, 133, 0.1);
+  color: var(--color-coral-hover);
+}
+
+.ds-button-ghost:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .ds-button-small {
   padding: 6px 16px;
   font-size: 13px;

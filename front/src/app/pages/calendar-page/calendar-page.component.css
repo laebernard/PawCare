@@ -1,0 +1,288 @@
+/* ── Page Layout ── */
+.calendar-page {
+  min-height: 100vh;
+  background: var(--color-canvas-white, #ffffff);
+}
+
+.calendar-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+/* ── Header / Navigation ── */
+.calendar-header {
+  margin-bottom: 1.5rem;
+}
+
+.calendar-header__nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.calendar-header__title-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.calendar-header__month {
+  font-family: var(--font-kaio, 'Kaio', sans-serif);
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--color-charcoal, #2d2d2d);
+  letter-spacing: -0.004em;
+  line-height: 1;
+  margin: 0;
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: 1px solid var(--color-cream-border, #ffd0ac);
+  border-radius: var(--radius-input, 4px);
+  color: var(--color-charcoal, #2d2d2d);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.nav-btn:hover {
+  background: var(--color-coral-ghost, rgba(255, 136, 133, 0.08));
+  border-color: var(--color-coral, #ff8885);
+}
+
+.today-btn {
+  font-family: var(--font-inter-var, 'Inter Var', sans-serif);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-coral, #ff8885);
+  background: transparent;
+  border: 1px solid var(--color-coral, #ff8885);
+  border-radius: var(--radius-badges, 999px);
+  padding: 4px 16px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.today-btn:hover {
+  background: var(--color-coral, #ff8885);
+  color: #ffffff;
+}
+
+/* ── Calendar Grid ── */
+.calendar-grid {
+  border: 1px solid var(--color-cream-border, #ffd0ac);
+  border-radius: var(--radius-cards, 14px);
+  overflow: hidden;
+  box-shadow: rgba(41, 0, 41, 0.11) 0px 0px 0px 1px, rgba(32, 0, 36, 0.05) 0px 2px 2px 0px;
+}
+
+.calendar-grid__day-labels {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background: var(--color-cream, #ffe2c8);
+  border-bottom: 1px solid var(--color-cream-border, #ffd0ac);
+}
+
+.day-label {
+  padding: 10px 8px;
+  font-family: var(--font-inter-var, 'Inter Var', sans-serif);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-warm-gray, #575757);
+  text-align: center;
+  letter-spacing: -0.004em;
+}
+
+.calendar-grid__days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.day-cell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 90px;
+  padding: 8px 4px;
+  background: transparent;
+  border: none;
+  border-right: 1px solid var(--color-cream-border, #ffd0ac);
+  border-bottom: 1px solid var(--color-cream-border, #ffd0ac);
+  cursor: pointer;
+  transition: background 0.1s;
+  gap: 4px;
+}
+
+.day-cell:nth-child(7n) {
+  border-right: none;
+}
+
+/* Rows: every 7 cells are a full week — last row has no bottom border */
+.calendar-grid__days .day-cell:nth-last-child(-n+7) {
+  border-bottom: none;
+}
+
+.day-cell:hover:not(.day-cell--empty) {
+  background: var(--color-coral-ghost, rgba(255, 136, 133, 0.08));
+}
+
+.day-cell--empty {
+  background: rgba(41, 0, 41, 0.02);
+  cursor: default;
+}
+
+.day-cell__number {
+  font-family: var(--font-inter-var, 'Inter Var', sans-serif);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-charcoal, #2d2d2d);
+  line-height: 1;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.day-cell--today .day-cell__number {
+  background: var(--color-coral, #ff8885);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.day-cell--selected .day-cell__number {
+  background: var(--color-charcoal, #2d2d2d);
+  color: #ffffff;
+}
+
+.day-cell--selected {
+  background: rgba(255, 136, 133, 0.04);
+}
+
+.day-cell__dots {
+  display: flex;
+  gap: 3px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 100%;
+}
+
+.day-cell__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-coral, #ff8885);
+  flex-shrink: 0;
+}
+
+.day-cell--has-events .day-cell__number {
+  color: var(--color-coral, #ff8885);
+  font-weight: 600;
+}
+
+/* ── Events Modal Panel ── */
+.events-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 300px;
+}
+
+.events-panel__empty {
+  font-family: var(--font-inter-var, 'Inter Var', sans-serif);
+  font-size: 14px;
+  color: var(--color-warm-gray, #575757);
+  margin: 0;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.event-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: rgba(41, 0, 41, 0.02);
+  border-radius: var(--radius-default, 6px);
+  border: 1px solid var(--color-cream-border, #ffd0ac);
+}
+
+.event-item__badge {
+  font-family: var(--font-inter-var, 'Inter Var', sans-serif);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: var(--radius-badges, 999px);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.event-item__badge--vet {
+  background: rgba(255, 136, 133, 0.15);
+  color: #c0504d;
+}
+
+.event-item__badge--groomer {
+  background: rgba(255, 200, 87, 0.2);
+  color: #9a7d2e;
+}
+
+.event-item__badge--other {
+  background: rgba(41, 0, 41, 0.05);
+  color: var(--color-warm-gray, #575757);
+}
+
+.event-item__info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.event-item__title {
+  font-family: var(--font-inter-var, 'Inter Var', sans-serif);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-charcoal, #2d2d2d);
+}
+
+.event-item__time {
+  font-family: var(--font-inter-var, 'Inter Var', sans-serif);
+  font-size: 12px;
+  color: var(--color-warm-gray, #575757);
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .calendar-inner {
+    padding: 1rem;
+  }
+
+  .calendar-header__month {
+    font-size: 24px;
+  }
+
+  .day-cell {
+    min-height: 64px;
+    padding: 6px 2px;
+  }
+
+  .day-cell__number {
+    font-size: 13px;
+    width: 24px;
+    height: 24px;
+  }
+}

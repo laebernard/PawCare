@@ -7,12 +7,12 @@
         <p class="sign-in-subtitle">Content de vous retrouver sur Paw Care !</p>
       </div>
 
-      @if (successMessage) {
-        <div class="alert alert-success">{{ successMessage }}</div>
+      @if (successMessage()) {
+        <div class="alert alert-success">{{ successMessage() }}</div>
       }
 
-      @if (errorMessage) {
-        <div class="alert alert-error">{{ errorMessage }}</div>
+      @if (errorMessage()) {
+        <div class="alert alert-error">{{ errorMessage() }}</div>
       }
 
       <form [formGroup]="form" (ngSubmit)="onSubmit()" class="sign-in-form" novalidate>
@@ -46,8 +46,8 @@
           }
         </div>
 
-        <button type="submit" class="btn-submit" [disabled]="submitting">
-          @if (submitting) {
+        <button type="submit" class="btn-submit" [disabled]="submitting()">
+          @if (submitting()) {
             <span class="spinner"></span>
             Connexion en cours...
           } @else {

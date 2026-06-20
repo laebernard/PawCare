@@ -1,0 +1,25 @@
+meta {
+  name: Create pet
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{url}}/pets
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Max",
+    "breed": "Golden Retriever",
+    "birthDate": "2021-05-15",
+    "color": "Golden",
+    "weight": 32.5,
+    "identification": "CHIP123456789",
+    "sterilized": true,
+    "imageUrl": null,
+    "type": "DOG"
+  }
+}

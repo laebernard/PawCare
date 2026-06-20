@@ -1,6 +1,8 @@
 package com.pawCare.back.pet;
 
+import com.pawCare.back.user.User;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
@@ -24,81 +26,55 @@ public class PetController {
     }
 
     @GetMapping
-    public List<Pet> getAllPets() {
-        return service.getAllPets();
+    public List<PetResponse> getAllPets(@AuthenticationPrincipal User currentUser) {
+        return service.getAllPets(currentUser).stream()
+                .map(PetResponse::from)
+                .toList();
     }
 
     @GetMapping("/{id}")
-    public Pet getPet(@PathVariable Long id) {
-        return service.getPetById(id);
-    }
-
-    @GetMapping("/user/{userId}")
-    public List<Pet> getPetsByUser(@PathVariable String userId) {
-        return service.getPetsByUserId(userId);
+    public PetResponse getPet(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
+        return PetResponse.from(service.getPetById(id, currentUser));
     }
 
     @PostMapping
-    public Pet createPet(@RequestBody Pet pet) {
-
-        if (pet.getUserId() == null || pet.getUserId().isBlank()) {
+    public PetResponse createPet(@RequestBody PetRequest payload, @AuthenticationPrincipal User currentUser) {
+        if (payload.name() == null || payload.name().isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Name is required");
+        }
+        if (payload.birthDate() != null && payload.birthDate().isAfter(LocalDate.now())) {
             throw new ResponseStatusException(
-                HttpStatus.BAD_REQUEST,
-                "UserId is required"
+                    HttpStatus.BAD_REQUEST,
+                    "La date de naissance ne peut pas être dans le futur"
             );
         }
-
-        if (pet.getBirthDate() != null && pet.getBirthDate().isAfter(LocalDate.now())) {
-        throw new ResponseStatusException(
-            HttpStatus.BAD_REQUEST,
-            "La date de naissance ne peut pas être dans le futur"
-        );
+        Pet pet = payload.toEntity();
+        return PetResponse.from(service.createPet(pet, currentUser));
     }
 
-        return service.createPet(pet);
+    @PutMapping("/{id}")
+    public PetResponse updatePet(@PathVariable Long id, @RequestBody PetRequest payload, @AuthenticationPrincipal User currentUser) {
+        Pet existing = service.getPetById(id, currentUser);
+        payload.applyTo(existing);
+        return PetResponse.from(service.updatePet(id, existing, currentUser));
+    }
+
+    @DeleteMapping("/{id}")
+    public void deletePet(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
+        service.deletePet(id, currentUser);
     }
 
     @PostMapping("/upload")
     public String upload(@RequestParam MultipartFile file) throws IOException {
-
         Path uploadDir = Paths.get("uploads");
         if (!Files.exists(uploadDir)) {
             Files.createDirectories(uploadDir);
         }
 
         String fileName = UUID.randomUUID() + "-" + file.getOriginalFilename();
-
         Path filePath = uploadDir.resolve(fileName);
-
         Files.copy(file.getInputStream(), filePath);
 
         return "http://localhost:8081/uploads/" + fileName;
     }
-
-    @PutMapping("/{id}")
-    public Pet updatePet(@PathVariable Long id, @RequestBody Pet updatedPet) {
-
-        Pet existingPet = service.getPetById(id);
-
-        if (updatedPet.getBirthDate() != null && updatedPet.getBirthDate().isAfter(LocalDate.now())) {
-            throw new ResponseStatusException(
-                HttpStatus.BAD_REQUEST,
-                "La date de naissance ne peut pas être dans le futur"
-            );
-        }
-
-        existingPet.setName(updatedPet.getName());
-        existingPet.setBreed(updatedPet.getBreed());
-        existingPet.setBirthDate(updatedPet.getBirthDate());
-        existingPet.setColor(updatedPet.getColor());
-        existingPet.setWeight(updatedPet.getWeight());
-        existingPet.setIdentification(updatedPet.getIdentification());
-        existingPet.setSterilized(updatedPet.getSterilized());
-        existingPet.setImageUrl(updatedPet.getImageUrl());
-
-        return service.updatePet(existingPet);
-    }
-
-
-
 }
