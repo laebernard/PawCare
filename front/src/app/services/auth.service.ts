@@ -1,6 +1,6 @@
 import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap, catchError, map, of } from 'rxjs';
+import { Observable, tap, catchError, map, of, switchMap } from 'rxjs';
 
 import { environment } from '../../environments/environment';
 import { SelectedPetService } from './selected-pet.service';
@@ -48,13 +48,20 @@ export class AuthService {
 
   signIn(credentials: SignInRequest): Observable<AuthResponse> {
     this._loading.set(true);
-    return this.http.post<AuthResponse>(`${this.baseUrl}/api/login`, credentials).pipe(
-      tap(response => {
-        if (response.success && response.user) {
-          this._currentUser.set(response.user);
+
+    return this.http.post<AuthResponse>(`${this.baseUrl}/api/login`, credentials, { withCredentials: true }).pipe(
+      switchMap(response => {
+        if (!response.success) {
+          this._loading.set(false);
+          return of(response);
         }
-        this._loading.set(false);
+
+        // 🔥 Récupère le vrai user depuis le backend
+        return this.fetchCurrentUser().pipe(
+          map(() => response)
+        );
       }),
+      tap(() => this._loading.set(false)),
       catchError(err => {
         this._loading.set(false);
         throw err;
@@ -63,7 +70,7 @@ export class AuthService {
   }
 
   register(data: RegisterRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.baseUrl}/api/register`, data);
+    return this.http.post<AuthResponse>(`${this.baseUrl}/api/register`, data, { withCredentials: true });
   }
 
   signOut(): void {
@@ -72,7 +79,7 @@ export class AuthService {
   }
 
   fetchCurrentUser(): Observable<UserPayload | null> {
-    return this.http.get<AuthResponse>(`${this.baseUrl}/api/auth/me`).pipe(
+    return this.http.get<AuthResponse>(`${this.baseUrl}/api/auth/me`, { withCredentials: true }).pipe(
       tap(response => {
         if (response.success && response.user) {
           this._currentUser.set(response.user);
