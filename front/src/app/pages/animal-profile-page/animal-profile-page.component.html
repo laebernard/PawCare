@@ -1,3 +1,5 @@
+<div>
+
 <section class="pet-profile" *ngIf="pet$ | async as p">
 
   <div class="pet-header">
@@ -8,6 +10,14 @@
     </ds-avatar>
 
     <ds-title level="h1" [text]="p.name"></ds-title>
+  
+    <ds-button
+      type="button"
+      variant="secondary"
+      (click)="openEditPetModal(p)"
+    >
+    Modifier
+    </ds-button>
   </div>
 
   <div class="pet-details">
@@ -43,3 +53,90 @@
   </div>
 
 </section>
+
+<ds-modal-shell
+    [isOpen]="isUpdateAnimalModalOpen"
+    title="Modifier les informations de {{ newAnimalForm.name }}"
+    labelledById="update-animal-title"
+    closeAriaLabel="Fermer la fenetre de modification d'animal"
+    (close)="closeUpdateAnimalModal()"
+  >
+    <form class="update-form" (submit)="submitUpdateAnimalForm($event)">
+      <div class="update-form__grid">
+        <div class="update-form__field">
+          <label class="update-form__label" for="animal-name">Nom</label>
+          <input id="animal-name" class="update-form__input" type="text" [value]="newAnimalForm.name" (input)="onFieldInput('name', $event)" required />
+        </div>
+
+        <div class="update-form__field">
+          <label class="update-form__label" for="animal-breed">Race</label>
+          <input id="animal-breed" class="update-form__input" type="text" [value]="newAnimalForm.breed" (input)="onFieldInput('breed', $event)" required />
+        </div>
+
+        <div class="update-form__field">
+          <label class="update-form__label" for="animal-birth-date">Date de naissance</label>
+          <input id="animal-birth-date" class="update-form__input" type="date" [value]="newAnimalForm.birthDate" (input)="onFieldInput('birthDate', $event)" required />
+        </div>
+
+        <div *ngIf="newAnimalForm.birthDate && !isBirthDateValid()" class="error">
+          La date de naissance ne peut pas être dans le futur.
+        </div>
+
+        <div class="update-form__field">
+          <label class="update-form__label" for="animal-color">Couleur</label>
+          <input id="animal-color" class="update-form__input" type="text" [value]="newAnimalForm.color" (input)="onFieldInput('color', $event)" required />
+        </div>
+
+        <div class="update-form__field">
+          <label class="update-form__label" for="animal-weight">Poids</label>
+          <input id="animal-weight" class="update-form__input" type="text" [value]="newAnimalForm.weight" (input)="onFieldInput('weight', $event)" placeholder="Ex: 12 kg" required />
+        </div>
+
+        <div class="update-form__field">
+          <label class="update-form__label" for="animal-identification">Tatouage / puce</label>
+          <input id="animal-identification" class="update-form__input" type="text" [value]="newAnimalForm.identification" (input)="onFieldInput('identification', $event)" required />
+        </div>
+
+        <div class="update-form__field">
+          <label class="update-form__label" for="animal-sterilized">Sterilise</label>
+          <select id="animal-sterilized" class="update-form__input" [value]="newAnimalForm.sterilized" (change)="onSterilizedChange($event)" required>
+            <option value="">Selectionner</option>
+            <option value="yes">Oui</option>
+            <option value="no">Non</option>
+          </select>
+        </div>
+
+        
+
+      </div>
+
+      <div class="update-form__images-row">
+
+          <div class="update-form__image-block">
+            <label class="update-form__label">Photo actuelle</label>
+            <img 
+              *ngIf="newAnimalForm.imageUrl" 
+              [src]="newAnimalForm.imageUrl" 
+              alt="Photo actuelle"
+              class="current-photo"
+            />
+          </div>
+
+          <div class="update-form__image-block">
+            <label class="update-form__label">Nouvelle photo</label>
+            <ds-image-upload-field
+              inputId="animal-profile-photo"
+              [selectedFileName]="newAnimalForm.profilePhoto?.name ?? null"
+              (fileSelected)="onProfilePhotoSelected($event)"
+            ></ds-image-upload-field>
+          </div>
+        </div>
+
+      <div class="update-form__actions">
+        <button class="update-form__cancel" type="button" (click)="closeUpdateAnimalModal()">Annuler</button>
+        <ds-button type="submit" [disabled]="!isUpdateAnimalFormValid()">Modifier</ds-button>
+      </div>
+    </form>
+  </ds-modal-shell>
+
+</div>

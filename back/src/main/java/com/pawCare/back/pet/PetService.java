@@ -50,4 +50,5 @@ public class PetService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pet not found"));
         repository.delete(existing);
     }
+
 }
