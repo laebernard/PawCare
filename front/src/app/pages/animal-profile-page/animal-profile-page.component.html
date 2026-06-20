@@ -106,16 +106,31 @@
           </select>
         </div>
 
-        <div class="update-form__field">
-          <label class="update-form__label">Photo de profil</label>
-          <ds-image-upload-field
-            inputId="animal-profile-photo"
-            [selectedFileName]="newAnimalForm.profilePhoto?.name ?? null"
-            (fileSelected)="onProfilePhotoSelected($event)"
-            [required]="true"
-          ></ds-image-upload-field>
-        </div>
+        
+
       </div>
+
+      <div class="update-form__images-row">
+
+          <div class="update-form__image-block">
+            <label class="update-form__label">Photo actuelle</label>
+            <img 
+              *ngIf="newAnimalForm.imageUrl" 
+              [src]="newAnimalForm.imageUrl" 
+              alt="Photo actuelle"
+              class="current-photo"
+            />
+          </div>
+
+          <div class="update-form__image-block">
+            <label class="update-form__label">Nouvelle photo</label>
+            <ds-image-upload-field
+              inputId="animal-profile-photo"
+              [selectedFileName]="newAnimalForm.profilePhoto?.name ?? null"
+              (fileSelected)="onProfilePhotoSelected($event)"
+            ></ds-image-upload-field>
+          </div>
+        </div>
 
       <div class="update-form__actions">
         <button class="update-form__cancel" type="button" (click)="closeUpdateAnimalModal()">Annuler</button>

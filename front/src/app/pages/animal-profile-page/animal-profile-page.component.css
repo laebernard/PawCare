@@ -86,6 +86,27 @@
   box-shadow: 0 0 0 3px rgba(255, 136, 133, 0.15);
 }
 
+.update-form__images-row {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  margin-top: 12px;
+}
+
+.update-form__image-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.current-photo {
+  width: 140px;
+  height: 140px;
+  border-radius: 12px;
+  object-fit: cover;
+  margin-top: 8px;
+  border: 1px solid #ddd;
+}
+
 .update-form__actions {
   margin-top: 1.25rem;
   display: flex;
