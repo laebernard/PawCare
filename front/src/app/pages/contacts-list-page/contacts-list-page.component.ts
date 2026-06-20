@@ -3,7 +3,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DesignSystemModule } from '../../design-system/design-system.module';
 
-import { ContactService, Contact, ContactType } from '../../services/contact.service';
+import { ContactService, ContactType } from '../../services/contact.service';
 
 const CONTACT_TYPE_LABELS: Record<ContactType, string> = {
   VET: 'Vétérinaire',
@@ -29,18 +29,19 @@ export class ContactsListPageComponent implements OnInit {
 
   showCreateModal = false;
 
-  newContact: {
-    name: string;
-    phone: string | null;
-    email: string | null;
-    address: string | null;
-    type: ContactType | null;
-  } = {
+  newContact = {
     name: '',
-    phone: null,
-    email: null,
-    address: null,
-    type: null,
+    phone: '',
+    email: '',
+    address: '',
+    type: null as ContactType | null,
+  };
+
+  errors = {
+    name: '',
+    type: '',
+    phone: '',
+    email: '',
   };
 
   ngOnInit(): void {
@@ -56,29 +57,85 @@ export class ContactsListPageComponent implements OnInit {
     this.resetForm();
   }
 
-  private resetForm(): void {
+  resetForm(): void {
     this.newContact = {
       name: '',
-      phone: null,
-      email: null,
-      address: null,
+      phone: '',
+      email: '',
+      address: '',
       type: null,
     };
+
+    this.errors = {
+      name: '',
+      type: '',
+      phone: '',
+      email: '',
+    };
+  }
+
+  validateForm(): boolean {
+    let valid = true;
+
+    this.errors = { name: '', type: '', phone: '', email: '' };
+
+    // Nom obligatoire
+    if (!this.newContact.name.trim()) {
+      this.errors.name = 'Le nom du contact est obligatoire.';
+      valid = false;
+    }
+
+    // Catégorie obligatoire
+    if (!this.newContact.type) {
+      this.errors.type = 'Veuillez sélectionner une catégorie.';
+      valid = false;
+    }
+
+    // Téléphone : 10 chiffres
+    if (this.newContact.phone) {
+      const phoneRegex = /^[0-9]{10}$/;
+      if (!phoneRegex.test(this.newContact.phone)) {
+        this.errors.phone = 'Le numéro doit contenir exactement 10 chiffres.';
+        valid = false;
+      }
+    }
+
+    // Email valide
+    if (this.newContact.email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(this.newContact.email)) {
+        this.errors.email = 'Veuillez saisir une adresse email valide.';
+        valid = false;
+      }
+    }
+
+    return valid;
+  }
+
+  isCreateContactFormValid(): boolean {
+    return (
+      this.newContact.name.trim() !== '' &&
+      this.newContact.type !== null &&
+      !this.errors.name &&
+      !this.errors.type &&
+      !this.errors.phone &&
+      !this.errors.email
+    );
   }
 
   submitCreateContact(event: Event): void {
     event.preventDefault();
 
-    if (!this.newContact.name || !this.newContact.type) {
+    if (!this.validateForm()) {
       return;
     }
 
     this.contactService.createContact({
       name: this.newContact.name,
-      phone: this.newContact.phone,
-      email: this.newContact.email,
-      address: this.newContact.address,
-      type: this.newContact.type,
+      phone: this.newContact.phone || null,
+      email: this.newContact.email || null,
+      address: this.newContact.address || null,
+      type: this.newContact.type!,
     }).subscribe({
       next: () => {
         this.closeCreateModal();
@@ -87,7 +144,6 @@ export class ContactsListPageComponent implements OnInit {
       error: (err) => console.error('Erreur création contact', err),
     });
   }
-
 
   labelFor(type: ContactType | null): string {
     return type ? CONTACT_TYPE_LABELS[type] : 'Non classé';

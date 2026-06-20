@@ -56,6 +56,10 @@
   </div>
 </div>
 
+<!-- ───────────────────────────────────────────── -->
+<!-- MODALE DE CRÉATION -->
+<!-- ───────────────────────────────────────────── -->
+
 @if (showCreateModal) {
   <div class="contacts-modal-backdrop" (click)="closeCreateModal()"></div>
 
@@ -65,50 +69,44 @@
     </header>
 
     <form class="contacts-form" (submit)="submitCreateContact($event)">
+
+      <!-- Nom -->
       <label class="contacts-form-field">
         <span class="contacts-form-label">Nom</span>
-        <input
-          type="text"
-          [(ngModel)]="newContact.name"
-          name="name"
-          required
-        />
+        <input type="text" [(ngModel)]="newContact.name" name="name" />
+        @if (errors.name) {
+          <span class="form-error">{{ errors.name }}</span>
+        }
       </label>
 
+      <!-- Téléphone -->
       <label class="contacts-form-field">
         <span class="contacts-form-label">Téléphone</span>
-        <input
-          type="tel"
-          [(ngModel)]="newContact.phone"
-          name="phone"
-        />
+        <input type="tel" [(ngModel)]="newContact.phone" name="phone" />
+        @if (errors.phone) {
+          <span class="form-error">{{ errors.phone }}</span>
+        }
       </label>
 
+      <!-- Email -->
       <label class="contacts-form-field">
         <span class="contacts-form-label">Adresse email</span>
-        <input
-          type="email"
-          [(ngModel)]="newContact.email"
-          name="email"
-        />
+        <input type="email" [(ngModel)]="newContact.email" name="email" />
+        @if (errors.email) {
+          <span class="form-error">{{ errors.email }}</span>
+        }
       </label>
 
+      <!-- Adresse -->
       <label class="contacts-form-field">
         <span class="contacts-form-label">Adresse</span>
-        <input
-          type="text"
-          [(ngModel)]="newContact.address"
-          name="address"
-        />
+        <input type="text" [(ngModel)]="newContact.address" name="address" />
       </label>
 
+      <!-- Catégorie -->
       <label class="contacts-form-field">
         <span class="contacts-form-label">Catégorie</span>
-        <select
-          [(ngModel)]="newContact.type"
-          name="type"
-          required
-        >
+        <select [(ngModel)]="newContact.type" name="type">
           <option [ngValue]="null" disabled>Choisir une catégorie</option>
           <option value="VET">Vétérinaire</option>
           <option value="PET_SITTER">Pet sitter</option>
@@ -116,16 +114,16 @@
           <option value="EMERGENCY">Contact d'urgence</option>
           <option value="OTHER">Autre</option>
         </select>
+        @if (errors.type) {
+          <span class="form-error">{{ errors.type }}</span>
+        }
       </label>
 
-      <footer class="contacts-modal-footer">
-        <button type="button" class="contacts-button-secondary" (click)="closeCreateModal()">
-          Annuler
-        </button>
-        <button type="submit" class="contacts-button-primary">
-          Enregistrer
-        </button>
-      </footer>
+      <div class="create-form__actions">
+        <ds-button class="create-form__cancel" type="button" (click)="closeCreateModal()">Annuler</ds-button>
+        <ds-button type="submit" [disabled]="!isCreateContactFormValid()">Ajouter</ds-button>
+      </div>
+
     </form>
   </div>
 }
