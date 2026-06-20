@@ -1,7 +1,14 @@
 <div class="contacts-list-page">
   <div class="contacts-list-content">
     <header class="contacts-header">
-      <ds-title text="Mes contacts" level="h1"></ds-title>
+      <div class="contacts-header-top">
+        <ds-title text="Mes contacts" level="h1"></ds-title>
+
+        <ds-button class="contacts-new-button" (click)="openCreateModal()">
+          Nouveau contact
+        </ds-button>
+      </div>
+
       <p class="contacts-subtitle">
         Tous les professionnels qui prennent soin de vos animaux.
       </p>
@@ -30,9 +37,12 @@
             @if (contact.phone) {
               <p class="contact-line">
                 <span class="contact-line-label">Téléphone</span>
-                <a class="contact-line-value" [href]="'tel:' + contact.phone">{{ contact.phone }}</a>
+                <a class="contact-line-value" [href]="'tel:' + contact.phone">
+                  {{ contact.phone }}
+                </a>
               </p>
             }
+
             @if (contact.address) {
               <p class="contact-line">
                 <span class="contact-line-label">Adresse</span>
@@ -45,3 +55,75 @@
     }
   </div>
 </div>
+
+<!-- ───────────────────────────────────────────── -->
+<!-- MODALE DE CRÉATION -->
+<!-- ───────────────────────────────────────────── -->
+
+@if (showCreateModal) {
+  <div class="contacts-modal-backdrop" (click)="closeCreateModal()"></div>
+
+  <div class="contacts-modal" role="dialog" aria-modal="true" aria-label="Nouveau contact">
+    <header class="contacts-modal-header">
+      <ds-title text="Nouveau contact" level="h2"></ds-title>
+    </header>
+
+    <form class="contacts-form" (submit)="submitCreateContact($event)">
+
+      <!-- Nom -->
+      <label class="contacts-form-field">
+        <span class="contacts-form-label">Nom</span>
+        <input type="text" [(ngModel)]="newContact.name" name="name" />
+        @if (errors.name) {
+          <span class="form-error">{{ errors.name }}</span>
+        }
+      </label>
+
+      <!-- Téléphone -->
+      <label class="contacts-form-field">
+        <span class="contacts-form-label">Téléphone</span>
+        <input type="tel" [(ngModel)]="newContact.phone" name="phone" />
+        @if (errors.phone) {
+          <span class="form-error">{{ errors.phone }}</span>
+        }
+      </label>
+
+      <!-- Email -->
+      <label class="contacts-form-field">
+        <span class="contacts-form-label">Adresse email</span>
+        <input type="email" [(ngModel)]="newContact.email" name="email" />
+        @if (errors.email) {
+          <span class="form-error">{{ errors.email }}</span>
+        }
+      </label>
+
+      <!-- Adresse -->
+      <label class="contacts-form-field">
+        <span class="contacts-form-label">Adresse</span>
+        <input type="text" [(ngModel)]="newContact.address" name="address" />
+      </label>
+
+      <!-- Catégorie -->
+      <label class="contacts-form-field">
+        <span class="contacts-form-label">Catégorie</span>
+        <select [(ngModel)]="newContact.type" name="type">
+          <option [ngValue]="null" disabled>Choisir une catégorie</option>
+          <option value="VET">Vétérinaire</option>
+          <option value="PET_SITTER">Pet sitter</option>
+          <option value="GROOMER">Toiletteur</option>
+          <option value="EMERGENCY">Contact d'urgence</option>
+          <option value="OTHER">Autre</option>
+        </select>
+        @if (errors.type) {
+          <span class="form-error">{{ errors.type }}</span>
+        }
+      </label>
+
+      <div class="create-form__actions">
+        <ds-button class="create-form__cancel" type="button" (click)="closeCreateModal()">Annuler</ds-button>
+        <ds-button type="submit" [disabled]="!isCreateContactFormValid()">Ajouter</ds-button>
+      </div>
+
+    </form>
+  </div>
+}

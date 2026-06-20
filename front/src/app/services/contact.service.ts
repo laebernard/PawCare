@@ -4,7 +4,7 @@ import { Observable, tap, catchError, throwError } from 'rxjs';
 
 import { environment } from '../../environments/environment';
 
-export type ContactType = 'VET' | 'GROOMER' | 'PET_SITTER' | 'OTHER';
+export type ContactType = 'VET' | 'GROOMER' | 'PET_SITTER' | 'EMERGENCY' | 'OTHER';
 
 export interface Contact {
   id: number;
@@ -12,11 +12,12 @@ export interface Contact {
   type: ContactType | null;
   phone: string | null;
   address: string | null;
+  email: string | null;
 }
 
 @Injectable({ providedIn: 'root' })
 export class ContactService {
-
+  private readonly http = inject(HttpClient);
   private readonly baseUrl = environment.apiUrl;
 
   private readonly _contacts = signal<Contact[]>([]);
@@ -27,20 +28,41 @@ export class ContactService {
   readonly loading = this._loading.asReadonly();
   readonly error = this._error.asReadonly();
 
-  constructor(private readonly http: HttpClient) {}
-
   loadContacts(): Observable<Contact[]> {
     this._loading.set(true);
     this._error.set(null);
 
     return this.http.get<Contact[]>(`${this.baseUrl}/contacts`).pipe(
-      tap(contacts => {
+      tap((contacts) => {
         this._contacts.set(contacts);
         this._loading.set(false);
       }),
-      catchError(err => {
+      catchError((err) => {
         this._loading.set(false);
         this._error.set('Impossible de charger les contacts.');
+        return throwError(() => err);
+      })
+    );
+  }
+
+  createContact(payload: {
+    name: string;
+    phone: string | null;
+    email: string | null;
+    address: string | null;
+    type: ContactType;
+  }): Observable<Contact> {
+    this._loading.set(true);
+    this._error.set(null);
+
+    return this.http.post<Contact>(`${this.baseUrl}/contacts`, payload).pipe(
+      tap((created) => {
+        this._contacts.update((list) => [...list, created]);
+        this._loading.set(false);
+      }),
+      catchError((err) => {
+        this._loading.set(false);
+        this._error.set('Impossible de créer le contact.');
         return throwError(() => err);
       })
     );
