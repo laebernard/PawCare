@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
 import { environment } from '../../environments/environment';
 
 export interface Pet {
-  id?: number;
+  id: number;
   name: string;
   breed: string;
   birthDate: string;
@@ -16,6 +15,8 @@ export interface Pet {
   imageUrl: string | null;
   type: 'DOG' | 'CAT' | 'BIRD' | 'RABBIT' | 'HAMSTER' | 'OTHER';
 }
+
+export type PetRequest = Omit<Pet, 'id'>;
 
 @Injectable({ providedIn: 'root' })
 export class PetService {
@@ -33,11 +34,11 @@ export class PetService {
     });
   }
 
-  createPet(pet: Pet): Observable<Pet> {
+  createPet(pet: PetRequest): Observable<Pet> {
     return this.http.post<Pet>(`${this.baseUrl}/pets`, pet);
   }
 
-  updatePet(id: number, pet: Pet): Observable<Pet> {
+  updatePet(id: number, pet: PetRequest): Observable<Pet> {
     return this.http.put<Pet>(`${this.baseUrl}/pets/${id}`, pet);
   }
 

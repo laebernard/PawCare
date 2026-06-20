@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { of, switchMap, Observable } from 'rxjs';
 import { DesignSystemModule } from '../../design-system/design-system.module';
-import { Pet, PetService } from '../../services/pet.service';
+import { Pet, PetRequest, PetService } from '../../services/pet.service';
 
 @Component({
   selector: 'app-animal-profile-page',
@@ -16,6 +16,7 @@ export class AnimalProfilePageComponent implements OnInit {
 
   pet$!: Observable<Pet | null>;
   currentPetId!: number;
+  currentPetType!: Pet['type'];
 
   isUpdateAnimalModalOpen = false;
 
@@ -49,6 +50,8 @@ export class AnimalProfilePageComponent implements OnInit {
   }
 
   openEditPetModal(p: Pet): void {
+    this.currentPetType = p.type;
+
     this.newAnimalForm = {
       name: p.name,
       breed: p.breed,
@@ -101,9 +104,7 @@ export class AnimalProfilePageComponent implements OnInit {
     event.preventDefault();
     if (!this.isUpdateAnimalFormValid()) return;
 
-    const payload: Pet = {
-      id: this.currentPetId,
-      userId: '1',
+    const payload: PetRequest = {
       name: this.newAnimalForm.name.trim(),
       breed: this.newAnimalForm.breed.trim(),
       birthDate: this.newAnimalForm.birthDate,
@@ -111,7 +112,8 @@ export class AnimalProfilePageComponent implements OnInit {
       weight: Number(this.newAnimalForm.weight),
       identification: this.newAnimalForm.identification.trim(),
       sterilized: this.newAnimalForm.sterilized === 'yes',
-      imageUrl: this.newAnimalForm.imageUrl
+      imageUrl: this.newAnimalForm.imageUrl,
+      type: this.currentPetType
     };
 
     if (this.newAnimalForm.profilePhoto) {
@@ -127,7 +129,7 @@ export class AnimalProfilePageComponent implements OnInit {
     }
   }
 
-  private updatePet(payload: Pet): void {
+  private updatePet(payload: PetRequest): void {
     this.petService.updatePet(this.currentPetId, payload).subscribe({
       next: () => {
         this.isUpdateAnimalModalOpen = false;
