@@ -75,5 +75,30 @@ public class PetController {
         return "http://localhost:8081/uploads/" + fileName;
     }
 
+    @PutMapping("/{id}")
+    public Pet updatePet(@PathVariable Long id, @RequestBody Pet updatedPet) {
+
+        Pet existingPet = service.getPetById(id);
+
+        if (updatedPet.getBirthDate() != null && updatedPet.getBirthDate().isAfter(LocalDate.now())) {
+            throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "La date de naissance ne peut pas être dans le futur"
+            );
+        }
+
+        existingPet.setName(updatedPet.getName());
+        existingPet.setBreed(updatedPet.getBreed());
+        existingPet.setBirthDate(updatedPet.getBirthDate());
+        existingPet.setColor(updatedPet.getColor());
+        existingPet.setWeight(updatedPet.getWeight());
+        existingPet.setIdentification(updatedPet.getIdentification());
+        existingPet.setSterilized(updatedPet.getSterilized());
+        existingPet.setImageUrl(updatedPet.getImageUrl());
+
+        return service.updatePet(existingPet);
+    }
+
+
 
 }

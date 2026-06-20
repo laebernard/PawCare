@@ -29,4 +29,9 @@ public class PetService {
     public Pet createPet(Pet pet) {
         return repository.save(pet);
     }
+
+    public Pet updatePet(Pet pet) {
+        return repository.save(pet);
+    }
+
 }
