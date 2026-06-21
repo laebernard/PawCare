@@ -8,17 +8,12 @@ import { PetService, Pet } from '../../services/pet.service';
 import { ContactService, ContactType } from '../../services/contact.service';
 import { SelectedPetService } from '../../services/selected-pet.service';
 
-interface AppointmentTypeMeta {
-  label: string;
-  emoji: string;
-}
-
-const TYPE_META: Record<ContactType, AppointmentTypeMeta> = {
-  VET: { label: 'Vétérinaire', emoji: '🩺' },
-  GROOMER: { label: 'Toiletteur', emoji: '✂️' },
-  PET_SITTER: { label: 'Pet-sitter', emoji: '🏠' },
-  EMERGENCY: { label: 'Urgence', emoji: '🚨' },
-  OTHER: { label: 'Autre', emoji: '🐾' },
+const TYPE_LABELS: Record<ContactType, string> = {
+  VET: 'Vétérinaire',
+  GROOMER: 'Toiletteur',
+  PET_SITTER: 'Pet-sitter',
+  EMERGENCY: 'Urgence',
+  OTHER: 'Autre',
 };
 
 const DAY_LABELS = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
@@ -178,8 +173,8 @@ export class CalendarPageComponent implements OnInit {
     });
   }
 
-  typeMeta(type: ContactType): AppointmentTypeMeta {
-    return TYPE_META[type] ?? TYPE_META.OTHER;
+  typeLabel(type: ContactType): string {
+    return TYPE_LABELS[type] ?? TYPE_LABELS.OTHER;
   }
 
   formatTime(iso: string): string {

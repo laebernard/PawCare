@@ -51,7 +51,6 @@
               <span class="day-cell__chips">
                 @for (appt of appointmentsForDate(date).slice(0, 2); track appt.id) {
                   <span class="day-chip" [class]="'day-chip--' + appt.contactType">
-                    <span class="day-chip__emoji">{{ typeMeta(appt.contactType).emoji }}</span>
                     {{ formatTime(appt.date) }}
                   </span>
                 }
@@ -97,7 +96,6 @@
     <div class="day-drawer__body">
       @if (selectedDateAppointments().length === 0) {
         <div class="day-drawer__empty">
-          <span class="day-drawer__empty-emoji">🗓️</span>
           <p>Aucun rendez-vous ce jour.</p>
         </div>
       } @else {
@@ -108,13 +106,13 @@
               <div class="appt-card__main">
                 <div class="appt-card__head">
                   <span class="appt-card__badge" [class]="'appt-card__badge--' + appt.contactType">
-                    {{ typeMeta(appt.contactType).emoji }} {{ typeMeta(appt.contactType).label }}
+                    {{ typeLabel(appt.contactType) }}
                   </span>
                 </div>
                 <p class="appt-card__pet">{{ appt.petName }}</p>
                 <p class="appt-card__contact">{{ appt.contactName }}</p>
                 <p class="appt-card__reason">{{ appt.reason }}</p>
-                <p class="appt-card__address">📍 {{ appt.address }}</p>
+                <p class="appt-card__address">{{ appt.address }}</p>
               </div>
             </li>
           }
