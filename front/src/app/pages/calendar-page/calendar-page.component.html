@@ -19,7 +19,15 @@
           </svg>
         </button>
       </div>
+
+      <ds-button class="calendar-new-btn" (click)="openCreate()">+ Nouveau rendez-vous</ds-button>
     </header>
+
+    @if (loading() && appointments().length === 0) {
+      <p class="calendar-status" aria-live="polite">Chargement des rendez-vous...</p>
+    } @else if (error()) {
+      <p class="calendar-status calendar-status--error" aria-live="polite">{{ error() }}</p>
+    }
 
     <div class="calendar-grid">
       <div class="calendar-grid__day-labels">
@@ -37,47 +45,146 @@
               class="day-cell"
               type="button"
               [class.day-cell--today]="isToday(date)"
-              [class.day-cell--selected]="isSelected(date)"
-              [class.day-cell--has-events]="hasEvents(date)"
               (click)="selectDate(date)"
             >
               <span class="day-cell__number">{{ date.getDate() }}</span>
-              @if (hasEvents(date)) {
-                <span class="day-cell__dots">
-                  @for (i of [].constructor(eventCountForDate(date)); track i) {
-                    <span class="day-cell__dot"></span>
-                  }
-                </span>
-              }
+              <span class="day-cell__chips">
+                @for (appt of appointmentsForDate(date).slice(0, 2); track appt.id) {
+                  <span class="day-chip" [class]="'day-chip--' + appt.contactType">
+                    {{ formatTime(appt.date) }}
+                  </span>
+                }
+                @if (appointmentsForDate(date).length > 2) {
+                  <span class="day-chip day-chip--more">
+                    +{{ appointmentsForDate(date).length - 2 }}
+                  </span>
+                }
+              </span>
             </button>
           }
         }
       </div>
     </div>
   </div>
+</div>
 
-  <ds-modal-shell
-    [isOpen]="isModalOpen()"
-    [title]="selectedDate() ? 'Événements du ' + (selectedDate() | date:'d MMMM y') : 'Événements'"
-    labelledById="calendar-modal-title"
-    closeAriaLabel="Fermer"
-    (close)="closeModal()"
+<!-- ───────────────────────────────────────────── -->
+<!-- TIROIR DU JOUR -->
+<!-- ───────────────────────────────────────────── -->
+@if (isDrawerOpen()) {
+  <div class="drawer-backdrop" (click)="closeDrawer()"></div>
+
+  <aside
+    class="day-drawer"
+    role="dialog"
+    aria-modal="true"
+    [attr.aria-label]="'Rendez-vous du ' + selectedDateLabel()"
   >
-    <div class="events-panel">
-      @if (selectedDateEvents().length === 0) {
-        <p class="events-panel__empty">Aucun événement ce jour.</p>
-      }
-      @for (event of selectedDateEvents(); track event.id) {
-        <div class="event-item">
-          <div class="event-item__badge" [class]="'event-item__badge--' + event.type">
-            {{ getTypeLabel(event.type) }}
-          </div>
-          <div class="event-item__info">
-            <span class="event-item__title">{{ event.title }}</span>
-            <span class="event-item__time">{{ event.time }}</span>
-          </div>
+    <header class="day-drawer__header">
+      <div>
+        <p class="day-drawer__eyebrow">Rendez-vous</p>
+        <h2 class="day-drawer__title">{{ selectedDateLabel() }}</h2>
+      </div>
+      <button class="drawer-close" type="button" (click)="closeDrawer()" aria-label="Fermer">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </header>
+
+    <div class="day-drawer__body">
+      @if (selectedDateAppointments().length === 0) {
+        <div class="day-drawer__empty">
+          <p>Aucun rendez-vous ce jour.</p>
         </div>
+      } @else {
+        <ul class="appt-list">
+          @for (appt of selectedDateAppointments(); track appt.id) {
+            <li class="appt-card" [class]="'appt-card--' + appt.contactType">
+              <div class="appt-card__time">{{ formatTime(appt.date) }}</div>
+              <div class="appt-card__main">
+                <div class="appt-card__head">
+                  <span class="appt-card__badge" [class]="'appt-card__badge--' + appt.contactType">
+                    {{ typeLabel(appt.contactType) }}
+                  </span>
+                </div>
+                <p class="appt-card__pet">{{ appt.petName }}</p>
+                <p class="appt-card__contact">{{ appt.contactName }}</p>
+                <p class="appt-card__reason">{{ appt.reason }}</p>
+                <p class="appt-card__address">{{ appt.address }}</p>
+              </div>
+            </li>
+          }
+        </ul>
       }
     </div>
-  </ds-modal-shell>
-</div>
+
+    <footer class="day-drawer__footer">
+      <ds-button (click)="openCreateForSelected()">+ Nouveau ce jour</ds-button>
+    </footer>
+  </aside>
+}
+
+<!-- ───────────────────────────────────────────── -->
+<!-- MODALE DE CRÉATION -->
+<!-- ───────────────────────────────────────────── -->
+<ds-modal-shell
+  [isOpen]="isCreateOpen()"
+  title="Nouveau rendez-vous"
+  labelledById="calendar-create-title"
+  closeAriaLabel="Fermer"
+  (close)="closeCreate()"
+>
+  <form class="create-form" (submit)="submitCreate($event)">
+
+    <label class="create-form__field">
+      <span class="create-form__label">Animal</span>
+      <select [(ngModel)]="newAppointment.petId" name="petId">
+        <option [ngValue]="null" disabled>Choisir un animal</option>
+        @for (pet of pets(); track pet.id) {
+          <option [ngValue]="pet.id">{{ pet.name }}</option>
+        }
+      </select>
+      @if (pets().length === 0) {
+        <span class="create-form__hint">Ajoutez d'abord un animal dans la galerie.</span>
+      }
+    </label>
+
+    <label class="create-form__field">
+      <span class="create-form__label">Contact</span>
+      <select [(ngModel)]="newAppointment.contactId" name="contactId">
+        <option [ngValue]="null" disabled>Choisir un contact</option>
+        @for (contact of contacts(); track contact.id) {
+          <option [ngValue]="contact.id">{{ contact.name }}</option>
+        }
+      </select>
+      @if (contacts().length === 0) {
+        <span class="create-form__hint">Ajoutez d'abord un contact.</span>
+      }
+    </label>
+
+    <label class="create-form__field">
+      <span class="create-form__label">Date & heure</span>
+      <input type="datetime-local" [(ngModel)]="newAppointment.date" name="date" />
+    </label>
+
+    <label class="create-form__field">
+      <span class="create-form__label">Adresse</span>
+      <input type="text" [(ngModel)]="newAppointment.address" name="address" placeholder="12 rue des Lilas, Paris" />
+    </label>
+
+    <label class="create-form__field">
+      <span class="create-form__label">Motif</span>
+      <input type="text" [(ngModel)]="newAppointment.reason" name="reason" placeholder="Vaccin annuel, bilan de santé…" />
+    </label>
+
+    <div class="create-form__actions">
+      <ds-button type="button" (click)="closeCreate()">Annuler</ds-button>
+      <ds-button type="submit" [disabled]="!isCreateFormValid() || submitting()">
+        {{ submitting() ? 'Enregistrement…' : 'Ajouter' }}
+      </ds-button>
+    </div>
+
+  </form>
+</ds-modal-shell>
