@@ -148,4 +148,14 @@ export class ContactsListPageComponent implements OnInit {
   labelFor(type: ContactType | null): string {
     return type ? CONTACT_TYPE_LABELS[type] : 'Non classé';
   }
+
+  deleteContact(id: number): void {
+    if (!confirm("Voulez-vous vraiment supprimer ce contact ?")) return;
+
+    this.contactService.deleteContact(id).subscribe();
+  }
+
+
 }
+
+
