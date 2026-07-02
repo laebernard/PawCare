@@ -309,6 +309,32 @@ a.contact-line-value:hover {
   color: #2d2d2d;
 }
 
+.contact-delete-button {
+  background: var(--color-coral-ghost);
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  color: var(--color-coral);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.contact-delete-button:hover {
+  background: var(--color-coral);
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.contact-delete-button:active {
+  transform: scale(0.95);
+}
+
+
 /* ───────────────────────────────────────────── */
 /* ERREURS */
 /* ───────────────────────────────────────────── */

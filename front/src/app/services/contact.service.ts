@@ -67,4 +67,23 @@ export class ContactService {
       })
     );
   }
+
+  deleteContact(id: number): Observable<void> {
+    this._loading.set(true);
+    this._error.set(null);
+
+    return this.http.delete<void>(`${this.baseUrl}/contacts/${id}`).pipe(
+      tap(() => {
+        this._contacts.update(list => list.filter(c => c.id !== id));
+        this._loading.set(false);
+      }),
+      catchError(err => {
+        this._loading.set(false);
+        this._error.set("Impossible de supprimer le contact.");
+        return throwError(() => err);
+      })
+    );
+  }
+
+
 }
