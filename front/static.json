@@ -1,0 +1,6 @@
+{
+  "root": "dist/pawCare/browser",
+  "routes": {
+    "/**": "index.html"
+  }
+}
