@@ -1,5 +1,6 @@
 # IDE
 .idea/
+.vscode/
 
 # npm config (may contain auth tokens)
 .npmrc
@@ -20,3 +21,22 @@ DESIGN.md
 
 # Uploaded files
 back/uploads/
+
+# Build output
+/target/
+**/target/
+node_modules/
+dist/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Local Spring Boot config
+**/application-local.properties
+**/application-dev.properties
+**/application-prod.properties
+
+# Logs
+*.log

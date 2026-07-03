@@ -8,8 +8,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class BackApplication {
 
 	public static void main(String[] args) {
-		Dotenv dotenv = Dotenv.configure().load();
-		dotenv.entries().forEach(e -> System.setProperty(e.getKey(), e.getValue()));
+		try {
+			Dotenv dotenv = Dotenv.configure()
+					.ignoreIfMissing()
+					.load();
+			dotenv.entries().forEach(e -> System.setProperty(e.getKey(), e.getValue()));
+		} catch (Exception ex) {
+			System.out.println("No .env file loaded; continuing with environment variables.");
+		}
 		SpringApplication.run(BackApplication.class, args);
 	}
 
