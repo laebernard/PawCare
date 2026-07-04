@@ -1,5 +1,5 @@
 {
-  "root": "dist/pawCare/browser",
+  "root": "dist/pawCare",
   "routes": {
     "/**": "index.html"
   }
