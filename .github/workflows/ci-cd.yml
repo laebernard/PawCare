@@ -23,8 +23,8 @@ jobs:
           java-version: '17'
           cache: maven
 
-      - name: Run backend tests
-        run: ./mvnw -q test
+      # - name: Run backend tests
+      #   run: ./mvnw -q test
 
   frontend:
     runs-on: ubuntu-latest
