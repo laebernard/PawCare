@@ -14,6 +14,21 @@
       </p>
     </header>
 
+    <div class="contacts-filter">
+      <label for="category-filter" class="contacts-filter-label">Filtrer par catégorie</label>
+
+      <select id="category-filter"
+              class="contacts-filter-select"
+              (change)="selectedCategory.set($any($event.target).value)">
+        <option value="ALL">Tous</option>
+        <option value="VET">Vétérinaire</option>
+        <option value="GROOMER">Toiletteur</option>
+        <option value="PET_SITTER">Pet-sitter</option>
+        <option value="EMERGENCY">Contact d'urgence</option>
+        <option value="OTHER">Autre</option>
+      </select>
+    </div>
+    
     @if (loading()) {
       <p class="contacts-status" aria-live="polite">Chargement des contacts...</p>
     } @else if (error()) {

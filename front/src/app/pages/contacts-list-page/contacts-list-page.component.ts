@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DesignSystemModule } from '../../design-system/design-system.module';
 
@@ -26,6 +26,17 @@ export class ContactsListPageComponent implements OnInit {
   readonly contacts = this.contactService.contacts;
   readonly loading = this.contactService.loading;
   readonly error = this.contactService.error;
+
+  // ⭐ FILTRE PAR CATÉGORIE
+  readonly selectedCategory = signal<ContactType | 'ALL'>('ALL');
+
+  readonly filteredContacts = computed(() => {
+    const category = this.selectedCategory();
+    const list = this.contacts();
+
+    if (category === 'ALL') return list;
+    return list.filter(c => c.type === category);
+  });
 
   showCreateModal = false;
 
@@ -79,19 +90,16 @@ export class ContactsListPageComponent implements OnInit {
 
     this.errors = { name: '', type: '', phone: '', email: '' };
 
-    // Nom obligatoire
     if (!this.newContact.name.trim()) {
       this.errors.name = 'Le nom du contact est obligatoire.';
       valid = false;
     }
 
-    // Catégorie obligatoire
     if (!this.newContact.type) {
       this.errors.type = 'Veuillez sélectionner une catégorie.';
       valid = false;
     }
 
-    // Téléphone : 10 chiffres
     if (this.newContact.phone) {
       const phoneRegex = /^[0-9]{10}$/;
       if (!phoneRegex.test(this.newContact.phone)) {
@@ -100,7 +108,6 @@ export class ContactsListPageComponent implements OnInit {
       }
     }
 
-    // Email valide
     if (this.newContact.email) {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(this.newContact.email)) {
@@ -154,8 +161,4 @@ export class ContactsListPageComponent implements OnInit {
 
     this.contactService.deleteContact(id).subscribe();
   }
-
-
 }
-
-
