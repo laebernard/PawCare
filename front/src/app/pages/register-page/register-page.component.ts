@@ -98,7 +98,12 @@ export class RegisterPageComponent {
       },
       error: (err) => {
         this.submitting.set(false);
-        this.errorMessage.set(err.error?.message ?? 'Une erreur est survenue. Veuillez réessayer.');
+        const backendMessage =
+          err?.error?.message ??
+          err?.message ??
+          'Une erreur est survenue. Veuillez réessayer.';
+
+        this.errorMessage.set(backendMessage);
       },
     });
   }
