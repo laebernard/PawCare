@@ -6,6 +6,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -64,6 +65,9 @@ public class PetController {
         service.deletePet(id, currentUser);
     }
 
+    @Value("${app.base-url}")
+    private String baseUrl;
+
     @PostMapping("/upload")
     public String upload(@RequestParam MultipartFile file) throws IOException {
         Path uploadDir = Paths.get("uploads");
@@ -75,6 +79,7 @@ public class PetController {
         Path filePath = uploadDir.resolve(fileName);
         Files.copy(file.getInputStream(), filePath);
 
-        return "http://localhost:8081/uploads/" + fileName;
+        return baseUrl + "/uploads/" + fileName;
     }
+
 }
