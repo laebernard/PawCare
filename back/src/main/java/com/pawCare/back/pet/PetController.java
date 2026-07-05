@@ -67,7 +67,6 @@ public class PetController {
 
     @Value("${app.base-url}")
     private String baseUrl;
-
     @PostMapping("/upload")
     public String upload(@RequestParam MultipartFile file) throws IOException {
         Path uploadDir = Paths.get("uploads");
