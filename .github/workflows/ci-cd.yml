@@ -23,8 +23,8 @@ jobs:
           java-version: '17'
           cache: maven
 
-      # - name: Run backend tests
-      #   run: ./mvnw -q test
+      - name: Build backend
+        run: ./mvnw -q -DskipTests package
 
   frontend:
     runs-on: ubuntu-latest
@@ -43,7 +43,7 @@ jobs:
           cache-dependency-path: front/package-lock.json
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: Build frontend
         run: npm run build
@@ -74,3 +74,23 @@ jobs:
           file: ./front/Dockerfile
           push: false
           tags: pawcare-frontend:ci
+
+  deploy:
+    needs: [backend, frontend, docker]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy backend to Render
+        run: |
+          curl -X POST \
+          -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+          -H "Content-Type: application/json" \
+          -d '{}' \
+          https://api.render.com/v1/services/${{ secrets.RENDER_BACKEND_SERVICE_ID }}/deploys
+
+      - name: Deploy frontend to Render
+        run: |
+          curl -X POST \
+          -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+          -H "Content-Type: application/json" \
+          -d '{}' \
+          https://api.render.com/v1/services/${{ secrets.RENDER_FRONTEND_SERVICE_ID }}/deploys
