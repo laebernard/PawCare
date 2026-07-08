@@ -23,9 +23,6 @@ jobs:
           java-version: '17'
           cache: maven
 
-      - name: Build backend
-        run: ./mvnw -q -DskipTests package
-
   frontend:
     runs-on: ubuntu-latest
     defaults:
