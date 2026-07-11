@@ -1,0 +1,27 @@
+<section class="view-profile-page">
+  <header class="page-header">
+    <h1>Mon profil</h1>
+    <p>Consultez vos informations personnelles.</p>
+  </header>
+
+  <article class="profile-card" aria-label="Informations personnelles">
+    <div class="profile-row">
+      <span class="profile-label">Nom</span>
+      <span class="profile-value">{{ user()?.lastName || '-' }}</span>
+    </div>
+
+    <div class="profile-row">
+      <span class="profile-label">Prénom</span>
+      <span class="profile-value">{{ user()?.firstName || '-' }}</span>
+    </div>
+
+    <div class="profile-row">
+      <span class="profile-label">Adresse mail</span>
+      <span class="profile-value">{{ user()?.email || '-' }}</span>
+    </div>
+
+    <div class="profile-actions">
+      <ds-button size="medium" type="button">Modifier mes informations</ds-button>
+    </div>
+  </article>
+</section>

@@ -9,6 +9,7 @@ import { ButtonComponent } from '../button/button.component';
 interface NavLink {
   label: string;
   path: string;
+  authOnly?: boolean;
 }
 
 @Component({
@@ -29,9 +30,13 @@ export class NavbarComponent {
     { label: 'Nous rejoindre', path: '/sign-in' },
   ];
 
-  readonly visibleLinks = computed(() =>
-    this.isLoggedIn() ? this.links.filter(l => l.path !== '/sign-in') : this.links
-  );
+  readonly visibleLinks = computed(() => {
+    if (this.isLoggedIn()) {
+      return this.links.filter(l => l.path !== '/sign-in');
+    }
+
+    return this.links.filter(l => !l.authOnly);
+  });
 
   menuOpen = false;
 
