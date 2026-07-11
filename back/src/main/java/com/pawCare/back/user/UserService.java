@@ -24,4 +24,44 @@ public class UserService {
 
         return new RegisterResponse(true, "Compte créé avec succès");
     }
+
+    public User updateMe(User currentUser, UpdateUserRequest request) {
+        String firstName = request.getFirstName() == null ? "" : request.getFirstName().trim();
+        String lastName = request.getLastName() == null ? "" : request.getLastName().trim();
+        String email = request.getEmail() == null ? "" : request.getEmail().trim().toLowerCase();
+
+        if (firstName.isBlank() || lastName.isBlank() || email.isBlank()) {
+            throw new IllegalArgumentException("Tous les champs sont obligatoires");
+        }
+
+        if (repository.existsByEmailAndIdNot(email, currentUser.getId())) {
+            throw new IllegalArgumentException("Email déjà utilisé");
+        }
+
+        currentUser.setFirstName(firstName);
+        currentUser.setLastName(lastName);
+        currentUser.setEmail(email);
+
+        return repository.save(currentUser);
+    }
+
+    public void updatePassword(User currentUser, UpdatePasswordRequest request) {
+        String currentPassword = request.getCurrentPassword() == null ? "" : request.getCurrentPassword();
+        String newPassword = request.getNewPassword() == null ? "" : request.getNewPassword();
+
+        if (currentPassword.isBlank() || newPassword.isBlank()) {
+            throw new IllegalArgumentException("Tous les champs sont obligatoires");
+        }
+
+        if (newPassword.length() < 8) {
+            throw new IllegalArgumentException("Minimum 8 caractères requis");
+        }
+
+        if (!passwordEncoder.matches(currentPassword, currentUser.getPassword())) {
+            throw new IllegalArgumentException("Ancien mot de passe incorrect");
+        }
+
+        currentUser.setPassword(passwordEncoder.encode(newPassword));
+        repository.save(currentUser);
+    }
 }

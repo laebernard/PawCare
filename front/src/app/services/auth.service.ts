@@ -39,6 +39,28 @@ export interface ResetPasswordRequest {
   password: string;
 }
 
+export interface UpdateProfileRequest {
+  firstName: string;
+  lastName: string;
+  email: string;
+}
+
+export interface UpdateProfileResponse {
+  success: boolean;
+  message?: string;
+  user?: UserPayload;
+}
+
+export interface UpdatePasswordRequest {
+  currentPassword: string;
+  newPassword: string;
+}
+
+export interface UpdatePasswordResponse {
+  success: boolean;
+  message?: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly baseUrl = environment.apiUrl;
@@ -88,6 +110,20 @@ export class AuthService {
 
   resetPassword(data: ResetPasswordRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.baseUrl}/api/auth/reset-password`, data, { withCredentials: true });
+  }
+
+  updateProfile(data: UpdateProfileRequest): Observable<UpdateProfileResponse> {
+    return this.http.put<UpdateProfileResponse>(`${this.baseUrl}/api/users/me`, data, { withCredentials: true }).pipe(
+      tap((response) => {
+        if (response.success && response.user) {
+          this._currentUser.set(response.user);
+        }
+      }),
+    );
+  }
+
+  updatePassword(data: UpdatePasswordRequest): Observable<UpdatePasswordResponse> {
+    return this.http.put<UpdatePasswordResponse>(`${this.baseUrl}/api/users/me/password`, data, { withCredentials: true });
   }
 
   signOut(): void {
