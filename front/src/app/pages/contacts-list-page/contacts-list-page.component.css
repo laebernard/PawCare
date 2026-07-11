@@ -342,28 +342,37 @@ a.contact-line-value:hover {
 .contacts-filter {
   margin: var(--spacing-24) 0 var(--spacing-32);
   display: flex;
-  flex-direction: column;
-  gap: var(--spacing-8);
-  animation: fadeInUp 0.35s ease-out;
+  align-items: center;
+  gap: var(--spacing-16);
+
+  padding: var(--spacing-16) var(--spacing-20);
 }
 
 .contacts-filter-label {
   font-family: var(--font-inter-var);
   color: var(--color-warm-gray);
-  font-size: var(--text-body);
-  line-height: var(--leading-body);
-  letter-spacing: var(--tracking-body);
+  font-size: var(--text-caption);
+  font-weight: 500;
+  white-space: nowrap;
 }
 
 .contacts-filter-select {
   border: 1px solid var(--color-cream-border);
-  border-radius: 6px;
-  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  padding: 0.55rem 0.9rem;
+
   font-family: var(--ds-body-font);
   font-size: 0.9rem;
   color: var(--color-charcoal);
+
   background: #ffffff;
+  cursor: pointer;
+
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.contacts-filter-select:hover {
+  border-color: var(--color-coral);
 }
 
 .contacts-filter-select:focus {

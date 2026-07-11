@@ -17,15 +17,18 @@
     <div class="contacts-filter">
       <label for="category-filter" class="contacts-filter-label">Filtrer par catégorie</label>
 
-      <select id="category-filter"
-              class="contacts-filter-select"
-              (change)="selectedCategory.set($any($event.target).value)">
-        <option value="ALL">Tous</option>
-        <option value="VET">Vétérinaire</option>
-        <option value="GROOMER">Toiletteur</option>
-        <option value="PET_SITTER">Pet-sitter</option>
-        <option value="EMERGENCY">Contact d'urgence</option>
-        <option value="OTHER">Autre</option>
+      <select
+        id="category-filter"
+        class="contacts-filter-select"
+        [ngModel]="selectedCategory()"
+        (ngModelChange)="selectedCategory.set($event)"
+      >
+        <option [ngValue]="'ALL'">Tous</option>
+        <option [ngValue]="'VET'">Vétérinaire</option>
+        <option [ngValue]="'GROOMER'">Toiletteur</option>
+        <option [ngValue]="'PET_SITTER'">Pet-sitter</option>
+        <option [ngValue]="'EMERGENCY'">Contact d'urgence</option>
+        <option [ngValue]="'OTHER'">Autre</option>
       </select>
     </div>
     
@@ -42,7 +45,7 @@
       </section>
     } @else {
       <section class="contacts-grid" aria-label="Liste des contacts">
-        @for (contact of contacts(); track contact.id) {
+        @for (contact of filteredContacts(); track contact.id) {
           <article class="contact-card">
             <header class="contact-card-header">
               <ds-title [text]="contact.name" level="h2"></ds-title>

@@ -4,5 +4,6 @@ public enum ContactType {
     VET,
     GROOMER,
     PET_SITTER,
+    EMERGENCY,
     OTHER
 }
