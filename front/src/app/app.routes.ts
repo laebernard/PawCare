@@ -11,6 +11,9 @@ import { ContactsListPageComponent } from './pages/contacts-list-page/contacts-l
 import { DashboardLayoutComponent } from './pages/dashboard-layout/dashboard-layout.component';
 import { ForgotPasswordPageComponent } from './pages/forgot-password-page/forgot-password-page.component';
 import { ResetPasswordPageComponent } from './pages/reset-password-page/reset-password-page.component';
+import { ViewProfilePageComponent } from './pages/view-profile-page/view-profile-page.component';
+import { EditProfilePageComponent } from './pages/edit-profile-page/edit-profile-page.component';
+import { UpdatePasswordPageComponent } from './pages/update-password-page/update-password-page.component';
 import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
@@ -64,6 +67,18 @@ export const routes: Routes = [
       {
         path: 'contacts',
         component: ContactsListPageComponent,
+      },
+      {
+        path: 'view-profil',
+        component: ViewProfilePageComponent,
+      },
+      {
+        path: 'edit-profil',
+        component: EditProfilePageComponent,
+      },
+      {
+        path: 'update-password',
+        component: UpdatePasswordPageComponent,
       },
     ],
   },

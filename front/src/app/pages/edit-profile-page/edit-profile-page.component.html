@@ -1,0 +1,71 @@
+<section class="edit-profile-page page-slide-in">
+  <header class="page-header">
+    <h1>Modifier mes informations</h1>
+    <p>Mettez à jour vos informations personnelles.</p>
+  </header>
+
+  @if (successMessage()) {
+    <div class="alert alert-success">{{ successMessage() }}</div>
+  }
+
+  @if (errorMessage()) {
+    <div class="alert alert-error">{{ errorMessage() }}</div>
+  }
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="edit-profile-form" novalidate>
+    <div class="form-group">
+      <label for="lastName">Nom</label>
+      <input
+        id="lastName"
+        type="text"
+        formControlName="lastName"
+        class="form-input"
+        [class.invalid]="fieldError('lastName')"
+      />
+      @if (fieldError('lastName')) {
+        <span class="field-error">{{ fieldError('lastName') }}</span>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="firstName">Prénom</label>
+      <input
+        id="firstName"
+        type="text"
+        formControlName="firstName"
+        class="form-input"
+        [class.invalid]="fieldError('firstName')"
+      />
+      @if (fieldError('firstName')) {
+        <span class="field-error">{{ fieldError('firstName') }}</span>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="email">Adresse e-mail</label>
+      <input
+        id="email"
+        type="email"
+        formControlName="email"
+        class="form-input"
+        [class.invalid]="fieldError('email')"
+      />
+      @if (fieldError('email')) {
+        <span class="field-error">{{ fieldError('email') }}</span>
+      }
+    </div>
+
+    <div class="actions">
+      <button type="button" class="btn-submit" [disabled]="submitting()" (click)="onSubmit()">
+        @if (submitting()) {
+          <span class="spinner"></span>
+          Enregistrement en cours...
+        } @else {
+          Enregistrer les modifications
+        }
+      </button>
+
+      <button type="button" class="btn-link" (click)="goToUpdatePassword()">Changer mon mot de passe</button>
+    </div>
+  </form>
+</section>
