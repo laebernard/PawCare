@@ -25,6 +25,7 @@ public class SecurityConfig {
             .httpBasic(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.POST, "/api/login", "/api/register").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/auth/forgot-password", "/api/auth/reset-password").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/auth/me").permitAll()
                 .requestMatchers("/uploads/**", "/error").permitAll()
                 .anyRequest().authenticated()

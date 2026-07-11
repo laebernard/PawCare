@@ -30,6 +30,15 @@ export interface RegisterRequest {
   password: string;
 }
 
+export interface ForgotPasswordRequest {
+  email: string;
+}
+
+export interface ResetPasswordRequest {
+  token: string;
+  password: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly baseUrl = environment.apiUrl;
@@ -71,6 +80,14 @@ export class AuthService {
 
   register(data: RegisterRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.baseUrl}/api/register`, data, { withCredentials: true });
+  }
+
+  forgotPassword(data: ForgotPasswordRequest): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.baseUrl}/api/auth/forgot-password`, data, { withCredentials: true });
+  }
+
+  resetPassword(data: ResetPasswordRequest): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.baseUrl}/api/auth/reset-password`, data, { withCredentials: true });
   }
 
   signOut(): void {
