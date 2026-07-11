@@ -45,4 +45,9 @@ public class AppointmentController {
         }
         return AppointmentResponse.from(service.createAppointment(request, currentUser));
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteAppointment(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
+        service.deleteAppointment(id, currentUser);
+    }
 }

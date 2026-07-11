@@ -41,4 +41,10 @@ public class AppointmentService {
         );
         return repository.save(appointment);
     }
+
+    public void deleteAppointment(Long id, User currentUser) {
+    Appointment appointment = repository.findByIdAndUserId(id, currentUser.getId())
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
+    repository.delete(appointment);
+}
 }
