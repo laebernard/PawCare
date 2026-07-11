@@ -1,5 +1,14 @@
-<div class="ds-tag" [ngClass]="[size, type]">
-  <span class="tag-icon" *ngIf="getIcon()">{{ getIcon() }}</span>
+<div class="ds-tag" [ngClass]="[size, type, getSterilizedClass()]">
+  <span class="tag-icon" *ngIf="type === 'race'">
+    <svg lucidePawPrint></svg>
+  </span>
+  <span class="tag-icon" *ngIf="type === 'sterilized'">
+    <svg *ngIf="sterilized; else sterilizedFalseIcon" lucideCheck></svg>
+    <ng-template #sterilizedFalseIcon>
+      <svg lucideX></svg>
+    </ng-template>
+  </span>
+  <span class="tag-icon" *ngIf="type !== 'race' && type !== 'sterilized' && getIcon()">{{ getIcon() }}</span>
   <span *ngIf="label; else projectedText">{{ label }}</span>
   <ng-template #projectedText>
     <ng-content></ng-content>

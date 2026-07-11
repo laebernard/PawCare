@@ -5,6 +5,9 @@
   --food: #b57edc;
   --health: #7f00ff;
   --wellness:#50c878;
+  --race: #7c3aed;
+  --sterilized-true: #22a75a;
+  --sterilized-false: #d14343;
   padding: 6px 14px;
   border-radius: 20px;
   font-size: 12px;
@@ -21,8 +24,14 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.15em;
+  width: 1.2em;
+  height: 1.2em;
   font-size: 1em;
+}
+
+.tag-icon svg {
+  width: 1em;
+  height: 1em;
 }
 
 .ds-tag i {
@@ -71,4 +80,16 @@
 
 .ds-tag.wellness {
   background: var(--wellness);
+}
+
+.ds-tag.race {
+  background: var(--race);
+}
+
+.ds-tag.sterilized-true {
+  background: var(--sterilized-true);
+}
+
+.ds-tag.sterilized-false {
+  background: var(--sterilized-false);
 }

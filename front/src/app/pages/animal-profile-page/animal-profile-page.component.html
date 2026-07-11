@@ -37,14 +37,13 @@
 
     <div class="info">
       <ds-title level="h4" text="Race"></ds-title>
-      <ds-tag>{{ p.breed }}</ds-tag>
+      <ds-tag type="race">{{ p.breed }}</ds-tag>
     </div>
 
     <div class="info">
       <ds-title level="h4" text="Stérilisé"></ds-title>
       <span>
-        <ds-tag *ngIf="p.sterilized">Oui</ds-tag>
-        <ds-tag *ngIf="!p.sterilized">Non</ds-tag>
+        <ds-tag type="sterilized" [sterilized]="p.sterilized">{{ p.sterilized ? 'Oui' : 'Non' }}</ds-tag>
       </span>
     </div>
 
