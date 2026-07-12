@@ -42,6 +42,15 @@ public class AppointmentService {
         return repository.save(appointment);
     }
 
+    public Appointment updateAppointment(Long id, Appointment updated, User currentUser){
+        Appointment existing = repository.findByIdAndUserId (id, currentUser.getId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Appointment not found"));
+        existing.setDate(updated.getDate());
+        existing.setAddress(updated.getAddress());
+        existing.setReason(updated.getReason());
+        return repository.save(existing);
+    }
+
     public void deleteAppointment(Long id, User currentUser) {
     Appointment appointment = repository.findByIdAndUserId(id, currentUser.getId())
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
