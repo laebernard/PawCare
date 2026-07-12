@@ -14,6 +14,7 @@ import { ResetPasswordPageComponent } from './pages/reset-password-page/reset-pa
 import { ViewProfilePageComponent } from './pages/view-profile-page/view-profile-page.component';
 import { EditProfilePageComponent } from './pages/edit-profile-page/edit-profile-page.component';
 import { UpdatePasswordPageComponent } from './pages/update-password-page/update-password-page.component';
+import { ExpensesPageComponent } from './pages/expenses-page/expenses-page.component';
 import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
@@ -63,6 +64,10 @@ export const routes: Routes = [
       {
         path: 'calendar',
         component: CalendarPageComponent,
+      },
+      {
+        path: 'expenses',
+        component: ExpensesPageComponent,
       },
       {
         path: 'contacts',

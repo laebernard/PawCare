@@ -62,16 +62,29 @@ export class AnimalProfileSelectorPageComponent implements OnInit {
 
     this.petService.getMyPets().subscribe({
       next: (pets) => {
-        this.profiles.set(
-          pets.map((p) => ({
-            id: p.id!,
-            name: p.name,
-            type: p.type,
-            breed: p.breed ?? '',
-            photoUrl: p.imageUrl ?? null,
-            color: p.color ?? '',
-          })),
-        );
+        const mappedProfiles = pets.map((p) => ({
+          id: p.id!,
+          name: p.name,
+          type: p.type,
+          breed: p.breed ?? '',
+          photoUrl: p.imageUrl ?? null,
+          color: p.color ?? '',
+        }));
+
+        this.profiles.set(mappedProfiles);
+
+        const currentSelectedPet = this.selectedPetService.selectedPet();
+        if (!currentSelectedPet) {
+          return;
+        }
+
+        const refreshedSelectedPet = mappedProfiles.find((profile) => profile.id === currentSelectedPet.id);
+        if (refreshedSelectedPet) {
+          this.selectedPetService.select(refreshedSelectedPet);
+          return;
+        }
+
+        this.selectedPetService.clear();
       },
       error: (err) => console.error('Erreur chargement pets', err),
     });

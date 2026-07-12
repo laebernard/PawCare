@@ -1,0 +1,138 @@
+<section class="expenses-page page-slide-in">
+  <header class="expenses-header">
+    <div>
+      <h1>Mes dépenses</h1>
+      @if (selectedPet()) {
+        <p>Suivi budgétaire de <strong>{{ selectedPet()?.name }}</strong></p>
+      } @else {
+        <p>Choisis d'abord ton compagnon pour suivre ses dépenses.</p>
+      }
+    </div>
+
+    <label class="month-filter" aria-label="Filtrer par mois">
+      <span>Mois</span>
+      <input type="month" [value]="selectedMonth()" (change)="onMonthChange($event)" />
+    </label>
+  </header>
+
+  @if (!selectedPet()) {
+    <article class="empty-state">
+      <h2>Aucun compagnon sélectionné</h2>
+      <p>Impossible d'ajouter une dépense sans compagnon.</p>
+      <a routerLink="/select-profile" class="select-pet-link">Choisir mon compagnon</a>
+    </article>
+  } @else {
+    @if (successMessage()) {
+      <div class="alert alert-success">{{ successMessage() }}</div>
+    }
+
+    @if (errorMessage()) {
+      <div class="alert alert-error">{{ errorMessage() }}</div>
+    }
+
+    <div class="summary-grid">
+      @for (item of totalsByCategory(); track item.category) {
+        <article class="summary-card">
+          <div class="summary-top">
+            <span class="summary-icon">{{ item.icon }}</span>
+            <span class="summary-tag" [style.border-color]="item.color" [style.color]="item.color">{{ item.label }}</span>
+          </div>
+          <p class="summary-amount">{{ item.amount | currency:'EUR':'symbol':'1.2-2':'fr' }}</p>
+        </article>
+      }
+    </div>
+
+    <div class="content-grid">
+      <article class="chart-panel">
+        <h2>Répartition des dépenses</h2>
+        <div class="chart-wrap">
+          <div class="pie-chart" [style.background]="pieChartBackground()"></div>
+          <div class="chart-total">{{ totalAmount() | currency:'EUR':'symbol':'1.2-2':'fr' }}</div>
+        </div>
+        <ul class="legend-list">
+          @for (item of totalsByCategory(); track item.category) {
+            <li>
+              <span class="legend-dot" [style.background]="item.color"></span>
+              <span class="legend-label">{{ item.label }}</span>
+              <span class="legend-value">{{ item.amount | currency:'EUR':'symbol':'1.2-2':'fr' }}</span>
+            </li>
+          }
+        </ul>
+      </article>
+
+      <article class="form-panel">
+        <h2>Ajouter une dépense</h2>
+
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+          <div class="form-group">
+            <label for="expenseCategory">Type de dépense</label>
+            <select id="expenseCategory" formControlName="category" class="form-input" [class.invalid]="fieldError('category')">
+              <option value="">Sélectionnez une catégorie</option>
+              @for (category of categories; track category.value) {
+                <option [value]="category.value">{{ category.label }}</option>
+              }
+            </select>
+            @if (fieldError('category')) {
+              <span class="field-error">{{ fieldError('category') }}</span>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="expenseAmount">Montant</label>
+            <input id="expenseAmount" type="number" min="0.01" step="0.01" formControlName="amount" class="form-input" [class.invalid]="fieldError('amount')" />
+            @if (fieldError('amount')) {
+              <span class="field-error">{{ fieldError('amount') }}</span>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="expenseDate">Date</label>
+            <input id="expenseDate" type="date" formControlName="date" class="form-input" [class.invalid]="fieldError('date')" />
+            @if (fieldError('date')) {
+              <span class="field-error">{{ fieldError('date') }}</span>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="expenseNote">Note (optionnelle)</label>
+            <input id="expenseNote" type="text" formControlName="note" class="form-input" placeholder="Ex: croquettes premium" />
+          </div>
+
+          <button type="submit" class="btn-submit" [disabled]="submitting()">
+            @if (submitting()) {
+              <span class="spinner"></span>
+              Enregistrement...
+            } @else {
+              Enregistrer la dépense
+            }
+          </button>
+        </form>
+      </article>
+    </div>
+
+    <article class="list-panel">
+      <h2>Liste des dépenses du mois</h2>
+
+      @if (loading()) {
+        <p>Chargement des dépenses...</p>
+      } @else if (expenses().length === 0) {
+        <p>Aucune dépense pour ce mois.</p>
+      } @else {
+        <div class="expenses-list">
+          @for (expense of expenses(); track expense.id) {
+            <div class="expense-item">
+              <div>
+                <p class="expense-category">{{ expense.category }}</p>
+                <p class="expense-date">{{ expense.date | date:'dd/MM/yyyy' }}</p>
+                @if (expense.note) {
+                  <p class="expense-note">{{ expense.note }}</p>
+                }
+              </div>
+              <p class="expense-amount">{{ expense.amount | currency:'EUR':'symbol':'1.2-2':'fr' }}</p>
+            </div>
+          }
+        </div>
+      }
+    </article>
+  }
+</section>
