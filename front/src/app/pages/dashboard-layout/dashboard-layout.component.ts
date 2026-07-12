@@ -17,6 +17,7 @@ import { SidebarComponent } from '../../design-system/sidebar/sidebar.component'
   styles: [`
     .dashboard-layout {
       display: flex;
+      align-items: stretch;
       min-height: 100vh;
     }
 
