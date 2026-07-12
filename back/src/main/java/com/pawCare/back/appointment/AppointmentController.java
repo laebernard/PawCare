@@ -1,5 +1,7 @@
 package com.pawCare.back.appointment;
 
+import com.pawCare.back.contact.Contact;
+import com.pawCare.back.contact.ContactResponse;
 import com.pawCare.back.user.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -46,8 +48,15 @@ public class AppointmentController {
         return AppointmentResponse.from(service.createAppointment(request, currentUser));
     }
 
+    @PutMapping("/{id}")
+    public AppointmentResponse updateAppointment(@PathVariable Long id, @RequestBody Appointment updated, @AuthenticationPrincipal User currentUser) {
+        return AppointmentResponse.from(service.updateAppointment(id, updated, currentUser));
+    }
+
     @DeleteMapping("/{id}")
     public void deleteAppointment(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
         service.deleteAppointment(id, currentUser);
     }
+
+
 }
