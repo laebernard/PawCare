@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-import { LucideUser, LucideImages, LucideCalendar, LucideUsers, LucideDog, LucideSettings } from '@lucide/angular';
+import { LucideUser, LucideImages, LucideCalendar, LucideUsers, LucideDog, LucideSettings, LucideWallet } from '@lucide/angular';
 import { SelectedPetService } from '../../services/selected-pet.service';
 
 interface NavItem {
@@ -18,7 +18,7 @@ interface NavSection {
 @Component({
   selector: 'ds-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterLink, LucideUser, LucideImages, LucideCalendar, LucideUsers, LucideDog, LucideSettings],
+  imports: [CommonModule, RouterLink, LucideUser, LucideImages, LucideCalendar, LucideUsers, LucideDog, LucideSettings, LucideWallet],
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css'],
 })
@@ -33,6 +33,7 @@ export class SidebarComponent {
         { label: 'Mon animal', path: '/dashboard/consult-profile', iconName: 'user' },
         { label: 'Galerie', path: '/dashboard/gallery', iconName: 'images' },
         { label: 'Calendrier', path: '/dashboard/calendar', iconName: 'calendar' },
+        { label: 'Dépenses', path: '/dashboard/expenses', iconName: 'wallet' },
         { label: 'Mon profil', path: '/dashboard/view-profil', iconName: 'settings' },
         { label: 'Changer de compagnon', path: '/select-profile', iconName: 'dog' },
       ],
