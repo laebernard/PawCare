@@ -43,6 +43,31 @@
   cursor: not-allowed;
 }
 
+.ds-button-secondary {
+  background: var(--color-canvas-white);
+  color: var(--color-warm-gray);
+  border: 1px solid var(--color-cream-border);
+}
+
+.ds-button-secondary:hover:not(:disabled) {
+  background-color: var(--color-cream-soft);
+}
+
+.ds-button-danger {
+  background-color: var(--color-warning-red);
+  color: #ffffff;
+}
+
+.ds-button-danger:hover:not(:disabled) {
+  background-color: #dc2626;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.35);
+}
+
+.ds-button-danger:active:not(:disabled) {
+  transform: translateY(0);
+}
+
 .ds-button-small {
   padding: 6px 16px;
   font-size: 13px;

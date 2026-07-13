@@ -108,12 +108,42 @@
                   <span class="appt-card__badge" [class]="'appt-card__badge--' + appt.contactType">
                     {{ typeLabel(appt.contactType) }}
                   </span>
+                
                 </div>
                 <p class="appt-card__pet">{{ appt.petName }}</p>
                 <p class="appt-card__contact">{{ appt.contactName }}</p>
                 <p class="appt-card__reason">{{ appt.reason }}</p>
                 <p class="appt-card__address">{{ appt.address }}</p>
               </div>
+                <div class="appt-card__actions">
+                    <button
+                      class="appt-card__action appt-card__action--edit"
+                      type="button"
+                      (click)="onEditAppointment(appt)"
+                      aria-label="Modifier le rendez-vous"
+                      title="Modifier"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                      </svg>
+                    </button>
+                    <button
+                      class="appt-card__action appt-card__action--delete"
+                      type="button"
+                      (click)="onDeleteAppointment(appt)"
+                      aria-label="Supprimer le rendez-vous"
+                      title="Supprimer"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+                        <path d="M10 11v6"></path>
+                        <path d="M14 11v6"></path>
+                        <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path>
+                      </svg>
+                    </button>
+                  </div>
+
             </li>
           }
         </ul>
@@ -187,4 +217,72 @@
     </div>
 
   </form>
+</ds-modal-shell>
+
+<!-- ───────────────────────────────────────────── -->
+<!-- MODALE D'ÉDITION -->
+<!-- ───────────────────────────────────────────── -->
+<ds-modal-shell
+  [isOpen]="isEditOpen()"
+  title="Modifier le rendez-vous"
+  labelledById="calendar-edit-title"
+  closeAriaLabel="Fermer"
+  (close)="closeEditModal()"
+>
+  <form class="create-form" (submit)="submitEdit($event)">
+
+    <label class="create-form__field">
+      <span class="create-form__label">Contact</span>
+      <select [(ngModel)]="editAppointmentForm.contactId" name="editContactId">
+        <option [ngValue]="null" disabled>Choisir un contact</option>
+        @for (contact of contacts(); track contact.id) {
+          <option [ngValue]="contact.id">{{ contact.name }}</option>
+        }
+      </select>
+    </label>
+
+    <label class="create-form__field">
+      <span class="create-form__label">Date & heure</span>
+      <input type="datetime-local" [(ngModel)]="editAppointmentForm.date" name="editDate" />
+    </label>
+
+    <label class="create-form__field">
+      <span class="create-form__label">Adresse</span>
+      <input type="text" [(ngModel)]="editAppointmentForm.address" name="editAddress" placeholder="12 rue des Lilas, Paris" />
+    </label>
+
+    <label class="create-form__field">
+      <span class="create-form__label">Motif</span>
+      <input type="text" [(ngModel)]="editAppointmentForm.reason" name="editReason" placeholder="Vaccin annuel, bilan de santé…" />
+    </label>
+
+    <div class="create-form__actions">
+      <ds-button type="button" variant="secondary" [disabled]="updating()" (click)="closeEditModal()">Annuler</ds-button>
+      <ds-button type="submit" [disabled]="!isEditFormValid() || updating()">
+        {{ updating() ? 'Enregistrement…' : 'Modifier' }}
+      </ds-button>
+    </div>
+
+  </form>
+</ds-modal-shell>
+
+<!-- ───────────────────────────────────────────── -->
+<!-- CONFIRMATION DE SUPPRESSION -->
+<!-- ───────────────────────────────────────────── -->
+<ds-modal-shell
+  [isOpen]="isDeleteOpen()"
+  title="Supprimer le rendez-vous"
+  labelledById="calendar-delete-title"
+  closeAriaLabel="Fermer"
+  (close)="closeDeleteConfirm()"
+>
+  <div class="delete-confirm">
+    <p class="delete-confirm__message">Êtes-vous sûr de vouloir supprimer votre rendez-vous ?</p>
+    <div class="delete-confirm__actions">
+      <ds-button type="button" variant="secondary" [disabled]="deleting()" (click)="closeDeleteConfirm()">Annuler</ds-button>
+      <ds-button type="button" variant="danger" [disabled]="deleting()" (click)="confirmDeleteAppointment()">
+        {{ deleting() ? 'Suppression…' : 'Supprimer' }}
+      </ds-button>
+    </div>
+  </div>
 </ds-modal-shell>
