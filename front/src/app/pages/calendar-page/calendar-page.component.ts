@@ -48,8 +48,15 @@ export class CalendarPageComponent implements OnInit {
   readonly isDrawerOpen = signal(false);
   readonly isCreateOpen = signal(false);
   readonly submitting = signal(false);
+  readonly isDeleteOpen = signal(false);
+  readonly deleting = signal(false);
+  readonly appointmentToDelete = signal<Appointment | null>(null);
+  readonly isEditOpen = signal(false);
+  readonly updating = signal(false);
+  readonly appointmentToEdit = signal<Appointment | null>(null);
 
   newAppointment = this.emptyForm();
+  editAppointmentForm = this.emptyEditForm();
 
   readonly calendarDays = computed(() => this.buildCalendarDays());
 
@@ -173,6 +180,84 @@ export class CalendarPageComponent implements OnInit {
     });
   }
 
+  onEditAppointment(appt: Appointment): void {
+    this.appointmentToEdit.set(appt);
+    this.editAppointmentForm = {
+      date: this.toLocalInputValue(new Date(appt.date)),
+      address: appt.address,
+      reason: appt.reason,
+      contactId: appt.contactId as number | null,
+    };
+    this.isEditOpen.set(true);
+  }
+
+  closeEditModal(): void {
+    if (this.updating()) return;
+    this.isEditOpen.set(false);
+    this.appointmentToEdit.set(null);
+    this.editAppointmentForm = this.emptyEditForm();
+  }
+
+  isEditFormValid(): boolean {
+    const f = this.editAppointmentForm;
+    return f.date !== '' && f.address.trim() !== '' && f.reason.trim() !== '' && f.contactId !== null;
+  }
+
+  submitEdit(event: Event): void {
+    event.preventDefault();
+    const appt = this.appointmentToEdit();
+    if (!appt || !this.isEditFormValid() || this.updating()) return;
+
+    const f = this.editAppointmentForm;
+    const iso = f.date.length === 16 ? `${f.date}:00` : f.date;
+
+    this.updating.set(true);
+    this.appointmentService.updateAppointment(appt.id, {
+      date: iso,
+      address: f.address.trim(),
+      reason: f.reason.trim(),
+      contactId: f.contactId!,
+    }).subscribe({
+      next: () => {
+        this.updating.set(false);
+        this.closeEditModal();
+      },
+      error: (err) => {
+        this.updating.set(false);
+        console.error('Erreur modification rendez-vous', err);
+      },
+    });
+  }
+
+  onDeleteAppointment(appt: Appointment): void {
+    this.appointmentToDelete.set(appt);
+    this.isDeleteOpen.set(true);
+  }
+
+  closeDeleteConfirm(): void {
+    if (this.deleting()) return;
+    this.isDeleteOpen.set(false);
+    this.appointmentToDelete.set(null);
+  }
+
+  confirmDeleteAppointment(): void {
+    const appt = this.appointmentToDelete();
+    if (!appt || this.deleting()) return;
+
+    this.deleting.set(true);
+    this.appointmentService.deleteAppointment(appt.id).subscribe({
+      next: () => {
+        this.deleting.set(false);
+        this.isDeleteOpen.set(false);
+        this.appointmentToDelete.set(null);
+      },
+      error: (err) => {
+        this.deleting.set(false);
+        console.error('Erreur suppression rendez-vous', err);
+      },
+    });
+  }
+
   typeLabel(type: ContactType): string {
     return TYPE_LABELS[type] ?? TYPE_LABELS.OTHER;
   }
@@ -204,6 +289,15 @@ export class CalendarPageComponent implements OnInit {
       address: '',
       reason: '',
       petId: selectedPetId as number | null,
+      contactId: null as number | null,
+    };
+  }
+
+  private emptyEditForm() {
+    return {
+      date: '',
+      address: '',
+      reason: '',
       contactId: null as number | null,
     };
   }

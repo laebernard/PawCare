@@ -5,19 +5,21 @@ meta {
 }
 
 put {
-  url: {{url}}/appointments/1
+  url: {{url}}/appointments/5
   body: json
   auth: inherit
 }
 
-settings {
-  encodeUrl: true
-}
-
 body:json {
   {
-    "date": "2026-07-15T10:00:00",
-    "address": "12 Rue de la Paix, 75008 Paris",
-    "reason": "Vaccin mensuel"
-  }
+      "date": "2026-07-15T10:00:00",
+      "address": "12 Rue de la Paix, 75008 Paris",
+      "reason": "Vaccin annuel",
+      "contactId": 1
+    }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
 }

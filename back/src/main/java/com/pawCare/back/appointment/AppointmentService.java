@@ -42,12 +42,14 @@ public class AppointmentService {
         return repository.save(appointment);
     }
 
-    public Appointment updateAppointment(Long id, Appointment updated, User currentUser){
+    public Appointment updateAppointment(Long id, AppointmentUpdateRequest updated, User currentUser){
         Appointment existing = repository.findByIdAndUserId (id, currentUser.getId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Appointment not found"));
-        existing.setDate(updated.getDate());
-        existing.setAddress(updated.getAddress());
-        existing.setReason(updated.getReason());
+        Contact contact = contactService.getContactById(updated.contactId(), currentUser);
+        existing.setDate(updated.date());
+        existing.setAddress(updated.address());
+        existing.setReason(updated.reason());
+        existing.setContact(contact);
         return repository.save(existing);
     }
 

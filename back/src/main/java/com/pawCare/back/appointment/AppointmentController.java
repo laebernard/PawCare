@@ -1,7 +1,5 @@
 package com.pawCare.back.appointment;
 
-import com.pawCare.back.contact.Contact;
-import com.pawCare.back.contact.ContactResponse;
 import com.pawCare.back.user.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -49,7 +47,16 @@ public class AppointmentController {
     }
 
     @PutMapping("/{id}")
-    public AppointmentResponse updateAppointment(@PathVariable Long id, @RequestBody Appointment updated, @AuthenticationPrincipal User currentUser) {
+    public AppointmentResponse updateAppointment(@PathVariable Long id, @RequestBody AppointmentUpdateRequest updated, @AuthenticationPrincipal User currentUser) {
+        if (updated.date() == null
+                || updated.address() == null || updated.address().isBlank()
+                || updated.reason() == null || updated.reason().isBlank()
+                || updated.contactId() == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "All fields are required: date, address, reason, contactId"
+            );
+        }
         return AppointmentResponse.from(service.updateAppointment(id, updated, currentUser));
     }
 

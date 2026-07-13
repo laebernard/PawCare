@@ -347,6 +347,13 @@
   min-width: 0;
 }
 
+.appt-card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
 .appt-card__badge {
   font-size: 10px;
   font-weight: 600;
@@ -356,6 +363,38 @@
   border-radius: var(--radius-badges, 999px);
   color: #ffffff;
   align-self: flex-start;
+}
+
+.appt-card__actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.appt-card__action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-default, 6px);
+  background: transparent;
+  color: var(--color-warm-gray, #575757);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.appt-card__action:hover {
+  background: var(--color-cream-border, #ffd0ac);
+}
+
+.appt-card__action--delete:hover {
+  background: #fde2e2;
+  color: #c0392b;
 }
 
 .appt-card__badge--VET { background: var(--type-vet); }
@@ -430,6 +469,27 @@
   justify-content: flex-end;
   gap: 0.75rem;
   margin-top: 0.25rem;
+}
+
+/* Delete confirmation */
+.delete-confirm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  min-width: 300px;
+  max-width: 420px;
+}
+
+.delete-confirm__message {
+  font-size: 14px;
+  color: var(--color-warm-gray, #575757);
+  margin: 0;
+}
+
+.delete-confirm__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
 }
 
 /* Responsive */

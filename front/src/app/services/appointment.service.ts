@@ -25,6 +25,13 @@ export interface AppointmentRequest {
   contactId: number;
 }
 
+export interface AppointmentUpdateRequest {
+  date: string;
+  address: string;
+  reason: string;
+  contactId: number;
+}
+
 @Injectable({ providedIn: 'root' })
 export class AppointmentService {
   private readonly http = inject(HttpClient);
@@ -67,6 +74,40 @@ export class AppointmentService {
       catchError((err) => {
         this._loading.set(false);
         this._error.set('Impossible de créer le rendez-vous.');
+        return throwError(() => err);
+      })
+    );
+  }
+
+  updateAppointment(id: number, payload: AppointmentUpdateRequest): Observable<Appointment> {
+    this._loading.set(true);
+    this._error.set(null);
+
+    return this.http.put<Appointment>(`${this.baseUrl}/appointments/${id}`, payload).pipe(
+      tap((updated) => {
+        this._appointments.update((list) => list.map((appt) => (appt.id === id ? updated : appt)));
+        this._loading.set(false);
+      }),
+      catchError((err) => {
+        this._loading.set(false);
+        this._error.set('Impossible de modifier le rendez-vous.');
+        return throwError(() => err);
+      })
+    );
+  }
+
+  deleteAppointment(id: number): Observable<void> {
+    this._loading.set(true);
+    this._error.set(null);
+
+    return this.http.delete<void>(`${this.baseUrl}/appointments/${id}`).pipe(
+      tap(() => {
+        this._appointments.update((list) => list.filter((appt) => appt.id !== id));
+        this._loading.set(false);
+      }),
+      catchError((err) => {
+        this._loading.set(false);
+        this._error.set('Impossible de supprimer le rendez-vous.');
         return throwError(() => err);
       })
     );
