@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailAuthenticationException;
+import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -45,6 +47,9 @@ public class ForgotPasswordService {
 
     @Value("${spring.mail.password:}")
     private String mailPassword;
+
+    @Value("${spring.mail.port:}")
+    private String mailPort;
 
     public ForgotPasswordService(
             UserRepository userRepository,
@@ -144,9 +149,19 @@ public class ForgotPasswordService {
         }
 
         try {
+            String senderAddress = resolveSenderAddress();
+            LOGGER.info(
+                    "Sending reset password email via host={}, port={}, from={}, username={} to {}",
+                    mailHost,
+                    mailPort,
+                    senderAddress,
+                    mailUsername,
+                    toEmail
+            );
+
             var mimeMessage = mailSender.createMimeMessage();
             var helper = new MimeMessageHelper(mimeMessage, "UTF-8");
-            helper.setFrom(resolveSenderAddress());
+            helper.setFrom(senderAddress);
             helper.setTo(toEmail);
             helper.setSubject("Reinitialisation de votre mot de passe PawCare");
 
@@ -162,8 +177,20 @@ public class ForgotPasswordService {
 
             helper.setText(html, true);
             mailSender.send(mimeMessage);
+    } catch (MailAuthenticationException ex) {
+        LOGGER.error("SMTP authentication failed for host={}, port={}, username={}", mailHost, mailPort, mailUsername, ex);
+        throw new ResponseStatusException(
+            HttpStatus.INTERNAL_SERVER_ERROR,
+            "SMTP authentication failed"
+        );
+    } catch (MailSendException ex) {
+        LOGGER.error("SMTP send failed for host={}, port={}, from={}, username={}", mailHost, mailPort, resolveSenderAddress(), mailUsername, ex);
+        throw new ResponseStatusException(
+            HttpStatus.INTERNAL_SERVER_ERROR,
+            "SMTP send failed"
+        );
         } catch (Exception ex) {
-            LOGGER.error("Failed to send reset password email to {}", toEmail, ex);
+        LOGGER.error("Failed to send reset password email to {} via host={}, port={}, from={}, username={}", toEmail, mailHost, mailPort, resolveSenderAddress(), mailUsername, ex);
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR,
                     "Unable to send reset password email"
