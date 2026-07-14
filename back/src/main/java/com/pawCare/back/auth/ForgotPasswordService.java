@@ -40,6 +40,12 @@ public class ForgotPasswordService {
     @Value("${spring.mail.host:}")
     private String mailHost;
 
+    @Value("${spring.mail.username:}")
+    private String mailUsername;
+
+    @Value("${spring.mail.password:}")
+    private String mailPassword;
+
     public ForgotPasswordService(
             UserRepository userRepository,
             PasswordResetTokenRepository passwordResetTokenRepository,
@@ -130,10 +136,17 @@ public class ForgotPasswordService {
             );
         }
 
+        if (mailUsername == null || mailUsername.isBlank() || mailPassword == null || mailPassword.isBlank()) {
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    "SMTP credentials are not configured (MAIL_USERNAME / MAIL_PASSWORD)"
+            );
+        }
+
         try {
             var mimeMessage = mailSender.createMimeMessage();
             var helper = new MimeMessageHelper(mimeMessage, "UTF-8");
-            helper.setFrom(mailFrom);
+            helper.setFrom(resolveSenderAddress());
             helper.setTo(toEmail);
             helper.setSubject("Reinitialisation de votre mot de passe PawCare");
 
@@ -156,5 +169,24 @@ public class ForgotPasswordService {
                     "Unable to send reset password email"
             );
         }
+    }
+
+    private String resolveSenderAddress() {
+        String configuredFrom = mailFrom != null ? mailFrom.trim() : "";
+        String username = mailUsername != null ? mailUsername.trim() : "";
+
+        if (configuredFrom.isBlank()) {
+            return username;
+        }
+
+        // Gmail often rejects a "From" different from the authenticated account.
+        if (mailHost != null && mailHost.toLowerCase().contains("gmail")
+                && !username.isBlank()
+                && !configuredFrom.equalsIgnoreCase(username)) {
+            LOGGER.warn("MAIL_FROM ({}) differs from MAIL_USERNAME on Gmail SMTP; using MAIL_USERNAME instead", configuredFrom);
+            return username;
+        }
+
+        return configuredFrom;
     }
 }
