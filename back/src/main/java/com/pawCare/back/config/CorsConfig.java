@@ -10,6 +10,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Configuration
 public class CorsConfig implements WebMvcConfigurer {
@@ -17,7 +18,29 @@ public class CorsConfig implements WebMvcConfigurer {
     private final List<String> allowedOrigins;
 
     public CorsConfig(@Value("${cors.allowed-origins}") String allowedOriginsCsv) {
-        this.allowedOrigins = List.of(allowedOriginsCsv.split("\\s*,\\s*"));
+        this.allowedOrigins = List.of(allowedOriginsCsv.split("\\s*,\\s*"))
+                .stream()
+                .map(this::normalizeOrigin)
+                .filter(origin -> !origin.isBlank())
+                .collect(Collectors.toList());
+    }
+
+    private String normalizeOrigin(String origin) {
+        if (origin == null) {
+            return "";
+        }
+
+        String normalized = origin.trim();
+        if ((normalized.startsWith("\"") && normalized.endsWith("\""))
+                || (normalized.startsWith("'") && normalized.endsWith("'"))) {
+            normalized = normalized.substring(1, normalized.length() - 1).trim();
+        }
+
+        while (normalized.endsWith("/")) {
+            normalized = normalized.substring(0, normalized.length() - 1);
+        }
+
+        return normalized;
     }
 
     @Override
