@@ -5,12 +5,14 @@ import com.pawCare.back.user.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -111,14 +113,21 @@ public class ForgotPasswordService {
         passwordResetTokenRepository.save(resetToken);
 
         String link = resetPasswordUrl + "?token=" + token;
-        sendResetPasswordEmail(user.getEmail(), link);
-        LOGGER.info("Reset password link for {}: {}", user.getEmail(), link);
+        try {
+            sendResetPasswordEmail(user.getEmail(), link);
+            LOGGER.info("Reset password link for {}: {}", user.getEmail(), link);
+        } catch (RuntimeException ex) {
+            passwordResetTokenRepository.delete(resetToken);
+            throw ex;
+        }
     }
 
     private void sendResetPasswordEmail(String toEmail, String resetLink) {
         if (mailHost == null || mailHost.isBlank()) {
-            LOGGER.warn("MAIL_HOST is not configured. Reset email was not sent to {}", toEmail);
-            return;
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    "MAIL_HOST is not configured for password reset emails"
+            );
         }
 
         try {
@@ -142,6 +151,10 @@ public class ForgotPasswordService {
             mailSender.send(mimeMessage);
         } catch (Exception ex) {
             LOGGER.error("Failed to send reset password email to {}", toEmail, ex);
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Unable to send reset password email"
+            );
         }
     }
 }
