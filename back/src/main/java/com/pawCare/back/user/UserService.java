@@ -1,5 +1,6 @@
 package com.pawCare.back.user;
 
+import com.pawCare.back.security.PasswordPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,10 @@ public class UserService {
     public RegisterResponse register(RegisterRequest request) {
         if (repository.findByEmail(request.getEmail()).isPresent()) {
             return new RegisterResponse(false, "Email déjà utilisé");
+        }
+
+        if (!PasswordPolicy.isValid(request.getPassword())) {
+            return new RegisterResponse(false, PasswordPolicy.ERROR_MESSAGE);
         }
 
         String hashedPassword = passwordEncoder.encode(request.getPassword());
@@ -53,8 +58,8 @@ public class UserService {
             throw new IllegalArgumentException("Tous les champs sont obligatoires");
         }
 
-        if (newPassword.length() < 8) {
-            throw new IllegalArgumentException("Minimum 8 caractères requis");
+        if (!PasswordPolicy.isValid(newPassword)) {
+            throw new IllegalArgumentException(PasswordPolicy.ERROR_MESSAGE);
         }
 
         if (!passwordEncoder.matches(currentPassword, currentUser.getPassword())) {

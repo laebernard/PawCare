@@ -13,6 +13,8 @@ import { LucideHeart } from '@lucide/angular';
 
 import { AuthService } from '../../services/auth.service';
 import { TitleComponent } from '../../design-system/title/title.component';
+import { PasswordRequirementsComponent } from '../../design-system/password-requirements/password-requirements.component';
+import { PASSWORD_PATTERN } from '../../validators/password.validator';
 
 function passwordMatch(control: AbstractControl): ValidationErrors | null {
   const password = control.get('password');
@@ -32,6 +34,7 @@ function passwordMatch(control: AbstractControl): ValidationErrors | null {
     RouterLink,
     LucideHeart,
     TitleComponent,
+    PasswordRequirementsComponent,
   ],
   templateUrl: './register-page.component.html',
   styleUrls: ['./register-page.component.css'],
@@ -46,7 +49,7 @@ export class RegisterPageComponent {
       firstName: ['', [Validators.required, Validators.minLength(2)]],
       lastName: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.pattern(PASSWORD_PATTERN)]],
       confirmPassword: ['', [Validators.required]],
     },
     { validators: passwordMatch },
@@ -73,6 +76,9 @@ export class RegisterPageComponent {
     if (control.errors?.['minlength']) {
       const min = control.errors['minlength'].requiredLength;
       return `Minimum ${min} caractères requis.`;
+    }
+    if (control.errors?.['pattern']) {
+      return 'Le mot de passe ne respecte pas toutes les règles ci-dessus.';
     }
     return null;
   }

@@ -1,5 +1,6 @@
 package com.pawCare.back.auth;
 
+import com.pawCare.back.security.PasswordPolicy;
 import com.pawCare.back.user.User;
 import com.pawCare.back.user.UserRepository;
 import org.slf4j.Logger;
@@ -92,8 +93,8 @@ public class ForgotPasswordService {
             return ResponseEntity.badRequest().body(new ForgotPasswordResponse(false, "champs obligatoire"));
         }
 
-        if (newPassword.length() < 8) {
-            return ResponseEntity.badRequest().body(new ForgotPasswordResponse(false, "Le mot de passe doit contenir au moins 8 caracteres"));
+        if (!PasswordPolicy.isValid(newPassword)) {
+            return ResponseEntity.badRequest().body(new ForgotPasswordResponse(false, PasswordPolicy.ERROR_MESSAGE));
         }
 
         Optional<PasswordResetToken> resetTokenOpt = passwordResetTokenRepository.findByTokenAndUsedFalse(token);
