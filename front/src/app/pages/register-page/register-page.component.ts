@@ -13,6 +13,7 @@ import { LucideHeart } from '@lucide/angular';
 
 import { AuthService } from '../../services/auth.service';
 import { TitleComponent } from '../../design-system/title/title.component';
+import { PASSWORD_PATTERN, PASSWORD_ERROR_MESSAGE } from '../../validators/password.validator';
 
 function passwordMatch(control: AbstractControl): ValidationErrors | null {
   const password = control.get('password');
@@ -46,7 +47,7 @@ export class RegisterPageComponent {
       firstName: ['', [Validators.required, Validators.minLength(2)]],
       lastName: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.pattern(PASSWORD_PATTERN)]],
       confirmPassword: ['', [Validators.required]],
     },
     { validators: passwordMatch },
@@ -73,6 +74,9 @@ export class RegisterPageComponent {
     if (control.errors?.['minlength']) {
       const min = control.errors['minlength'].requiredLength;
       return `Minimum ${min} caractères requis.`;
+    }
+    if (control.errors?.['pattern']) {
+      return PASSWORD_ERROR_MESSAGE;
     }
     return null;
   }

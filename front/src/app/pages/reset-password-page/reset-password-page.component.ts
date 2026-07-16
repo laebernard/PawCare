@@ -13,6 +13,7 @@ import { LucideHeart } from '@lucide/angular';
 
 import { AuthService } from '../../services/auth.service';
 import { TitleComponent } from '../../design-system/title/title.component';
+import { PASSWORD_PATTERN, PASSWORD_ERROR_MESSAGE } from '../../validators/password.validator';
 
 function passwordMatch(control: AbstractControl): ValidationErrors | null {
   const password = control.get('password');
@@ -37,7 +38,7 @@ export class ResetPasswordPageComponent {
 
   form: FormGroup = this.fb.group(
     {
-      password: ['', [Validators.required, Validators.minLength(8)]],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.pattern(PASSWORD_PATTERN)]],
       confirmPassword: ['', [Validators.required]],
     },
     { validators: passwordMatch },
@@ -60,6 +61,7 @@ export class ResetPasswordPageComponent {
     if (!control.invalid || !control.touched) return null;
     if (control.errors?.['required']) return 'Ce champ est obligatoire.';
     if (control.errors?.['minlength']) return 'Le mot de passe doit contenir au moins 8 caracteres.';
+    if (control.errors?.['pattern']) return PASSWORD_ERROR_MESSAGE;
     return null;
   }
 

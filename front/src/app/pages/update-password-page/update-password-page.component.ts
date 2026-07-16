@@ -4,6 +4,7 @@ import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { PASSWORD_PATTERN, PASSWORD_ERROR_MESSAGE } from '../../validators/password.validator';
 
 function passwordMatch(control: AbstractControl): ValidationErrors | null {
   const newPassword = control.get('newPassword');
@@ -35,7 +36,7 @@ export class UpdatePasswordPageComponent {
   readonly form = this.fb.group(
     {
       currentPassword: ['', [Validators.required]],
-      newPassword: ['', [Validators.required, Validators.minLength(8)]],
+      newPassword: ['', [Validators.required, Validators.minLength(8), Validators.pattern(PASSWORD_PATTERN)]],
       confirmNewPassword: ['', [Validators.required]],
     },
     { validators: passwordMatch },
@@ -58,6 +59,10 @@ export class UpdatePasswordPageComponent {
     if (control.errors?.['minlength']) {
       const min = control.errors['minlength'].requiredLength;
       return `Minimum ${min} caractères requis.`;
+    }
+
+    if (control.errors?.['pattern']) {
+      return PASSWORD_ERROR_MESSAGE;
     }
 
     return null;
