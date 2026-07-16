@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { DesignSystemModule } from '../../design-system/design-system.module';
+import { SelectedPetService } from '../../services/selected-pet.service';
+import { inject } from '@angular/core';
 
 interface AnimalGalleryImage {
   id: number;
@@ -24,6 +26,7 @@ interface AnimalGallery {
   styleUrls: ['./animal-gallery-page.component.css'],
 })
 export class AnimalGalleryPageComponent {
+  private readonly selectedPetService = inject(SelectedPetService);
   animal: AnimalGallery | null = null;
   addPhotoModalOpen = false;
   newPhotoTitle = '';
@@ -32,57 +35,59 @@ export class AnimalGalleryPageComponent {
   currentAnimalId = 1;
   private addPhotoTriggerElement: HTMLElement | null = null;
 
+pet = this.selectedPetService.selectedPet();
+
   galleries: AnimalGallery[] = [
     {
       id: 1,
-      name: 'Simba',
+      name: this.pet!.name,
       type: 'cat',
       breed: 'Chat Orange',
       images: [
         {
           id: 1,
-          imageUrl: 'https://loremflickr.com/900/700/orange,cat?lock=11',
+          imageUrl: 'https://www.lepoint.fr/resizer/v2/HQKSKBVLRVMRPDVDI474XS3DXA.jpg?auth=56740f3084a208366e77179cf6d8d1c2733b59a16bb45f1d37b336af5d9179a7&width=765&height=575&smart=true',
           description: 'Portrait de Simba.',
         },
         {
           id: 2,
-          imageUrl: 'https://loremflickr.com/900/700/orange,cat?lock=12',
+          imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5Wtv0sewQJnFlclCG2H7PPrQWRKY7MHuGPH5VpW5fgEOlb_15yRKK4H77&s=10',
           description: 'Pause tranquille.',
         },
         {
           id: 3,
-          imageUrl: 'https://loremflickr.com/900/700/orange,cat?lock=23',
+          imageUrl: 'https://www.everland-petfood.com/wp-content/uploads/AdobeStock_203576107.jpeg',
           description: 'Sieste douce.',
         },
         {
           id: 4,
-          imageUrl: 'https://loremflickr.com/900/700/orange,cat?lock=24',
+          imageUrl: 'https://binette-et-jardin.ouest-france.fr/images/dossiers/2017-10/european-shorthair-2-144713.jpg',
           description: 'Exploration.',
         },
         {
           id: 5,
-          imageUrl: 'https://loremflickr.com/900/700/orange,cat?lock=25',
+          imageUrl: 'https://cdn.histoires-animaux.com/Shutterstock_2335634991_328a3b1bcf.jpg',
           description: 'Regard attentif.',
         },
         {
           id: 6,
-          imageUrl: 'https://loremflickr.com/900/700/orange,cat?lock=26',
+          imageUrl: 'https://cdn.wamiz.fr/cdn-cgi/image/format=auto,quality=80,width=1200,height=675,fit=cover/animal/breed/cat/adult/66bf107d15515177495239.jpg',
           description: 'Moment calme.',
         },
         {
           id: 7,
-          imageUrl: 'https://loremflickr.com/900/700/orange,cat?lock=27',
+          imageUrl: 'https://www.bullebleue.fr/wp-content/uploads/sites/2/2025/02/chat_europeen.jpg',
           description: 'Petit bond.',
         },
         {
           id: 8,
           imageUrl:
-            'https://images.unsplash.com/photo-1543852786-1cf6624b9987?w=900&h=700&fit=crop',
+            'https://www.santevet.com/wp-content/uploads/2009/06/chat_europ_en_assurance_santevet-768x508.jpeg',
           description: 'Repos au soleil.',
         },
         {
           id: 9,
-          imageUrl: 'https://loremflickr.com/900/700/orange,cat?lock=29',
+          imageUrl: 'https://www.santevet.com/wp-content/uploads/2021/02/chat_europeen_ou_chat_de_gouttiere.jpg',
           description: 'Vue de profil.',
         },
       ],

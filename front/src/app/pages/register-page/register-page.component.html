@@ -64,11 +64,12 @@
 
         <div class="form-group">
           <label for="password">Mot de passe</label>
+          <ds-password-requirements [password]="f['password'].value ?? ''"></ds-password-requirements>
           <input
             id="password"
             type="password"
             formControlName="password"
-            placeholder="Min. 8 caracteres, 1 majuscule, 1 minuscule, 1 chiffre, 1 symbole"
+            placeholder="Votre mot de passe"
             class="form-input"
             [class.invalid]="fieldError('password')"
           />

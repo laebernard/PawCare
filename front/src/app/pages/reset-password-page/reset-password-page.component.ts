@@ -13,7 +13,8 @@ import { LucideHeart } from '@lucide/angular';
 
 import { AuthService } from '../../services/auth.service';
 import { TitleComponent } from '../../design-system/title/title.component';
-import { PASSWORD_PATTERN, PASSWORD_ERROR_MESSAGE } from '../../validators/password.validator';
+import { PasswordRequirementsComponent } from '../../design-system/password-requirements/password-requirements.component';
+import { PASSWORD_PATTERN } from '../../validators/password.validator';
 
 function passwordMatch(control: AbstractControl): ValidationErrors | null {
   const password = control.get('password');
@@ -27,7 +28,7 @@ function passwordMatch(control: AbstractControl): ValidationErrors | null {
 @Component({
   selector: 'app-reset-password-page',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, LucideHeart, TitleComponent],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, LucideHeart, TitleComponent, PasswordRequirementsComponent],
   templateUrl: './reset-password-page.component.html',
   styleUrls: ['./reset-password-page.component.css'],
 })
@@ -61,7 +62,7 @@ export class ResetPasswordPageComponent {
     if (!control.invalid || !control.touched) return null;
     if (control.errors?.['required']) return 'Ce champ est obligatoire.';
     if (control.errors?.['minlength']) return 'Le mot de passe doit contenir au moins 8 caracteres.';
-    if (control.errors?.['pattern']) return PASSWORD_ERROR_MESSAGE;
+    if (control.errors?.['pattern']) return 'Le mot de passe ne respecte pas toutes les regles ci-dessus.';
     return null;
   }
 
